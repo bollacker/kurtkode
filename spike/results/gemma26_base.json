@@ -1,0 +1,95 @@
+{
+  "variant": "base",
+  "steps": 20,
+  "max_tokens": 4096,
+  "report": {
+    "gemma26": {
+      "agent": [
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 567,
+          "final": "I fixed the bug in `src/calc.py` where the `sub` function was incorrectly using the addition operator instead of the sub",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\\n\",\"old_stri) -> 'ok'"
+          ],
+          "secs": 25.4
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 7,
+          "tool_errors": 0,
+          "prompt_tokens_last": 600,
+          "final": "The bug in `src/calc.py` was that the `sub` function was incorrectly using the addition operator instead of the subtract",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'"
+          ],
+          "secs": 22.1
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 9,
+          "tool_errors": 1,
+          "prompt_tokens_last": 710,
+          "final": "The bug in `src/calc.py` was fixed by changing the `sub` function to perform subtraction instead of addition.",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'"
+          ],
+          "secs": 50.9
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 10,
+          "tool_errors": 1,
+          "prompt_tokens_last": 772,
+          "final": "The bug in `src/calc.py` was that the `sub` function was returning the sum of its arguments instead of the difference, w",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'",
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'"
+          ],
+          "secs": 43.4
+        }
+      ]
+    }
+  }
+}

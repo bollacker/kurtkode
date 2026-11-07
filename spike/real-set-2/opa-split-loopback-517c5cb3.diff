@@ -1,0 +1,162 @@
+commit 517c5cb34e1e316031456b0e9df0844e0bebd9fe
+Author: Stephan Renatus <stephan.renatus@gmail.com>
+Date:   Fri Oct 9 11:07:30 2026 +0200
+
+    topdown: split loopback cases out of the partial eval tests
+    
+    Two cases in the TestTopDownPartialEval table need an httptest server,
+    and the table is built up front, so binding a port was required to run
+    any of its cases. Move them to TestTopDownPartialEvalLoopback, sharing
+    the table runner.
+    
+    Signed-off-by: Stephan Renatus <stephan.renatus@gmail.com>
+
+diff --git a/v1/topdown/topdown_partial_test.go b/v1/topdown/topdown_partial_test.go
+index ba88dcf8..0be7f9b5 100644
+--- a/v1/topdown/topdown_partial_test.go
++++ b/v1/topdown/topdown_partial_test.go
+@@ -22,28 +22,30 @@ import (
+ 	"github.com/open-policy-agent/opa/v1/util"
+ )
+ 
++type partialEvalTestCase struct {
++	note                     string
++	unknowns                 []string
++	disableInlining          []string
++	nondeterministicBuiltins bool
++	shallow                  bool
++	skipPartialNamespace     bool
++	query                    string
++	modules                  []string
++	moduleASTs               []*ast.Module
++	data                     string
++	input                    string
++	wantQueries              []string
++	wantQueryASTs            []ast.Body
++	wantSupport              []string
++	wantSupportASTs          []*ast.Module
++	ignoreOrder              bool
++	logicalKeywords          bool // opt in to the and/or keywords
++}
++
+ func TestTopDownPartialEval(t *testing.T) {
+ 	t.Parallel()
+ 
+-	tests := []struct {
+-		note                     string
+-		unknowns                 []string
+-		disableInlining          []string
+-		nondeterministicBuiltins bool
+-		shallow                  bool
+-		skipPartialNamespace     bool
+-		query                    string
+-		modules                  []string
+-		moduleASTs               []*ast.Module
+-		data                     string
+-		input                    string
+-		wantQueries              []string
+-		wantQueryASTs            []ast.Body
+-		wantSupport              []string
+-		wantSupportASTs          []*ast.Module
+-		ignoreOrder              bool
+-		logicalKeywords          bool // opt in to the and/or keywords
+-	}{
++	tests := []partialEvalTestCase{
+ 		{
+ 			note:        "empty",
+ 			query:       "true = true",
+@@ -3451,17 +3453,6 @@ func TestTopDownPartialEval(t *testing.T) {
+ 				input.x = input.y
+ 			}`},
+ 		},
+-		{
+-			note:                     "nondeterministic builtin evaluated in PE",
+-			query:                    "data.test.p",
+-			unknowns:                 []string{"input.x"},
+-			input:                    `{"a": 2}`,
+-			nondeterministicBuiltins: true,
+-			modules: []string{fmt.Sprintf(`package test
+-			p if input.x == http.send({"method": "POST", "url": "%s", "body": input.a}).body.p`, testserver().URL),
+-			},
+-			wantQueries: []string{`"x" = input.x`},
+-		},
+ 		{
+ 			note:                     "nondeterministic builtin time.now_ns() properly initiated",
+ 			query:                    "data.test.p",
+@@ -3471,21 +3462,6 @@ func TestTopDownPartialEval(t *testing.T) {
+ 			},
+ 			wantQueries: []string{""}, // unconditional true
+ 		},
+-		{
+-			// $ref is dereferenced at evaluation time, so folding this during PE
+-			// would bake a remote answer into the residual. The URL is the local
+-			// test server so a regression fails here instead of hitting the network.
+-			note:     "nondeterministic builtin json.match_schema saved during PE",
+-			query:    "data.test.p",
+-			unknowns: []string{"input.x"},
+-			modules: []string{fmt.Sprintf(`package test
+-			p if {
+-				input.x == 1
+-				json.match_schema({"user": "jsmith"}, {"$ref": "%s"})
+-			}`, testserver().URL),
+-			},
+-			wantQueries: []string{fmt.Sprintf(`input.x = 1; json.match_schema({"user": "jsmith"}, {"$ref": "%s"})`, testserver().URL)},
+-		},
+ 
+ 		{
+ 			note:  "default function, result not collected (non-false default value)",
+@@ -5048,9 +5024,53 @@ q if { input.x = 7 }`},
+ 		},
+ 	}
+ 
++	runPartialEvalTests(t, tests)
++}
++
++// TestTopDownPartialEvalLoopback holds the cases that need a loopback listener,
++// so the rest of the partial evaluation tests run where binding a port is not allowed.
++func TestTopDownPartialEvalLoopback(t *testing.T) {
++	t.Parallel()
++
++	tests := []partialEvalTestCase{
++		{
++			note:                     "nondeterministic builtin evaluated in PE",
++			query:                    "data.test.p",
++			unknowns:                 []string{"input.x"},
++			input:                    `{"a": 2}`,
++			nondeterministicBuiltins: true,
++			modules: []string{fmt.Sprintf(`package test
++			p if input.x == http.send({"method": "POST", "url": "%s", "body": input.a}).body.p`, testserver().URL),
++			},
++			wantQueries: []string{`"x" = input.x`},
++		},
++		{
++			// $ref is dereferenced at evaluation time, so folding this during PE
++			// would bake a remote answer into the residual. The URL is the local
++			// test server so a regression fails here instead of hitting the network.
++			note:     "nondeterministic builtin json.match_schema saved during PE",
++			query:    "data.test.p",
++			unknowns: []string{"input.x"},
++			modules: []string{fmt.Sprintf(`package test
++			p if {
++				input.x == 1
++				json.match_schema({"user": "jsmith"}, {"$ref": "%s"})
++			}`, testserver().URL),
++			},
++			wantQueries: []string{fmt.Sprintf(`input.x = 1; json.match_schema({"user": "jsmith"}, {"$ref": "%s"})`, testserver().URL)},
++		},
++	}
++
++	runPartialEvalTests(t, tests)
++}
++
++func runPartialEvalTests(t *testing.T, tests []partialEvalTestCase) {
++	t.Helper()
++
+ 	ctx := t.Context()
+ 
+-	for _, tc := range tests {
++	for i := range tests {
++		tc := &tests[i]
+ 		popts := ast.ParserOptions{}
+ 		if tc.logicalKeywords {
+ 			popts.FutureKeywords = []string{"and", "or"}

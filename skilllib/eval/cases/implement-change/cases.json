@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Add a --json output option to the report command.",
+      "Implement the discount feature described in ISSUE.md.",
+      "Add pagination to the /orders endpoint, the same way /users does it.",
+      "Let the config loader read TOML as well as YAML; use whatever library we already have installed.",
+      "Add a CSV export next to the existing JSON export.",
+      "PLAN.md is approved. Go ahead and implement step 3.",
+      "Add an optional due date to tasks and show it in the task list."
+    ],
+    "should_not": [
+      "Write the tests first, then the code, for a new slugify() function: red, green, refactor.",
+      "Break up this 300-line function into smaller ones without changing what it does.",
+      "Rename the Customer class to Account across all 40 files that use it.",
+      "The login page has returned a 500 since this morning. Find out why.",
+      "Before writing any code, lay out a step-by-step plan for the billing rework."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "invoice-discount",
+      "fixture": "fixtures/invoice-discount",
+      "prompt": "Add an optional percentage discount to invoices: Invoice(..., discount_pct=10). When it's set, render() should show a `Subtotal` line, then a `Discount (10%)` line with the discount as a negative amount (like -$1.50), then the `Total` after the discount, and total_cents() should return the discounted total. Invoices without a discount must render exactly as they do now. Add tests.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read billing/money.py (and refunds.py) before writing the discount math",
+        "Used the house helpers (money.percent_of, money.fmt, the _line layout) instead of float math, round() or f-string formatting",
+        "Ran the existing tests before and after the change",
+        "Added tests covering a rounding edge or a large amount, next to the existing tests",
+        "Kept the change focused: no unrelated edits or reformatting"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

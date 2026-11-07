@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "This feature touches the parser, the storage layer and the CLI. Write up a plan before you start coding.",
+      "Plan the move from our JSON files to SQLite in small steps I can review one at a time.",
+      "Break this epic into steps, say how we'll verify each one, then work through them.",
+      "I want a PLAN.md for adding multi-currency support, with checkpoints along the way.",
+      "We need to choose between Redis and SQLite for the job queue. Write down the decision and the reasoning.",
+      "Work through these five changes to the importer and keep track of which ones are done as you go.",
+      "Big change incoming: rework how permissions are stored and checked. Lay out the steps first."
+    ],
+    "should_not": [
+      "Write HANDOFF.md so a fresh session can take over from where I stopped.",
+      "Add a --verbose flag to the CLI.",
+      "The ticket just says 'better search'. What do they actually want? Turn it into acceptance criteria.",
+      "Write a README for this tool.",
+      "How long would it take to rewrite this in Go, roughly?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "note-tags",
+      "fixture": "fixtures/note-tags",
+      "prompt": "Add tags to notes:\n1. `add` takes `--tag NAME`, repeatable.\n2. `list --tag NAME` shows only the notes with that tag.\n3. A new `tags` command prints each tag and how many notes have it, as `name<TAB>count`, most used first, ties alphabetical.\n4. `untag ID NAME` removes a tag from a note.\nTags are case-insensitive (store them lowercase). Plan it first: write PLAN.md with small steps, each with how you'll check it, then do the steps in order and tick each one off in PLAN.md when it's done.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read the storage code before planning and planned for existing files (v1 lists and v2 files without tags) to keep loading",
+        "PLAN.md steps are small, ordered (model and storage before commands) and each has a concrete check command with an expected result",
+        "Ran each step's check before ticking it, rather than ticking everything at the end",
+        "Verified persistence across separate runs (tags saved to the file), not just in memory",
+        "Finished with the full test suite and reported its result"
+      ],
+      "max_steps": 50
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "triggers": {
+    "should": [
+      "I'm done for now, can you commit my work?",
+      "Split what's in my working tree into sensible commits, it's a mix of things.",
+      "Write a good commit message for the staged changes.",
+      "Open a PR for this branch with a proper description.",
+      "Commit everything and push it up for review.",
+      "Draft the pull request text for the caching change, reviewers keep asking how we tested things.",
+      "Can you clean up these changes into commits before I send them to the team?"
+    ],
+    "should_not": [
+      "git pull left conflict markers in three files, sort it out.",
+      "Bump the version to 2.4.0, update the changelog and tag the release.",
+      "Review the diff on this PR and tell me if anything is broken.",
+      "The reviewer left eight comments on my PR; go through them and make the changes.",
+      "Which commit made the export slow? It was fine last week.",
+      "What does git rebase --onto do?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "two-changes",
+      "fixture": "fixtures/two-changes",
+      "prompt": "I finished what I was doing in this repo. Please commit my work, and write the PR description into PR_DESCRIPTION.md (there's no remote here, I'll open the PR myself).",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Looked at git status and the diffs (including untracked files' contents) before staging",
+        "Noticed the two unrelated changes and committed them separately, each with its own tests",
+        "Kept .env and the debug script out of the commits and said so (ideally ignoring .env)",
+        "Ran the tests and put the command and its result in the PR description",
+        "Commit messages say what changed and why, not 'update'"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

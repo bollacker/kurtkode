@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Can you look over the changes on this branch before I merge it into main?",
+      "Review PR #212, it's Priya's caching change. Anything that will break?",
+      "Here's the scheduler rewrite (the last three commits). Is there anything wrong with it?",
+      "Sanity-check commits a1b2c3d..9f8e7d6 for bugs before I push them.",
+      "I'm about to merge feature/export-csv. Give it a careful read and tell me what would go wrong in production.",
+      "Did I break anything with my uncommitted edits to billing.py? Take a look at the diff.",
+      "Be a second pair of eyes on my diff and list only real problems, no style nits."
+    ],
+    "should_not": [
+      "My reviewer left nine comments on my PR. Go through them and fix what needs fixing.",
+      "Audit this Flask app for SQL injection and other vulnerabilities before we launch it.",
+      "Clean up this module: rename the variables and split the long function, without changing behavior.",
+      "test_checkout started failing after yesterday's merges. Find the commit that broke it.",
+      "What does git diff main...HEAD show that git diff main..HEAD doesn't?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "bulk-discounts",
+      "fixture": "fixtures/bulk-discounts",
+      "prompt": "I'm on branch bulk-discounts and want to merge it into main. Please review the branch's changes and write your review to REVIEW.md. Put the problems that should block the merge under a '## Findings' heading, one bullet per problem, each bullet starting with path:line. Don't change the code.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Diffed the branch against main (git diff main...HEAD or equivalent) and read the commit message for intent",
+        "Looked at callers of changed functions outside the diff (found orders.py still catching KeyError)",
+        "Checked suspicions by running code or tracing a concrete input before reporting them",
+        "Did not report the documented round-down or the find_item call in search.py, whose skus come from ITEMS",
+        "Left the code unchanged and wrote findings with path:line, trigger and expected behavior"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

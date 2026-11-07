@@ -1,0 +1,75 @@
+kurtkode-eval: 0 models × 1 scenarios × 1 trials
+
+=== switch lmstudio:google/gemma-4-12b-qat → lmstudio:qwen/qwen3-coder-30b, after 15 steps
+  [long-doc #1]
+  loading google/gemma-4-12b-qat with 32768 context, 1 slot (free memory 77%)
+  phase 1: lmstudio:google/gemma-4-12b-qat, 15 steps
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"pending"},{"co
+  → bash {"command":"ls FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"in_progress"},
+  → read_file {"path":"src/part01.py"}
+  → write_file {"content":"src/part01.py — Walrus11 — The part's main type.\n","path":"FILES.md"}
+  → edit_file {"new_string":"src/part01.py — Walrus11 — The part's main type.\nsrc/part02.py — ClassName
+  → write_file {"content":"src/part01.py — Walrus11 — The part's main type.\n","path":"FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part02.py"}
+  → read_file {"path":"FILES.md"}
+  → bash {"command":"echo \"src/part02.py — Nettle64 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part03.py"}
+  → bash {"command":"echo \"src/part03.py — Ibis52 — The part's main type.\" >> FILES.md"}
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 78%)
+  phase 2: lmstudio:qwen/qwen3-coder-30b
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part04.py"}
+  → bash {"command":"echo \"src/part04.py — Walrus78 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  ⊜ compacted 7703 → 6270 tokens
+  → read_file {"path":"src/part05.py"}
+  → bash {"command":"echo \"src/part05.py — Walrus84 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part06.py"}
+  → bash {"command":"echo \"src/part06.py — Ibis57 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part07.py"}
+  ⊜ compacted 8243 → 6311 tokens
+  → bash {"command":"echo \"src/part07.py — Yarrow65 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part08.py"}
+  → bash {"command":"echo \"src/part08.py — Quokka30 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part09.py"}
+  ⊜ compacted 7989 → 7388 tokens
+  → bash {"command":"echo \"src/part09.py — Cobalt91 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part10.py"}
+  → bash {"command":"echo \"src/part10.py — Ibis32 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part11.py"}
+  ⊜ compacted 9239 → 6566 tokens
+  → bash {"command":"echo \"src/part11.py — Quillwort41 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part12.py"}
+  → bash {"command":"echo \"src/part12.py — Quillwort42 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part13.py"}
+  ⊜ compacted 8540 → 6231 tokens
+  → bash {"command":"echo \"src/part13.py — Lichen55 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  → read_file {"path":"src/part14.py"}
+  → bash {"command":"echo \"src/part14.py — Osprey31 — The part's main type.\" >> FILES.md"}
+  → todo_write {"todos":[{"content":"Read part01.py and document it in FILES.md","status":"completed"},{"
+  FAIL score 0.79 · 707s · 50 steps · 49 calls · 0 errors · 5 compactions · stop completed
+    - 11/14 correct, 14 listed
+    - compactions: 5
+    - no invented files
+    - read every file
+    final: All 14 Python files in the `src` directory have been documented in `FILES.md`. Each file's class name was identified by reading the file, and a line was added in the format `path — ClassName — The part's main type.`. ⏎  ⏎ The documentation process is now complete. Here are the files that were proces
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+lmstudio:google/gemma-4-12b-qat → lmstudio:q0/1 0.79 707s         
+wrote transcripts to eval-results/switch-transcripts
+
+wrote eval-results/switch-longdoc-2026-09-27.json

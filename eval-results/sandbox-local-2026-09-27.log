@@ -1,0 +1,84 @@
+kurtkode-eval: 1 models × 2 scenarios × 1 trials
+
+=== lmstudio:qwen/qwen3-coder-30b  [history: asIs]
+  [fix-tests #1]
+  → list_dir {}
+  → read_file {"path":"README.md"}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → bash {"command":"python3 -m unittest -v"}
+  → edit_file {"path":"calc.py","old_string":"\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, b):
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Identify bugs in calc.py","status":"completed"},{"content":"Fix subt
+  PASS score 1.00 · 36s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3809 tok · stop completed · min free 53% · 25497+969 tok
+    - tests pass
+    - changed: ["calc.py"]
+  [long-doc #1]
+  → list_dir {}
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"in_progress"},{"content":"Read part0
+  → read_file {"path":"src/part01.py"}
+  → write_file {"path":"FILES.md","content":"src/part01.py — Walrus11 — The main class for part 1 that ca
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part02.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part03.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part04.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 7376 → 6182 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part05.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part06.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 8283 → 6198 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part07.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  ⊜ compacted 7845 → 6201 tokens
+  → read_file {"path":"src/part08.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part09.py"}
+  ⊜ compacted 8261 → 6217 tokens
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part10.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 8775 → 5895 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part11.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 8033 → 6130 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → list_dir {"path":"src"}
+  → read_file {"path":"src/part12.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 8308 → 5342 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part13.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 7742 → 5718 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part14.py"}
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  ⊜ compacted 7806 → 5657 tokens
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  FAIL score 0.86 · 747s · 47 steps · 46 calls · 0 errors · 9 compactions · peak 7774 tok · stop completed · min free 42% · 273763+11335 tok
+    - 12/14 correct, 14 listed
+    - compactions: 9
+    - no invented files
+    - read every file
+    final: I've completed the task of documenting all 14 Python files in the `src` directory. Here's a summary of what was done: ⏎  ⏎ 1. I read each Python file from `part01.py` to `part14.py`. ⏎ 2. For each file, I identified: ⏎    - The file path (e.g., `src/part01.py`) ⏎    - The class name declared in that
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       fix-tests             long-doc              
+lmstudio:qwen/qwen3-coder-30b               1/1 1.00 36s          0/1 0.86 747s         
+wrote transcripts to eval-results/sandbox-transcripts
+
+wrote eval-results/sandbox-local-2026-09-27.json

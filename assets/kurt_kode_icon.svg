@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#232936"/>
+      <stop offset="100%" stop-color="#0f1218"/>
+    </linearGradient>
+
+    <!-- Neon Cyan Stroke Gradient -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f7ff"/>
+      <stop offset="100%" stop-color="#00c8ff"/>
+    </linearGradient>
+
+    <!-- Violet Glow Filter -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="28" result="blur1"/>
+      <feGaussianBlur stdDeviation="14" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="outerPurpleGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="40" result="blur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.8"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with Soft Outer Border -->
+  <rect x="32" y="32" width="960" height="960" rx="220" ry="220" fill="url(#bgGrad)" stroke="#2f3747" stroke-width="4"/>
+
+  <!-- Subtle Inner Specular Rim -->
+  <rect x="34" y="34" width="956" height="956" rx="218" ry="218" fill="none" stroke="#434e66" stroke-width="2" opacity="0.4"/>
+
+  <!-- GLOW LAYER (Purple / Magenta Aura) -->
+  <g filter="url(#outerPurpleGlow)" stroke="#9933ff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85">
+    <!-- Vertical Bar of K -->
+    <path d="M 315 260 L 315 764 M 315 764 L 395 764 L 395 565 L 395 460 L 395 260 Z" />
+    <!-- Chevrons of K -->
+    <path d="M 400 512 L 635 275 L 755 275 L 530 512 L 775 748 L 650 748 Z" />
+  </g>
+
+  <!-- MAIN NEON CORE (Electric Cyan Keylines) -->
+  <g filter="url(#neonGlow)" stroke="url(#cyanGrad)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="#131924">
+    <!-- Vertical Stem -->
+    <path d="M 265 240 
+             L 375 240 
+             A 16 16 0 0 1 391 256 
+             L 391 430 
+             A 16 16 0 0 1 375 446 
+             L 360 446 
+             L 360 578 
+             L 375 578 
+             A 16 16 0 0 1 391 594 
+             L 391 768 
+             A 16 16 0 0 1 375 784 
+             L 265 784 
+             A 16 16 0 0 1 249 768 
+             L 249 256 
+             A 16 16 0 0 1 265 240 Z" />
+
+    <!-- Chevron Arms -->
+    <path d="M 410 495 
+             L 600 270 
+             L 730 270 
+             A 12 12 0 0 1 740 286 
+             L 535 512 
+             L 750 738 
+             A 12 12 0 0 1 740 754 
+             L 610 754 
+             L 410 529 
+             Z" />
+  </g>
+
+  <!-- Cyan Intense Core Highlight -->
+  <g stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.9">
+    <!-- Inner bright stroke on stem -->
+    <path d="M 268 256 L 372 256 M 268 768 L 372 768" opacity="0.5"/>
+    <!-- Diagonal highlights -->
+    <path d="M 440 480 L 610 282" />
+    <path d="M 440 544 L 620 742" />
+  </g>
+</svg>

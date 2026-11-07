@@ -1,0 +1,213 @@
+kurtkode-eval bank: 1 models × 16 tasks × 1 trials; judges: bang:qwen/qwen3.5-9b (grader, parent)
+
+=== bang:qwen/qwen3.5-9b
+  [find-reserve-def #1]
+  → grep {"pattern":"def reserve_stock","path":"."}
+  → read_file {"path":"inventory/storage.py","offset":25,"limit":15}
+  judge bang:qwen/qwen3.5-9b (parent): 2/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 1/3
+  judge bang:qwen/qwen3.5-9b (grader): 0/3
+  PASS · 9s · 3 steps · 2 calls · stop completed
+    - ✓ cites storage.py:31
+  [callers-reserve #1]
+  → grep {"pattern":"reserve_stock"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy still passes gold: not used
+  PASS · 12s · 2 steps · 1 calls · stop completed
+    - ✓ api.py
+    - ✓ cli.py
+    - ✓ test_storage.py
+    - ✓ no invented callers in models/pricing
+  [class-in-file #1]
+  → read_file {"path":"src/part04.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 1/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 1/3
+  PASS · 7s · 3 steps · 1 calls · stop completed
+    - ✓ names Sedge22
+  [file-for-class #1]
+  → grep {"pattern":"class Pumice41"}
+  → read_file {"path":"src/part07.py","offset":50,"limit":20}
+  judge bang:qwen/qwen3.5-9b (parent): 1/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 0/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 0/3
+  PASS · 6s · 3 steps · 2 calls · stop completed
+    - ✓ names src/part07.py
+  [insufficient-status #1]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory"}
+  → grep {"pattern":"stock|in_stock|units|over","path":"inventory"}
+  → read_file {"path":"inventory/storage.py"}
+  → read_file {"path":"inventory/api.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 1/3
+  judge bang:qwen/qwen3.5-9b (grader): 1/3
+  PASS · 17s · 6 steps · 5 calls · stop completed
+    - ✓ 409
+    - ✓ InsufficientStock
+    - ✓ cites the raise, storage.py:34
+  [discount-for #1]
+  → read_file {"path":"inventory/pricing.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  FAIL · 27s · 3 steps · 1 calls · stop completed
+    - ✗ total 154.26
+    - ✓ 5% discount
+  [calc-bugs-explain #1]
+  → read_file {"path":"test_calc.py"}
+  → read_file {"path":"calc.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy still passes gold: not used
+  PASS · 13s · 2 steps · 2 calls · stop completed
+    - ✓ sub: a-b
+    - ✓ mean: sum(values)/len(values)
+    - ✓ names both
+  [log-error #1]
+  → read_file {"path":"logs/app.log"}
+  → grep {"pattern":"ERROR","path":"logs/app.log"}
+  → read_file {"path":"logs/app.log","offset":371,"limit":5}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 1/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  PASS · 18s · 4 steps · 3 calls · stop completed
+    - ✓ time 03:17:42
+    - ✓ component ledger.flush
+    - ✓ cause: disk quota
+  [list-classes #1]
+  → list_dir {"path":"src"}
+  → read_file {"path":"src/part01.py"}
+  → read_file {"path":"src/part02.py"}
+  → read_file {"path":"src/part03.py"}
+  → read_file {"path":"src/part04.py"}
+  → read_file {"path":"src/part05.py"}
+  → read_file {"path":"src/part06.py"}
+  → read_file {"path":"src/part07.py"}
+  → read_file {"path":"src/part08.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): no verdict
+  judge bang:qwen/qwen3.5-9b (grader): 0/3
+  PASS · 25s · 10 steps · 9 calls · stop completed
+    - 8/8 classes with their files
+  [fix-calc #1]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"path":"calc.py","old_string":"def sub(a, b):\n    return a + b","new_string":"def sub(a,
+  → edit_file {"path":"calc.py","old_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\
+  → bash {"command":"python3 -m unittest"}
+  → todo_write {"todos":[{"content": "Fix sub() function in calc.py", "status": "completed"}, {"content":
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): no verdict
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  PASS · 26s · 9 steps · 7 calls · stop completed
+    - ✓ tests pass
+    - ✓ only calc.py changed ["calc.py"]
+  [rename-total #1]
+  → grep {"pattern":"compute_total"}
+  → read_file {"path":"shop/orders.py"}
+  → edit_file {"path":"shop/orders.py","old_string":"def compute_total(items):\n    \"\"\"Sum of price ×
+  → read_file {"path":"shop/api.py"}
+  → edit_file {"path":"shop/api.py","old_string":"def total_handler(request):\n    return 200, {\"total\
+  → read_file {"path":"shop/report.py"}
+  → edit_file {"path":"shop/report.py","old_string":"from shop.orders import compute_total\n\n\ndef summ
+  → read_file {"path":"tests/test_orders.py"}
+  → edit_file {"path":"tests/test_orders.py","old_string":"import unittest\n\nfrom shop.orders import co
+  → grep {"pattern":"compute_total"}
+  → bash {"command":"python3 -m unittest"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 1/3
+  judge bang:qwen/qwen3.5-9b (grader): 0/3
+  PASS · 32s · 12 steps · 11 calls · stop completed
+    - ✓ no compute_total left
+    - ✓ order_total defined
+    - ✓ tests pass
+  [add-median #1]
+  → read_file {"path":"stats.py"}
+  → edit_file {"path":"stats.py","old_string":"def spread(values):\n    return max(values) - min(values)
+  → bash {"command":"python3 -c 'from stats import median; assert median([3, 1, 2]) == 2 and median
+  judge bang:qwen/qwen3.5-9b (parent): 3/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 0/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  PASS · 14s · 5 steps · 3 calls · stop completed
+    - ✓ median works
+    - ✓ existing tests pass
+    - ✓ only stats.py changed ["stats.py"]
+  [write-pricing-tests #1]
+  → read_file {"path":"inventory/pricing.py"}
+  → list_dir {"path":"tests"}
+  → write_file {"path":"tests/test_pricing.py","content":"\"\"\"Unit tests for pricing module.\"\"\"\n\ni
+  → bash {"command":"cd /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-write-pricing-test
+  → write_file {"path":"tests/test_pricing.py","content":"\"\"\"Unit tests for pricing module.\"\"\"\n\ni
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 0/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  PASS · 62s · 5 steps · 5 calls · stop completed
+    - ✓ tests/test_pricing.py tests both functions
+    - ✓ at least 3 passing pricing tests (12)
+    - ✓ all tests pass
+    - ✓ pricing.py unchanged
+  [review-diff #1]
+  → read_file {"path":"changes.diff"}
+  → list_dir {"path":"."}
+  → read_file {"path":"rates.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  degraded copy still passes gold: not used
+  PASS · 38s · 6 steps · 3 calls · stop completed
+    - ✓ names the range change
+    - ✓ says what goes wrong
+  [run-script #1]
+  → bash {"command":"python3 /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-run-script-76
+  → bash {"command":"python3 tools/checksum.py"}
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 3/3 (claimed a check it didn't make)
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  PASS · 7s · 4 steps · 2 calls · stop completed
+    - ✓ reports 244818
+  [sum-csv #1]
+  → list_dir {"path":"data"}
+  → read_file {"path":"data/q1.csv"}
+  → read_file {"path":"data/q2.csv"}
+  → read_file {"path":"data/q3.csv"}
+  judge bang:qwen/qwen3.5-9b (parent): no verdict
+  judge bang:qwen/qwen3.5-9b (grader): 2/3
+  degraded copy (gold fails): judging it
+  judge bang:qwen/qwen3.5-9b (parent): 0/3
+  judge bang:qwen/qwen3.5-9b (grader): 3/3
+  PASS · 19s · 5 steps · 4 calls · stop completed
+    - ✓ total 4317
+
+=== Gold passes by model and kind
+model                                   edit        explain     fix         refactor    research    review      run         search      summarize   write-tests all
+bang:qwen/qwen3.5-9b                    1/1         2/3         1/1         1/1         1/1         1/1         1/1         4/4         2/2         1/1         15/16
+
+=== Judges against gold (agreement · failures caught · passes failed · claimed unchecked checks)
+  checks (hard failure)                               28/28 verdicts · agree 68% · caught 31% · false alarms 0% · unconfirmed 0
+  bang:qwen/qwen3.5-9b (grader)                       28/28 verdicts · agree 75% · caught 46% · false alarms 0% · unconfirmed 0
+  bang:qwen/qwen3.5-9b (parent)                       25/28 verdicts · agree 88% · caught 82% · false alarms 7% · unconfirmed 7
+
+wrote eval-results/bank-degrade-recheck-qwen35-9b-2026-10-24.json

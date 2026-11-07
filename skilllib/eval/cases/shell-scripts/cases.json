@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "My backup.sh deletes the wrong folder when the path has a space in it. Make it safe.",
+      "Write a bash script that rotates the logs in /var/log/myapp and keeps the last 7.",
+      "deploy.sh says 'done' even when the rsync step fails. Fix it so failures actually stop it.",
+      "Turn these five commands I keep typing into a small script with a --help and proper arguments.",
+      "This shell script works on Linux but breaks on my Mac with 'unbound variable'. Can you fix it?",
+      "Review install.sh for quoting problems and anything that could go wrong if it's run twice.",
+      "Add argument parsing to tools/sync.sh: it should take --dry-run and a target directory."
+    ],
+    "should_not": [
+      "The CI job fails at the 'run scripts/lint.sh' step with exit code 2. Get CI green.",
+      "Write a regex that matches ISO dates like 2024-05-01 in log lines.",
+      "Rewrite our Python CLI's error handling so it doesn't swallow exceptions.",
+      "Explain what `ls -la` shows in each column.",
+      "Prepare the release: bump the version in package.json and tag it."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "fragile-packager",
+      "fixture": "fixtures/fragile-packager",
+      "prompt": "tools/package.sh is fragile. It broke when someone ran it on a folder with spaces in its name, and last week it printed 'packed' and exited 0 even though one note failed to render, so we shipped a broken archive. Please make it robust: same arguments and output as now, but it should work with any paths, stop at the first error with a non-zero exit, and never leave a broken or half-built archive behind.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Reproduced the failures first (a path with spaces, a note that fails to render) before rewriting",
+        "Used set -euo pipefail or equivalent so the failure inside the render | sed pipeline stops the script",
+        "Quoted every expansion and replaced the ls loop with a glob; made paths absolute (or avoided cd) before changing directory",
+        "Checked arguments up front with a usage message and non-zero exit, and cleaned up staging with a trap",
+        "Tested the rewritten script against the same cases (spaces, failure, missing args) and reported the results"
+      ],
+      "max_steps": 35
+    }
+  ]
+}

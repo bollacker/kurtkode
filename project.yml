@@ -1,0 +1,57 @@
+name: kurtkode
+options:
+  bundleIdPrefix: org.mlcommons.kurt
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+
+packages:
+  AgentCore:
+    path: AgentCore
+  Textual:
+    url: https://github.com/gonzalezreal/textual
+    exactVersion: 0.5.0  # pre-1.0: pin; the generated .xcodeproj (and its Package.resolved) is not committed
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "15.0"
+
+targets:
+  kurtkode:
+    type: application
+    platform: macOS
+    sources:
+      - App/Sources
+      - path: App/Resources
+        optional: true
+    dependencies:
+      - package: AgentCore
+      - package: Textual
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: kurtkode
+        CFBundleIconFile: AppIcon      # App/Resources/AppIcon.icns
+        LSApplicationCategoryType: public.app-category.developer-tools
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        NSLocalNetworkUsageDescription: kurtkode connects to language-model servers on your local network.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.mlcommons.kurt.kurtkode
+        # D1: personal tool, no App Sandbox. Signed to run locally only.
+        ENABLE_APP_SANDBOX: NO
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        GENERATE_INFOPLIST_FILE: NO
+
+schemes:
+  kurtkode:
+    build:
+      targets:
+        kurtkode: all
+    test:
+      targets:
+        - package: AgentCore/AgentCoreTests

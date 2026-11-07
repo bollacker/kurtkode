@@ -1,0 +1,34 @@
+{
+  "triggers": {
+    "should": [
+      "test_checkout_total fails maybe one CI run in five but I can never reproduce it locally. Can you sort it out?",
+      "Our integration test for the websocket client is intermittent — it times out sometimes. Fix it properly please.",
+      "When I run the whole suite, test_user_profile fails, but on its own it passes every time. What's going on?",
+      "This Jest test passes on my machine and fails randomly on the build server. Figure out why.",
+      "Tests started failing randomly after we turned on pytest-xdist parallel runs. Please investigate and fix.",
+      "test_report_dates fails only on some days, I think around midnight UTC. Can you make it reliable?"
+    ],
+    "should_not": [
+      "test_parse_header has been failing on every run since this morning's merge. Find out what broke it.",
+      "Write unit tests for the invoice module, it has none.",
+      "The test suite takes 12 minutes. Can you make it faster?",
+      "What does the function normalize_path in utils.py return for an empty string?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "order-dependent",
+      "fixture": "fixtures/order-dependent",
+      "prompt": "CI keeps going red on tests/test_convert.py (test_eur) but it passes every time I run it by itself. CI runs python3 tools/run_tests.py. Please fix it so CI is reliable.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Reproduced the failure (ran the suite or the test repeatedly / with fixed seeds) before changing code",
+        "Identified the polluting code (promotions mutating the shared rates) rather than only patching the failing test",
+        "Did not skip, retry, delete or loosen tests",
+        "Showed evidence after the fix: repeated or multi-seed runs passing, not a single run",
+        "Final report states cause, fix and evidence"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

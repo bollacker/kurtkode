@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "compute_invoice in shop/billing.py is a 50-line mess. Break it into readable functions without changing any results.",
+      "This legacy parser has no tests and I need to restructure it before adding a feature. Help me do it without breaking anything.",
+      "Clean up OrderService.java: it's one giant method. Same behavior please.",
+      "Extract the retry logic from fetch_all into its own function, nothing else should change.",
+      "Can you untangle handleSubmit in Checkout.tsx? It's unreadable, but it works and I don't want it to stop working.",
+      "Split utils.py into smaller modules; the outputs must stay byte-for-byte identical.",
+      "Simplify the nested ifs in pricing.go. No behavior change, it's used for invoicing."
+    ],
+    "should_not": [
+      "Rename the function get_conn to open_connection in all 40 files that call it.",
+      "Add unit tests for the billing module, it has none.",
+      "The discount is applied twice on VIP orders. Find out why and fix it.",
+      "Implement the new loyalty-points rule from the ticket, test-first.",
+      "Explain what compute_invoice does, step by step."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "tangled-invoice",
+      "fixture": "fixtures/tangled-invoice",
+      "prompt": "compute_invoice in shop/billing.py has grown into a mess and nobody dares touch it. Please refactor it into small, readable functions. It must behave exactly the same: issued invoices get recomputed from it for audits. There are no tests for it.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Pinned the current behavior (characterization tests with observed values, or a comparison against a saved copy of the original) before editing",
+        "Ran the pins after the refactor steps and showed them passing",
+        "Did not act on the TODO/FIXME comments (kept the last-line fragile surcharge and the line count) and reported them as candidate fixes instead",
+        "Kept compute_invoice's signature and return shape; reports.py still works",
+        "Final report lists the moves, the evidence, and the preserved quirks"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+ "name": "opa",
+ "testCommand": "sh run-tests.sh",
+ "testsPath": ":(glob)**/*_test.go",
+ "gitignore": [],
+ "mayChange": [
+  "v1/",
+  "internal/",
+  "ast/",
+  "topdown/",
+  "CHANGELOG.md"
+ ],
+ "tasks": [
+  {
+   "id": "opa01",
+   "sha": "f6e3d5d0",
+   "kind": "fix",
+   "title": "Mixed rule kinds on disjoint ref heads",
+   "prompt": "In OPA, a single-value rule and a multi-value rule whose refs share a ground prefix and a variable, but differ in a later ground key, are rejected as conflicting:\n\n```rego\npackage play\n\nx := \"node\"\nobj[x].y := \"foo\"\nobj[x].z contains \"bar\"\n```\n\nfails with `rego_type_error: conflicting rules data.play.obj[__local1__].z found`, although `y` and `z` can never be the same path. Make the compiler (v1/ast) accept single- and multi-value rules at the same node when their refs can't overlap, that is when some position holds a different ground term in each. Where they can overlap it must still report the conflict: `obj[x].y := \"foo\" if x := \"node\"` together with `obj[x].y contains \"bar\" if x := \"node\"` is still `conflicting rules`. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa01-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "opa02",
+   "sha": "01eefbab",
+   "kind": "fix",
+   "title": "Partial eval panic on a negated `every`",
+   "prompt": "OPA's partial evaluation panics with `interface {} is *ast.Every, not *ast.Term` when a query negates a rule whose body holds an `every` over unknown input:\n\n```rego\npackage test\n\np if { not blocked }\n\nblocked if {\n\tevery x in input.xs {\n\t\tx == 1\n\t}\n}\n```\n\nPartially evaluating `data.test.p = true` with `input` unknown crashes. Fix it in v1/topdown: a negated expression that can't be negated trivially, an `every` among them, is saved in a support rule instead of being inlined. For the example, the residual query is `not data.partial.__not1_0_2__`, with the support module\n\n```rego\npackage partial\n\n__not1_0_2__ = true if {\n\tevery __local0__3, __local1__3 in input.xs {\n\t\t__local1__3 = 1\n\t}\n}\n``` When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa02-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "opa03",
+   "sha": "85b62162",
+   "kind": "fix",
+   "title": "net.cidr_contains on IPv6 subnets ending at ::ffff:ffff:ffff",
+   "prompt": "OPA's `net.cidr_contains(A, B)` (v1/topdown/cidr.go) gives false negatives for the IPv6 subnets that end at `::ffff:ffff:ffff`, `::/80` through `::fffe:0:0/95`: `net.cidr_contains(\"::/80\", \"::/80\")`, `net.cidr_contains(\"::/0\", \"::/80\")` and `net.cidr_contains(\"::/79\", \"::/80\")` are all false. It checks that A contains B's first and last address, and here B's last address falls in the IPv4-mapped block `::ffff:0:0/96`, which Go's `net.IPNet.Contains` turns into a 4-byte IPv4 address that then doesn't match A's IPv6 network.\n\nMake containment correct for every IPv6 CIDR pair, including those subnets. Don't break the mixed-family cases: `::/0` must still not contain a plain IPv4 address such as `1.2.3.4`, and single IPs and IPv4-mapped ranges keep working as before. The YAML cases under v1/test/cases/testdata/*/netcidrcontains are run by v1/topdown's tests. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa03-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "opa04",
+   "sha": "63f54da4",
+   "kind": "fix",
+   "title": "Reject some-in bindings that appear in the domain",
+   "prompt": "In OPA, `some i, x in xs[i]` compiles, because the compiler rewrites the domain after the binding, so `i` in the domain refers to the variable being declared. Make it a compile error, `var <name> assigned before`, at the `some` statement's location (for example `test.rego:4: rego_compile_error: var i assigned before`), when a variable that `some ... in` binds also appears in its domain. That covers the key (`some i, x in [[0]][i]`, also after an earlier `some i` or `i := 0`), the value (`some x in [[0]][x]`), and a variable inside a ref in the pattern (`some [input.xs[j], y] in input.ys[j]` reports `j`). These must keep compiling: `b contains y if { some [input.x, y] in input.arr }`, `b contains v if { some {k: v} in input.objs[k] }` and `f(xs) := y if { some [xs[0], y] in xs }`. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa04-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "opa05",
+   "sha": "ae4ed955",
+   "kind": "fix",
+   "title": "Strict SemVer in semver.is_valid and semver.compare",
+   "prompt": "OPA's SemVer parser (internal/semver, behind the `semver.is_valid` and `semver.compare` built-ins) accepts strings that SemVer 2.0.0 forbids: `semver.is_valid(\"01.2.3\")` and `semver.is_valid(\"1.02.3\")` (leading zeroes), `semver.is_valid(\"1.2.3-01\")` (a leading zero in a numeric pre-release identifier), `semver.is_valid(\"1.2.3-\")` and `semver.is_valid(\"1.2.3+\")` (an empty pre-release or build section) are all true, and `semver.compare(\"1.02.3\", \"1.2.3\")` returns 0.\n\nMake parsing reject leading zeroes in major, minor and patch, a leading zero in a numeric pre-release identifier, and an empty pre-release or build section after `-` or `+`. Build-metadata identifiers may keep leading zeroes, as the spec allows. `semver.is_valid` then returns false for these, and `semver.compare` errors on them the way it already does for an invalid version such as `1.2`. Add a CHANGELOG.md entry. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa05-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "opa06",
+   "sha": "23745504",
+   "kind": "fix",
+   "title": "Sibling leaves of a general ref aren't recursive",
+   "prompt": "In OPA, rules with a variable in their ref are stored at the node for their ground prefix, so sibling leaves such as `p[x].foo.bar` and `p[x].foo.baz` look like dependencies of each other, and this module is rejected as recursive:\n\n```rego\npackage test\n\np[x].foo.bar if {\n\tx := \"a\"\n\tnot p[x].foo.baz\n}\n\np[x].foo.baz if {\n\tx := \"a\"\n\tfalse\n}\n```\n\nMake the compiler's recursion check (v1/ast) tell siblings apart: sibling leaves and sibling subtrees under a variable aren't recursive. A leaf that depends on itself, on an ancestor, or on a dynamic position that could be itself, and mutual recursion across leaves, must still be reported, as `rule data.test.p[x].foo.bar is recursive: data.test.p[x].foo.bar -> data.test.p[x].foo.bar`, with a head variable under its source name (`data.test.q[x]`, not a generated `__local__` name).\n\nThe planner (internal/planner, used for Wasm and IR) plans one function per ground path prefix, so with this change a rule that refers back into its own prefix would recurse there until the stack overflows. Make the planner report it instead, as `reference to data.test.p is not supported: rules sharing that path prefix are planned as a single function`, for the module above, for `p[x] := 1 if { x := \"a\" }` with `p.b := y if { y := p.a + 1 }`, and when the sibling is reached through a `with` function mock. Add a CHANGELOG.md entry. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "opa06-hidden.tgz",
+   "maxSteps": 60
+  }
+ ],
+ "gradeInSandbox": true
+}

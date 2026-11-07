@@ -1,0 +1,219 @@
+### A/B gpt-oss explain-repo
+kurtkode-eval: 1 models × 1 scenarios × 3 trials
+
+=== openrouter:openai/gpt-oss-120b  [history: asIs]
+  [explain-repo #1]
+  → list_dir {"path": ""}
+  → list_dir {"path":"inventory"}
+  → list_dir {"path":"tests"}
+  → read_file {"path":"cli.py","limit":400}
+  → read_file {"path":"inventory/models.py","limit":400}
+  → read_file {"path":"inventory/api.py","limit":400}
+  → read_file {"path":"inventory/pricing.py","limit":400}
+  → read_file {"path":"inventory/storage.py","limit":400}
+  → read_file {"path":"tests/test_storage.py","limit":400}
+  → read_file {"path":"README.md","limit":400}
+  PASS score 1.00 · 41s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 2786 tok · stop completed · min free 37% · 19093+1993 tok · $0.0009
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 7 files
+  [explain-repo #2]
+  → list_dir {
+  "path": ""
+}
+  → list_dir {
+  "path": "inventory"
+}
+  → list_dir {
+  "path": "tests"
+}
+  → read_file {
+  "path": "README.md",
+  "limit": 200
+}
+  → read_file {
+  "path": "cli.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/__init__.py"
+}
+  → read_file {
+  "path": "inventory/api.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/models.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/pricing.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "inventory/storage.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "tests/test_storage.py",
+  "limit": 400
+}
+  PASS score 1.00 · 32s · 12 steps · 11 calls · 0 errors · 0 compactions · peak 2903 tok · stop completed · min free 38% · 20188+1945 tok · $0.0009
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 8 files
+  [explain-repo #3]
+  → list_dir {
+  "path": ""
+}
+  → list_dir {
+  "path": "inventory"
+}
+  → read_file {
+  "path": "inventory/api.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/models.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/pricing.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/storage.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "cli.py",
+  "limit": 400
+}
+  PASS score 1.00 · 65s · 10 steps · 7 calls · 0 errors · 0 compactions · peak 2602 tok · stop completed · min free 31% · 16453+1675 tok · $0.0008
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          
+openrouter:openai/gpt-oss-120b              3/3 1.00 46s          
+
+=== Spend
+  Openrouter: $0.0024 (key usage)
+  reported with replies: $0.0027 (excludes compaction summaries)
+wrote transcripts to eval-results/gptoss-ab-transcripts/profile
+
+wrote eval-results/gptoss-ab-profile.json
+kurtkode-eval: 1 models × 1 scenarios × 3 trials
+
+=== openrouter:openai/gpt-oss-120b  [history: asIs]
+  [explain-repo #1]
+  → list_dir {
+  "path": ""
+}
+  → list_dir {
+  "path":"inventory"
+}
+  → read_file {
+  "path":"cli.py",
+  "limit":400
+}
+  → read_file {
+  "path":"inventory/models.py",
+  "limit":400
+}
+  → list_dir {
+  "path":"tests"
+}
+  → read_file {
+  "path":"inventory/api.py",
+  "limit":400
+}
+  → read_file {
+  "path":"inventory/pricing.py",
+  "limit":400
+}
+  → read_file {
+  "path":"inventory/storage.py",
+  "limit":400
+}
+  PASS score 1.00 · 66s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 2503 tok · stop completed · min free 19% · 13581+1947 tok · $0.0007
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [explain-repo #2]
+  → list_dir {
+  "path": ""
+}
+  → list_dir {
+  "path": "inventory"
+}
+  → list_dir {
+  "path": "tests"
+}
+  → read_file {
+  "path": "cli.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/models.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/api.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/pricing.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "inventory/storage.py",
+  "limit": 400
+}
+  → read_file {
+  "path": "README.md",
+  "limit": 400
+}
+  → read_file {
+  "path": "tests/test_storage.py",
+  "limit": 400
+}
+  PASS score 1.00 · 163s · 14 steps · 10 calls · 0 errors · 0 compactions · peak 2827 tok · stop completed · min free 18% · 23637+2483 tok · $0.0012
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 7 files
+  [explain-repo #3]
+  → list_dir {
+  "path": ""
+}
+  → list_dir {
+  "path": "inventory"
+}
+  → read_file {
+  "path": "inventory/models.py"
+}
+  → read_file {
+  "path": "inventory/api.py"
+}
+  → read_file {
+  "path": "inventory/pricing.py"
+}
+  → read_file {
+  "path": "inventory/storage.py"
+}
+  → list_dir {
+  "path": "tests"
+}
+  → read_file {
+  "path": "cli.py"
+}
+  PASS score 1.00 · 52s · 10 steps · 8 calls · 0 errors · 0 compactions · peak 2465 tok · stop completed · min free 32% · 15244+1958 tok · $0.0008
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          
+openrouter:openai/gpt-oss-120b              3/3 1.00 94s          
+
+=== Spend
+  Openrouter: $0.0019 (key usage)
+  reported with replies: $0.0028 (excludes compaction summaries)
+wrote transcripts to eval-results/gptoss-ab-transcripts/noprofile
+
+wrote eval-results/gptoss-ab-noprofile.json

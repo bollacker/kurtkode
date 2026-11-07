@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "The CSV export was fine in release 3.2 and comes out empty on main. There are about 150 commits in between. Find which one broke it.",
+      "Something between last Tuesday's build and today made test_parse_headers fail. Which commit did it?",
+      "Use git bisect to find where the login redirect loop started.",
+      "This worked in v2.0.1 and is broken in v2.1. Track down the change responsible.",
+      "At some point in the last couple hundred commits our CLI started printing dates in UTC instead of local time. Pinpoint the commit.",
+      "Half the commits in this range don't even build, and I still need to know which one broke the PDF export.",
+      "Benchmark throughput dropped 30% between tag v5.4 and HEAD. Find the commit that caused it."
+    ],
+    "should_not": [
+      "test_totals is a new test and it has never passed. Figure out why it fails and fix the code.",
+      "test_upload fails about one CI run in ten since we turned on parallel jobs. Make it reliable.",
+      "Why is the retry limit set to 7 in client.py? Someone must have had a reason for that number.",
+      "Merge main into my feature branch and resolve the conflicts.",
+      "Squash my last three commits into one with a better message."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "cents-regression",
+      "fixture": "fixtures/cents-regression",
+      "prompt": "`python3 -m ledger summary data/march.csv` prints a March total of 7183.64, but at the v1.0 tag it printed 7,183.68, which is correct. Dropping the thousands separator was intentional; losing 4 cents was not. Find the commit that introduced the wrong total and write its full hash to CULPRIT.txt. Don't fix the code yet.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Wrote a test that judges only the total (ignoring the intended separator change) and checked it passes at v1.0 and fails at HEAD before bisecting",
+        "Treated commits where the program can't run (missing ledger/fmt.py) as skip (exit 125), not as bad",
+        "Found the commit by running the test (git bisect run or equivalent), not by guessing from commit messages",
+        "Confirmed the culprit: test passes at its parent and fails at it, and named the truncating line",
+        "Left the repository with no bisect in progress, on main"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

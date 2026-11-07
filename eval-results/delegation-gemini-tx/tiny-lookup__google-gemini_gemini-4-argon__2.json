@@ -1,0 +1,147 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:02:23Z",
+    "id" : "E4F400E6-A3C2-4A6F-B4AA-3680A5FC35AE",
+    "meta" : {
+      "duration" : 1.442900542,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "_jjdaq2sB5Ptz7IPx5_NqAI"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.419221334,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 22,
+        "cost" : 0.0021980000000000003,
+        "costIsEstimate" : true,
+        "promptTokens" : 989,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 22,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 22
+          }
+        ],
+        "promptTokenCount" : 989,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 989
+          }
+        ],
+        "totalTokenCount" : 1011
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "pattern" : "TAX_RATE"
+            },
+            "id" : "call_714500",
+            "name" : "grep"
+          },
+          "thoughtSignature" : "ElkKVwFpFH0TOvi4MzNqPGtgdj3OjyJ1xVmFrO2tuBqE5lJtpAi9Ab1gapqsFPqe0F43ljfDvSaFFfLs7+nydaOUyLUrmLDCkZPhUvMmGL25UpTA5F+Rfk63vQ=="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"TAX_RATE\"}",
+        "id" : "call_714500",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "inventory\/pricing.py:3: TAX_RATE = 0.0825\ninventory\/pricing.py:16:     return round(subtotal * (1 + TAX_RATE), 2)",
+    "createdAt" : "2026-10-24T23:02:23Z",
+    "id" : "C4035B6F-7204-4F8E-9268-8DB4BC9AC2D4",
+    "role" : "tool",
+    "toolCallID" : "call_714500",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.018217086791992188,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "`TAX_RATE` has the value **`0.0825`** (defined in `inventory\/pricing.py:3`).",
+    "createdAt" : "2026-10-24T23:02:26Z",
+    "id" : "D7DF5B34-CD11-45DA-A070-845C7A4D9ACD",
+    "meta" : {
+      "duration" : 2.6850238749999997,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "_zjdaq_GJJqsz7IPovf4kAk"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 2.5416394159999998,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 32,
+        "cost" : 0.0024619999999999998,
+        "costIsEstimate" : true,
+        "promptTokens" : 1071,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 32,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 32
+          }
+        ],
+        "promptTokenCount" : 1071,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 1071
+          }
+        ],
+        "totalTokenCount" : 1103
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "`TAX_RATE` has the value **`0.0825`** (defined in `inventory\/pricing.py:3`).",
+          "thoughtSignature" : "ElkKVwFpFH0TcjhxoPqriKlU7T245rew7dBqvIyWZBdRyXGc+jqsKyUiGEQNgenjWQE1l9OpCHxBFA08o8cjIRBzOad02yYkBIUZE1ahka77EgH1QbrdfuhgFw=="
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

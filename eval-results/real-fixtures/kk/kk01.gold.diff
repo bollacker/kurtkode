@@ -1,0 +1,50 @@
+diff --git a/AgentCore/Sources/AgentCore/Debug/WireLog.swift b/AgentCore/Sources/AgentCore/Debug/WireLog.swift
+index af89016..1c5786e 100644
+--- a/AgentCore/Sources/AgentCore/Debug/WireLog.swift
++++ b/AgentCore/Sources/AgentCore/Debug/WireLog.swift
+@@ -155,9 +155,9 @@ public actor WireLog {
+         try? fm.createDirectory(at: directory, withIntermediateDirectories: true)
+         let index = directory.appending(path: "index.jsonl")
+         if !fm.fileExists(atPath: index.path) { fm.createFile(atPath: index.path, contents: nil) }
+-        guard let handle = try? FileHandle(forWritingTo: index) else { return }
++        guard let handle = try? FileHandle(forUpdating: index) else { return }
+         defer { try? handle.close() }
+-        _ = try? handle.seekToEnd()
++        try? handle.seekToEndOfLastLine()
+         try? handle.write(contentsOf: line)
+     }
+ 
+diff --git a/AgentCore/Sources/AgentCore/Session/SessionStore.swift b/AgentCore/Sources/AgentCore/Session/SessionStore.swift
+index 2d4033e..fcd8890 100644
+--- a/AgentCore/Sources/AgentCore/Session/SessionStore.swift
++++ b/AgentCore/Sources/AgentCore/Session/SessionStore.swift
+@@ -291,9 +291,9 @@ public actor SessionStore {
+ 
+     public func append(_ record: SessionRecord, to id: UUID) throws {
+         guard let url = try location(of: id) else { throw CocoaError(.fileNoSuchFile) }
+-        let handle = try FileHandle(forWritingTo: url)
++        let handle = try FileHandle(forUpdating: url)
+         defer { try? handle.close() }
+-        try handle.seekToEnd()
++        try handle.seekToEndOfLastLine()
+         var record = record
+         if record.at == nil { record.at = Date() }
+         try handle.write(contentsOf: line(record))
+@@ -411,3 +411,17 @@ public actor SessionStore {
+             .filter { $0.pathExtension == "jsonl" }
+     }
+ }
++
++extension FileHandle {
++    /// Moves to the end of a JSON Lines file, first ending a torn last line (a crash mid-write) with a newline, so
++    /// the next record starts a line of its own instead of being glued onto the unreadable one. Needs a handle that
++    /// can read (`forUpdating`).
++    func seekToEndOfLastLine() throws {
++        let end = try seekToEnd()
++        guard end > 0 else { return }
++        try seek(toOffset: end - 1)
++        let last = try read(upToCount: 1)
++        try seekToEnd()
++        if last != Data([0x0A]) { try write(contentsOf: Data([0x0A])) }
++    }
++}

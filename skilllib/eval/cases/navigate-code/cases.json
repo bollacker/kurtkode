@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "I'm new to this repo. How does a request get from the HTTP handler down to the database? Point me at the files.",
+      "Where does the retry_count the worker uses actually come from? I can see it set in three different places.",
+      "If I change the signature of parse_order(), what else would I have to update?",
+      "Explain how authentication works in this codebase, end to end.",
+      "Which code runs for `myapp sync --dry-run`? I want to know whether it really skips all writes.",
+      "Before I touch the caching layer, map out everything that reads from or writes to the cache.",
+      "What value of max_connections does the service end up with in production config?"
+    ],
+    "should_not": [
+      "Why is MAX_RETRIES set to 7 here? Someone must have had a reason; check the history.",
+      "The sync command crashes with KeyError: 'user'. Please fix it.",
+      "Rename fetch_user to load_user everywhere in the repo.",
+      "Review this diff for bugs before I merge it.",
+      "What does len() return for an empty dict in Python?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "export-timeout",
+      "fixture": "fixtures/export-timeout",
+      "prompt": "When someone runs `python3 -m exporter.cli export orders` with the settings in this repo, what timeout does the export actually run with? And which files would have to change to make that export wait 50 seconds? Write your answer to ANSWER.md, starting with these two lines:\ntimeout_seconds: <number>\nfiles_to_change: <comma-separated paths>\nthen explain how you found it. Don't change any code.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Started from the CLI entry point and followed the calls hop by hop rather than answering from a constant or the README",
+        "Found the clamp in transport.send (limits.GATEWAY_MAX_MS) that overrides the configured 45 s",
+        "Ruled out the decoys (DEFAULT_TIMEOUT 30, legacy_export.py 60, the [import] section) with a reason",
+        "Cited file:line for each hop in ANSWER.md",
+        "Left the code unchanged (any temporary prints removed)"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

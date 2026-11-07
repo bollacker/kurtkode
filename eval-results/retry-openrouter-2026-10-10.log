@@ -1,0 +1,62 @@
+kurtkode-eval: 1 models × 1 scenarios × 2 trials
+
+=== proxy:qwen/qwen3-coder-30b-a3b-instruct  [history: asIs]
+  [long-doc #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "src"}
+  → todo_write {"todos": [{"content": "Create FILES.md file", "status": "in_progress"}, {"content": "Read
+  → write_file {"path": "FILES.md", "content": "# Package Documentation"}
+  → read_file {"path": "src/part01.py"}
+  → edit_file {"path": "FILES.md", "old_string": "# Package Documentation", "new_string": "# Package Doc
+  → read_file {"path": "src/part02.py"}
+  → edit_file {"path": "FILES.md", "old_string": "# Package Documentation\n\nsrc/part01.py — Walrus11 — 
+  → read_file {"path": "src/part03.py"}
+  retrying: SiliconFlow lost the reply (132 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (132 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (132 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (132 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  FAIL score 0.14 · 54s · 13 steps · 9 calls · 0 errors · 0 compactions · peak 5371 tok · stop completed · min free 75% · 49008+1159 tok · $0.0038
+    - 2/14 correct, 2 listed
+    - compactions: 0
+    - no invented files
+    - 11 files never read
+  [long-doc #2]
+  → list_dir {}
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → todo_write {"todos": [{"content": "Document src/part01.py - Walrus11 class", "status": "in_progress"}
+  retrying: SiliconFlow lost the reply (340 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  → write_file {"path": "FILES.md", "content": "src/part01.py — Walrus11 — The main type for part 1."}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The main type for part 1.",
+  → read_file {"path": "src/part04.py"}
+  retrying: SiliconFlow lost the reply (172 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (172 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (182 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  retrying: SiliconFlow lost the reply (172 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: No other provider took it: Server returned HTTP 500: Internal Server Error.
+  FAIL score 0.21 · 134s · 14 steps · 9 calls · 0 errors · 0 compactions · peak 6149 tok · stop completed · min free 75% · 62072+1784 tok · $0.0048
+    - 3/14 correct, 3 listed
+    - compactions: 0
+    - no invented files
+    - 10 files never read
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+proxy:qwen/qwen3-coder-30b-a3b-instruct     0/2 0.18 94s          
+
+=== Spend
+  proxy: $0.0067 (key usage)
+  reported with replies: $0.0086 (excludes compaction summaries)
+wrote transcripts to eval-results/retry-openrouter-2026-10-10-transcripts
+
+wrote eval-results/retry-openrouter-2026-10-10.json

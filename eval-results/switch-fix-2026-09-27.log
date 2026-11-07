@@ -1,0 +1,45 @@
+kurtkode-eval: 0 models × 1 scenarios × 1 trials
+
+=== switch lmstudio:google/gemma-4-12b-qat → lmstudio:qwen/qwen3-coder-30b, after 3 steps
+  [fix-tests #1]
+  loading google/gemma-4-12b-qat with 32768 context, 1 slot (free memory 82%)
+  phase 1: lmstudio:google/gemma-4-12b-qat, 3 steps
+  → bash {"command":"python3 -m unittest -v"}
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 83%)
+  phase 2: lmstudio:qwen/qwen3-coder-30b
+  → read_file {"path":"test_calc.py"}
+  → todo_write {"todos":[{"content":"Fix the sub function in calc.py","status":"in_progress"},{"content":
+  → edit_file {"path":"calc.py","old_string":"\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, b):
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Fix the sub function in calc.py","status":"completed"},{"content":"F
+  PASS score 1.00 · 57s · 9 steps · 8 calls · 0 errors · 0 compactions · stop completed
+    - tests pass
+    - changed: ["calc.py"]
+
+=== switch lmstudio:qwen/qwen3-coder-30b → lmstudio:mistralai/devstral-small-2-2512, after 3 steps
+  [fix-tests #1]
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 79%)
+  phase 1: lmstudio:qwen/qwen3-coder-30b, 3 steps
+  → list_dir {}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  loading mistralai/devstral-small-2-2512 with 32768 context, 1 slot (free memory 78%)
+  phase 2: lmstudio:mistralai/devstral-small-2-2512
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "def mean(values):\n    \"\"\"Average of a non-empty lis
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  PASS score 1.00 · 84s · 8 steps · 8 calls · 0 errors · 0 compactions · stop completed
+    - tests pass
+    - changed: ["calc.py"]
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       fix-tests             
+lmstudio:google/gemma-4-12b-qat → lmstudio:q1/1 1.00 57s          
+lmstudio:qwen/qwen3-coder-30b → lmstudio:mis1/1 1.00 84s          
+wrote transcripts to eval-results/switch-transcripts
+
+wrote eval-results/switch-fix-2026-09-27.json

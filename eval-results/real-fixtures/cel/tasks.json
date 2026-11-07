@@ -1,0 +1,63 @@
+{
+ "name": "cel",
+ "testCommand": "go test -count=1 -skip '^TestConcurrentEval$' ./...",
+ "testsPath": ":(glob)**/*_test.go",
+ "gitignore": [],
+ "mayChange": [
+  "cel/",
+  "checker/",
+  "common/",
+  "ext/",
+  "interpreter/",
+  "parser/",
+  "README.md"
+ ],
+ "tasks": [
+  {
+   "id": "cel01",
+   "sha": "af38f75",
+   "kind": "fix",
+   "title": "Constant folding of `x in [x]` with NaN",
+   "prompt": "cel-go's constant-folding optimizer (cel/folding.go, used through `NewConstantFoldingOptimizer`) rewrites `x in [..., x, ...]` to `true` when the identifier being looked for also appears in the list. That isn't sound when the identifier can hold a NaN double, because NaN isn't equal to itself: with `d` declared as a double and bound to NaN, the optimized `d in [d]` evaluates to true, while the unoptimized expression evaluates to false.\n\nMake the identifier match apply only when the identifier's declared type guarantees a value equal to itself: bool, bytes, duration, int, null, string, timestamp, type and uint, and lists and maps whose type parameters are all such types (for example list(int), list(list(int)), map(string, int)). For a double, dyn, a list or map that can hold a double or dyn, an optional type or a message type, leave the expression as it is. A literal needle still folds by CEL equality as before (`1 in [1, 2]` and `1.0 in [d, 1.0]` both become `true`). Update the existing cases in cel/folding_test.go that expect the old folding (`x in [1, 2, x]` with `x` a dyn no longer folds to `true`). When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "cel01-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "cel02",
+   "sha": "41d9149",
+   "kind": "fix",
+   "title": "Strict RFC 3339 in timestamp()",
+   "prompt": "Converting a string to a timestamp in cel-go (`timestamp('...')` in CEL, `String.ConvertToType(TimestampType)` in common/types) goes through Go's `time.Parse` with `time.RFC3339`, which accepts strings that RFC 3339 forbids: a comma as the fractional separator (`2025-01-17T01:00:00,001Z`), a one-digit hour or minute (`2025-01-17T1:00:00Z`, `2025-01-17T01:5:00Z`), and out-of-range offsets (`+24:01`, `+00:60`).\n\nMake the conversion reject such strings with the error `invalid RFC 3339 timestamp \"<input>\"` (the input quoted as Go's `%q` quotes it), and keep accepting valid ones, such as `2025-01-01T12:34:56Z`, `2025-01-01T12:34:56.123456789Z`, a lowercase `t` or `z`, a leap second (`23:59:60`), and offsets like `+05:30`, `-08:00` and `+14:00`. The conversion is on a hot path, so keep it cheap. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "cel02-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "cel03",
+   "sha": "be9dacd",
+   "kind": "edit",
+   "title": "Depth limit for ASTs loaded from protos",
+   "prompt": "ASTs loaded through `cel.ParsedExprToAst`, `cel.CheckedExprToAst` or `cel.CheckedExprToAstWithSource` skip the parser's recursion limit (250), so a deeply nested AST built from a proto can exhaust the Go stack in `env.Check` or `env.Program` and crash the process. Add a depth check:\n\n1. In common/ast, add `func ExceedsDepth(a *AST, maxDepth int) bool`. The root expression has depth 0; it returns true when some expression's depth is at least `maxDepth` (so `'a' == 'b'`, of depth 1, exceeds 1 but not 2). It returns false for a nil or empty AST and when `maxDepth` is zero or negative. Its own traversal must stay bounded, never going more than `maxDepth`+1 levels down, so it's safe on the deep inputs it guards against.\n2. ASTs loaded through those cel helpers are checked against 250, the parser's default. `ParsedExprToAst` and `CheckedExprToAst` have no error return, so the problem is reported later: `env.Check` and `env.Program` on such an AST return an error that mentions `maximum expression nesting depth`, without recursing into it. `CheckedExprToAstWithSource` returns that error directly. ASTs built straight through the common/ast package aren't checked.\n3. Add an environment option `cel.ExpressionNestingDepthLimit(limit int) EnvOption` that records the limit in the environment's configuration under the limit name `cel.limit.max_ast_depth`, so `env.ToConfig` exports it. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "cel03-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "cel04",
+   "sha": "13cff33",
+   "kind": "fix",
+   "title": "Bound lists.range()",
+   "prompt": "In cel-go's lists extension (ext/lists.go), `lists.range(n)` allocates n elements with no upper bound, so `lists.range(2147483647)` tries to allocate about 16 GB and crashes the process; it also accepts a negative n.\n\nMake `lists.range` return an evaluation error for a negative n and for an n above a maximum size, by default 1,000,000 (`lists.range(1000000)` is still allowed). Add a `ListsMaxRangeSize(size int64) ListsOption` to set the maximum; zero turns the limit off. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "cel04-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "cel05",
+   "sha": "0175dbb",
+   "kind": "fix",
+   "title": "Logical folding keeps non-bool operands",
+   "prompt": "cel-go's constant-folding optimizer (cel/folding.go) drops a literal operand of `&&` and `||`: `true && x`, `x && true`, `false || x` and `x || false` all become `x`. That's only right when `x` is a bool. For an operand of type dyn, the folded expression can evaluate to something that isn't a bool, where the original would have been an error.\n\nOnly drop the literal when the other operand's type is bool. With `b` declared as bool, `true && b`, `b && true`, `false || b` and `b || false` still fold to `b`. With `x` declared as dyn, those forms stay as written, and so do longer chains such as `true && x && true && x` and `false || x || false || x`. Update the existing cases in cel/folding_test.go that expect the old folding. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "cel05-hidden.tgz",
+   "maxSteps": 60
+  }
+ ],
+ "gradeInSandbox": true
+}

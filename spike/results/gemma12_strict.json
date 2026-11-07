@@ -1,0 +1,133 @@
+{
+  "variant": "strict",
+  "steps": 20,
+  "max_tokens": 4096,
+  "report": {
+    "google/gemma-4-12b-qat": {
+      "stream": {
+        "delta_fields": [
+          "content",
+          "reasoning_content",
+          "role"
+        ],
+        "usage": {
+          "prompt_tokens": 27,
+          "completion_tokens": 614,
+          "total_tokens": 641,
+          "completion_tokens_details": {
+            "reasoning_tokens": 563
+          }
+        },
+        "reasoning_chars": 2737,
+        "ttft_s": 19.48,
+        "total_s": 21.04,
+        "content": "A closure is a function that \"remembers\" and has access to the variables of its outer scope even after that outer function has finished executing. This occurs b"
+      },
+      "single": {
+        "ok": true,
+        "finish": "tool_calls",
+        "args": {
+          "path": "src"
+        },
+        "content": ""
+      },
+      "sstream": {
+        "ok": false,
+        "calls": [
+          [
+            "list_dir",
+            {
+              "path": "."
+            }
+          ]
+        ],
+        "usage": {
+          "prompt_tokens": 296,
+          "completion_tokens": 45,
+          "total_tokens": 341,
+          "completion_tokens_details": {
+            "reasoning_tokens": 26
+          }
+        }
+      },
+      "agent": [
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 604,
+          "final": "The bug was in `src/calc.py` where the `sub` function was incorrectly using addition instead of subtraction, and I have ",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\\n\",\"old_stri) -> 'ok'"
+          ],
+          "secs": 11.4
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 604,
+          "final": "The bug in `src/calc.py` was that the `sub` function was performing addition instead of subtraction, which I have now fi",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\\n\",\"old_stri) -> 'ok'"
+          ],
+          "secs": 16.9
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 7,
+          "tool_errors": 1,
+          "prompt_tokens_last": 969,
+          "final": "I have fixed the bug in `src/calc.py` where the `sub` function was incorrectly using addition instead of subtraction.",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "edit_file({\"new_string\":\"import unittest\\nfrom src.calc import add\\n\\n) -> 'error: old_string occurs 0 times; it mus'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\\n\",\"old_stri) -> 'ok'"
+          ],
+          "secs": 29.2
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 5,
+          "tool_errors": 0,
+          "prompt_tokens_last": 574,
+          "final": "The `sub` function in `src/calc.py` was incorrectly using addition instead of subtraction, which caused the test to fail",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\\n\",\"old_stri) -> 'ok'"
+          ],
+          "secs": 11.6
+        }
+      ]
+    }
+  }
+}

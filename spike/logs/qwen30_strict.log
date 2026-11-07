@@ -1,0 +1,31 @@
+
+===== qwen/qwen3-coder-30b =====
+-- agent trial 1 (11.7s): ok=True outcome=stopped fixed=True stopped=True steps=5 errors=0
+      list_dir({"path":"."}) -> 'README.md\nsrc\ntests'
+      read_file({"path":"tests/test_calc.py"}) -> 'from src.calc import add, sub\n\n\ndef test'
+      list_dir({"path":"src"}) -> 'calc.py'
+      read_file({"path":"src/calc.py"}) -> 'def add(a, b):\n    return a + b\n\n\ndef su'
+      edit_file({"path":"src/calc.py","old_string":"def add(a, b):\n    retu) -> 'ok'
+      final: I've fixed the bug in the source code. The issue was in `src/calc.py` where the `sub` function was incorrectly implement
+-- agent trial 2 (7.9s): ok=True outcome=stopped fixed=True stopped=True steps=3 errors=0
+      read_file({"path":"tests/test_calc.py"}) -> 'from src.calc import add, sub\n\n\ndef test'
+      read_file({"path":"src/calc.py"}) -> 'def add(a, b):\n    return a + b\n\n\ndef su'
+      edit_file({"path":"src/calc.py","old_string":"def add(a, b):\n    retu) -> 'ok'
+      final: I've fixed the bug in the source code. The issue was in `src/calc.py` where the `sub` function was incorrectly returning
+-- agent trial 3 (8.3s): ok=True outcome=stopped fixed=True stopped=True steps=5 errors=0
+      list_dir({"path":"."}) -> 'README.md\nsrc\ntests'
+      list_dir({"path":"src"}) -> 'calc.py'
+      read_file({"path":"tests/test_calc.py"}) -> 'from src.calc import add, sub\n\n\ndef test'
+      read_file({"path":"src/calc.py"}) -> 'def add(a, b):\n    return a + b\n\n\ndef su'
+      edit_file({"path":"src/calc.py","old_string":"def sub(a, b):\n    retu) -> 'ok'
+      final: The bug was in the `sub` function in `src/calc.py` which was incorrectly returning `a + b` instead of `a - b`. I've fixe
+-- agent trial 4 (9.7s): ok=True outcome=stopped fixed=True stopped=True steps=6 errors=0
+      list_dir({"path":"."}) -> 'README.md\nsrc\ntests'
+      list_dir({"path":"src"}) -> 'calc.py'
+      list_dir({"path":"tests"}) -> 'test_calc.py'
+      read_file({"path":"tests/test_calc.py"}) -> 'from src.calc import add, sub\n\n\ndef test'
+      read_file({"path":"src/calc.py"}) -> 'def add(a, b):\n    return a + b\n\n\ndef su'
+      edit_file({"path":"src/calc.py","old_string":"def add(a, b):\n    retu) -> 'ok'
+      final: I've fixed the bug in the calculator implementation. The issue was in `src/calc.py` where the `sub` function was incorre
+
+wrote spike_results.json

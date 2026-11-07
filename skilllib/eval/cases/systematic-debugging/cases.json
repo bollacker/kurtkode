@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "The checkout page throws TypeError: Cannot read properties of undefined (reading 'id') when the cart has a gift card. Fix it.",
+      "test_invoice_totals fails with a one-cent difference. Find out why and fix it properly.",
+      "Users say the sync job silently skips some records. Figure out what's going on.",
+      "Our Go service panics with a nil pointer dereference in handler.go:88 on some requests. Please debug it.",
+      "I've tried three fixes for this crash in the image decoder and it keeps coming back. Can you take a look?",
+      "The app dies on startup with this traceback: KeyError: 'DATABASE_URL' in settings.py line 12. What's wrong?",
+      "The March report shows the wrong totals but February is fine. Investigate and fix."
+    ],
+    "should_not": [
+      "test_websocket_reconnect fails about one run in five on CI but passes locally.",
+      "It worked at tag v3.1 and it's broken now. Find the commit that broke it.",
+      "The nightly import takes 40 minutes. Make it faster.",
+      "Our GitHub Actions lint step fails after the eslint upgrade. Get CI green.",
+      "Review this diff for bugs before I merge it."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "missing-vat",
+      "fixture": "fixtures/missing-vat",
+      "prompt": "Invoices for EU customers are coming out without VAT: test_eu_customer_gets_vat in tests/test_invoice.py fails. Please fix it. Tests run with `python3 -m unittest`.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Ran the failing test to reproduce before editing code",
+        "Traced the bad region value back to where it is produced (the '\\r' left by store/csvload.py) instead of stopping in invoice.py",
+        "Fixed the shared CSV reader rather than stripping the region in invoice.py, and didn't edit tests or test data to pass",
+        "Checked the fix beyond the one test: a test or run for CRLF input to the reader or another caller, and the full suite",
+        "Report names the root cause with file:line, the fix, and the evidence"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

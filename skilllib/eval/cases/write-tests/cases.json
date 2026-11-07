@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "timeparse/durations.py has no tests at all. Can you add a proper test suite for it?",
+      "Our coverage on the billing module is 30%. Write tests for the parts that matter most.",
+      "I just merged this CSV importer without tests. Please write unit tests for it before we ship.",
+      "The tests for the auth helpers only check the happy path. Make them actually catch bugs.",
+      "Which parts of src/scheduler are untested and risky? Add tests for the worst gaps.",
+      "Add Jest tests for utils/formatDate.ts, it has zero coverage right now.",
+      "Can you write some pytest cases around parse_config so we stop shipping regressions there?"
+    ],
+    "should_not": [
+      "Build a rate limiter for the API, and do it test-first please: red, green, refactor.",
+      "test_upload passes locally but fails about one time in four on CI. Make it reliable.",
+      "Split the 400-line process_order function into smaller pieces without changing what it does.",
+      "I think the fix is done. Can you double-check everything still works before I tell the team?",
+      "What testing framework does this repo use?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "durations",
+      "fixture": "fixtures/durations",
+      "prompt": "timeparse/durations.py has no tests and the job scheduler depends on it. Please add a solid unit test suite in tests/test_durations.py (unittest, standard library only). Don't change durations.py itself.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read the module's documented rules and derived test cases from them, not only from the example in the docstring",
+        "Tested both sides of each boundary (exactly 30 days allowed and one second more rejected, 0, negative) and the error cases",
+        "Checked that the tests can fail (deliberately broke the code, ran a mutation tool, or reasoned per test which bug it catches) and restored the module afterwards",
+        "Ran the new tests and showed them passing; did not modify durations.py",
+        "Final report lists what is covered and any rule left untested"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

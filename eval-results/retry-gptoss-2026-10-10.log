@@ -1,0 +1,204 @@
+kurtkode-eval: 1 models × 1 scenarios × 2 trials
+
+=== proxy:openai/gpt-oss-120b  [history: asIs]
+  [long-doc #1]
+  → glob {
+  "path": "",
+  "pattern": "src/**/*.py"
+}
+  → read_file {
+  "path": "src/part01.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part02.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part03.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part04.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part05.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part06.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part07.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part08.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part09.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part10.py",
+  "limit": 200
+}
+  ⊜ compacted 7884 → 6107 tokens
+  → read_file {
+  "path": "src/part11.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part12.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part13.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part14.py",
+  "limit": 200
+}
+  → grep {
+  "path": "src",
+  "glob": "*.py",
+  "pattern": "^class\\s"
+}
+  → read_file {
+  "path": "src/part11.py",
+  "offset": 45,
+  "limit": 30
+}
+  → read_file {
+  "path": "src/part12.py",
+  "offset": 45,
+  "limit": 30
+}
+  → read_file {
+  "path": "src/part13.py",
+  "offset": 45,
+  "limit": 30
+}
+  ⊜ compacted 7928 → 6256 tokens
+  → read_file {
+  "path": "src/part14.py",
+  "offset": 45,
+  "limit": 30
+}
+  → read_file {
+  "path": "src/part01.py",
+  "offset": 50,
+  "limit": 10
+}
+  → todo_write {
+  "todos": [
+    {"content": "src/part01.py", "status": "completed"},
+    {"content": "s
+  retrying: AkashML lost the reply (311 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: DeepInfra lost the reply (310 tokens generated, nothing delivered). Sending it to another provider.
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part01.py — Walrus11 — The part's main type.\nsr
+  PASS score 1.00 · 100s · 26 steps · 23 calls · 0 errors · 2 compactions · peak 7712 tok · stop completed · min free 75% · 147311+3055 tok · $0.0053
+    - 14/14 correct, 14 listed
+    - compactions: 2
+    - no invented files
+    - read every file
+  [long-doc #2]
+  → list_dir {
+  "path": "src"
+}
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "pending"},
+    {"conten
+  → read_file {
+  "path": "src/part01.py",
+  "limit": 200
+}
+  → list_dir {
+  "path": "."
+}
+  → read_file {
+  "path": "src/part02.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part03.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part04.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part05.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part06.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part07.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part08.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part09.py",
+  "limit": 200
+}
+  ⊜ compacted 7739 → 6305 tokens
+  → read_file {
+  "path": "src/part10.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part11.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part12.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part13.py",
+  "limit": 200
+}
+  ⊜ compacted 7974 → 6459 tokens
+  → read_file {
+  "path": "src/part14.py",
+  "limit": 200
+}
+  retrying: AkashML lost the reply (648 tokens generated, nothing delivered). Sending it to another provider.
+  retrying: DeepInfra lost the reply (795 tokens generated, nothing delivered). Sending it to another provider.
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part01.py — Walrus11 — The part's main type.\nsr
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  PASS score 1.00 · 155s · 22 steps · 19 calls · 0 errors · 2 compactions · peak 7357 tok · stop completed · min free 75% · 115429+4082 tok · $0.0048
+    - 14/14 correct, 14 listed
+    - compactions: 2
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+proxy:openai/gpt-oss-120b                   2/2 1.00 127s         
+
+=== Spend
+  proxy: $0.0099 (key usage)
+  reported with replies: $0.0101 (excludes compaction summaries)
+wrote transcripts to eval-results/retry-gptoss-2026-10-10-transcripts
+
+wrote eval-results/retry-gptoss-2026-10-10.json

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "I think the login fix is finished. Make sure it really works before I tell the team it's done.",
+      "Wrap up the pagination change and confirm everything still passes.",
+      "Before you report back, double-check that the migration change didn't break anything else.",
+      "Are we actually done with the CSV export ticket? Verify it and tell me what you checked.",
+      "You said the bug is fixed. Prove it.",
+      "Finish the slug change and give me a status I can trust: what works, what you couldn't check.",
+      "Last step before the PR: run whatever needs running so we know this change is safe."
+    ],
+    "should_not": [
+      "Review this pull request from Sam for bugs before I merge it.",
+      "CI is red on main because the lint step fails. Get it green.",
+      "Add unit tests for the date helpers, they have none.",
+      "test_cache fails about once in ten runs. Find out why.",
+      "What does make check run in this repo?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "unicode-slugs",
+      "fixture": "fixtures/unicode-slugs",
+      "prompt": "Titles with accents get mangled in our post URLs: 'Café crème' becomes 'caf-cr-me'. Change slugify so it keeps letters and digits from any language (lowercased), so 'Café crème' becomes 'café-crème', and update the tests. When you're done, write a short DONE.md saying what you changed and how you checked it.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Looked for the project's full check (Makefile, CI config) instead of trusting the default test discovery",
+        "Ran the integration tests, saw the print-archive test fail, and fixed the export without weakening that test",
+        "Ran the full check again after the last edit and quoted its result",
+        "DONE.md states what was verified with which command, and anything not verified",
+        "Did not claim done before seeing fresh passing output"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+commit 12328e54486469305f93f57b877e44b9937df7c4
+Author: Tristan Swadell <tswadell@google.com>
+Date:   Wed Jul 15 12:57:54 2026 -0700
+
+    Fix non-determinism in json encoding, add dummy 'infinite' costs (#1365)
+
+diff --git a/ext/encoders.go b/ext/encoders.go
+index 8a60e6f..97fc932 100644
+--- a/ext/encoders.go
++++ b/ext/encoders.go
+@@ -16,6 +16,7 @@ package ext
+ 
+ import (
+ 	"encoding/base64"
++	"encoding/json"
+ 	"fmt"
+ 	"math"
+ 
+@@ -111,6 +112,7 @@ func (lib *encoderLib) CompileOptions() []cel.EnvOption {
+ 		estimators := []checker.CostOption{
+ 			checker.OverloadCostEstimate("base64_decode_string", estimateDecode),
+ 			checker.OverloadCostEstimate("base64_encode_bytes", estimateEncode),
++			checker.OverloadCostEstimate("json_encode_dyn", estimateJSONEncode),
+ 		}
+ 		opts = append(opts, cel.CostEstimatorOptions(estimators...))
+ 		opts = append(opts,
+@@ -130,6 +132,7 @@ func (lib *encoderLib) ProgramOptions() []cel.ProgramOption {
+ 		trackers := []interpreter.CostTrackerOption{
+ 			interpreter.OverloadCostTracker("base64_decode_string", trackDecode),
+ 			interpreter.OverloadCostTracker("base64_encode_bytes", trackEncode),
++			interpreter.OverloadCostTracker("json_encode_dyn", trackJSONEncode),
+ 		}
+ 		opts = append(opts, cel.CostTrackerOptions(trackers...))
+ 	}
+@@ -161,6 +164,14 @@ func estimateEncode(estimator checker.CostEstimator, target *checker.AstNode, ar
+ 	return &checker.CallEstimate{CostEstimate: cost, ResultSize: &resSize}
+ }
+ 
++func estimateJSONEncode(estimator checker.CostEstimator, target *checker.AstNode, args []checker.AstNode) *checker.CallEstimate {
++	if len(args) != 1 {
++		return nil
++	}
++	size := estimateJSONEncodeSize()
++	return &checker.CallEstimate{CostEstimate: checker.UnknownCostEstimate(), ResultSize: &size}
++}
++
+ func estimateDecode(estimator checker.CostEstimator, target *checker.AstNode, args []checker.AstNode) *checker.CallEstimate {
+ 	if len(args) != 1 {
+ 		return nil
+@@ -177,6 +188,11 @@ func trackEncode(args []ref.Val, _ ref.Val) *uint64 {
+ 	return &cost
+ }
+ 
++func trackJSONEncode(args []ref.Val, _ ref.Val) *uint64 {
++	maxCost := uint64(math.MaxUint64)
++	return &maxCost
++}
++
+ func trackDecode(args []ref.Val, _ ref.Val) *uint64 {
+ 	sz := actualSize(args[0])
+ 	cost := uint64(math.Ceil(float64(sz)*stringCostFactor)) + callCost
+@@ -192,6 +208,11 @@ func estimateEncodeSize(sz checker.SizeEstimate) checker.SizeEstimate {
+ 	return checker.SizeEstimate{Min: minVal, Max: maxVal}
+ }
+ 
++func estimateJSONEncodeSize() checker.SizeEstimate {
++	// TODO: provide a more sophisticated size estimate based on the CEL value's type.
++	return checker.UnknownSizeEstimate()
++}
++
+ func estimateDecodeSize(sz checker.SizeEstimate) checker.SizeEstimate {
+ 	minVal := sz.Min * 3 / 4
+ 	maxVal := sz.Max * 3 / 4
+@@ -211,5 +232,14 @@ func jsonEncodeValue(val ref.Val) (string, error) {
+ 	if err != nil {
+ 		return "", err
+ 	}
++	var obj interface{}
++	if err := json.Unmarshal(jsonBytes, &obj); err != nil {
++		return "", fmt.Errorf("unmarshaling protojson: %w", err)
++	}
++	// Re-marshal with standard json.Marshal for deterministic compact output
++	jsonBytes, err = json.Marshal(obj)
++	if err != nil {
++		return "", fmt.Errorf("re-marshaling value: %w", err)
++	}
+ 	return string(jsonBytes), nil
+ }
+diff --git a/ext/encoders_test.go b/ext/encoders_test.go
+index 5370448..dde2200 100644
+--- a/ext/encoders_test.go
++++ b/ext/encoders_test.go
+@@ -16,6 +16,7 @@ package ext
+ 
+ import (
+ 	"fmt"
++	"math"
+ 	"strings"
+ 	"testing"
+ 
+@@ -43,8 +44,8 @@ func TestEncoders(t *testing.T) {
+ 			parseOnly: true,
+ 		},
+ 		{expr: "json.encode('hello') == '\"hello\"'"},
+-		{expr: "json.encode([1, 'two', true]) == '[1,\"two\",true]'"},
+-		{expr: "json.encode({'items': [1, 'two', false]}) == '{\"items\":[1,\"two\",false]}'"},
++		{expr: `json.encode([1, 'two', true]) == '[1,"two",true]'`},
++		{expr: `json.encode({'items': [1, 'two', false]}) == '{"items":[1,"two",false]}'`},
+ 	}
+ 
+ 	env, err := cel.NewEnv(Encoders())
+@@ -70,7 +71,7 @@ func TestEncoders(t *testing.T) {
+ 			for _, ast := range asts {
+ 				prg, err := env.Program(ast)
+ 				if err != nil {
+-					t.Fatal(err)
++					t.Fatalf("env.Program(%s) failed: %v", tc.expr, err)
+ 				}
+ 				out, _, err := prg.Eval(cel.NoVars())
+ 				if tc.err != "" {
+@@ -82,9 +83,9 @@ func TestEncoders(t *testing.T) {
+ 						t.Errorf("got error %v, wanted error %s for expr: %s", err, tc.err, tc.expr)
+ 					}
+ 				} else if err != nil {
+-					t.Fatal(err)
++					t.Fatalf("prg.Eval() failed for expr %q: %v", tc.expr, err)
+ 				} else if out.Value() != true {
+-					t.Errorf("got %v, wanted true for expr: %s", out.Value(), tc.expr)
++					t.Errorf("got %v, wanted true for expr %q", out.Value(), tc.expr)
+ 				}
+ 			}
+ 		})
+@@ -235,6 +236,22 @@ func TestEncodersCosts(t *testing.T) {
+ 			actualCost:    3,
+ 			version:       1,
+ 		},
++		{
++			name: "json_encode_dyn",
++			expr: "json.encode(x) == '\"hello\"'",
++			vars: []cel.EnvOption{
++				cel.Variable("x", cel.DynType),
++			},
++			in: map[string]any{
++				"x": "hello",
++			},
++			hints: map[string]uint64{
++				"x": 100,
++			},
++			estimatedCost: checker.CostEstimate{Min: 2, Max: math.MaxUint64},
++			actualCost:    1,
++			version:       1,
++		},
+ 	}
+ 	for _, tc := range tests {
+ 		t.Run(tc.name, func(t *testing.T) {
+@@ -282,3 +299,41 @@ func TestDecodeNonBase64Error(t *testing.T) {
+ 		t.Fatal("expected eval error for non-base64 string decoding, got nil")
+ 	}
+ }
++
++func TestJSONEncodeCostUnbounded(t *testing.T) {
++	env, err := cel.NewEnv(Encoders(EncodersVersion(1)))
++	if err != nil {
++		t.Fatalf("cel.NewEnv() failed: %v", err)
++	}
++	ast, iss := env.Compile("json.encode('hello')")
++	if iss.Err() != nil {
++		t.Fatalf("env.Compile() failed: %v", iss.Err())
++	}
++
++	// 1. Check Cost Estimate is unbounded: Max is MaxUint64
++	est, err := env.EstimateCost(ast, testCostHintEstimator{})
++	if err != nil {
++		t.Fatalf("env.EstimateCost() failed: %v", err)
++	}
++	wantEst := checker.CostEstimate{Min: 0, Max: math.MaxUint64}
++	if est != wantEst {
++		t.Errorf("env.EstimateCost() got %v, wanted %v", est, wantEst)
++	}
++
++	// 2. Check Actual Cost is math.MaxUint64
++	prg, err := env.Program(ast, cel.CostTracking(nil))
++	if err != nil {
++		t.Fatalf("env.Program() failed: %v", err)
++	}
++	_, det, err := prg.Eval(cel.NoVars())
++	if err != nil {
++		t.Fatalf("prg.Eval() failed: %v", err)
++	}
++	if det.ActualCost() == nil {
++		t.Fatal("det.ActualCost() got nil, wanted a value")
++	}
++	if *det.ActualCost() != math.MaxUint64 {
++		t.Errorf("det.ActualCost() got %d, wanted %d", *det.ActualCost(), uint64(math.MaxUint64))
++	}
++}
++

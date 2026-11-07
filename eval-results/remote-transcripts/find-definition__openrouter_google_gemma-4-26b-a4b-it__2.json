@@ -1,0 +1,114 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:27Z",
+    "id" : "784CC6F9-197A-4E79-9C6E-22A16BCE1812",
+    "meta" : {
+      "duration" : 0.609170333,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.601133375,
+      "usage" : {
+        "completionTokens" : 15,
+        "cost" : 7.99875e-05,
+        "promptTokens" : 1135,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\": \"reserve_stock\"}",
+        "id" : "chatcmpl-tool-8863802ae31fe4f3",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "cli.py:24:         print(store.reserve_stock(args.sku, args.units))\ninventory\/api.py:14:         r = store.reserve_stock(request[\"sku\"], int(request[\"units\"]))\ninventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:\ntests\/test_storage.py:11:         s.reserve_stock(\"A1\", 2)\ntests\/test_storage.py:18:             s.reserve_stock(\"A1\", 2)",
+    "createdAt" : "2026-09-27T14:44:27Z",
+    "id" : "1FB7E3E4-6FD1-445B-85A9-F938E9B96F62",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-8863802ae31fe4f3",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.021153926849365234,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:27Z",
+    "id" : "F773860E-328D-47D6-A6FA-5C7A3E3FC2A2",
+    "meta" : {
+      "duration" : 0.627459125,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.614342125,
+      "usage" : {
+        "completionTokens" : 23,
+        "cost" : 5.8305e-05,
+        "promptTokens" : 1292,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"inventory\/storage.py\"}",
+        "id" : "chatcmpl-tool-a01353e88389555b",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n11\tclass SqliteStore:\n12\t    def __init__(self, path=\":memory:\"):\n13\t        self.db = sqlite3.connect(path)\n14\t        self.db.execute(\"create table if not exists items (sku text primary key, name text, quantity int)\")\n15\t        self.db.execute(\"create table if not exists reservations (id integer primary key, sku text, units int)\")\n16\t\n17\t    def add_item(self, item: Item):\n18\t        self.db.execute(\"insert into items values (?, ?, ?)\", (item.sku, item.name, item.quantity))\n19\t\n20\t    def get_item(self, sku: str) -> Item:\n21\t        row = self.db.execute(\"select sku, name, quantity from items where sku = ?\", (sku,)).fetchone()\n22\t        return Item(*row) if row else None\n23\t\n24\t    def list_items(self):\n25\t        return [Item(*r) for r in self.db.execute(\"select sku, name, quantity from items\")]\n26\t\n27\t    # Reservations hold stock for an order until it ships or is cancelled.\n28\t    # Callers must release() cancelled reservations.\n29\t    # Quantities are whole units.\n30\t\n31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-09-27T14:44:27Z",
+    "id" : "CE28053E-896E-491C-8BE0-75300F44754C",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-a01353e88389555b",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0005040168762207031,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "`reserve_stock` is defined in `inventory\/storage.py:31`.\n\nIf there isn't enough stock (either the item doesn't exist or `item.quantity < units`), it raises an `InsufficientStock` exception:\n\n```python:inventory\/storage.py:34\n            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n```",
+    "createdAt" : "2026-09-27T14:44:29Z",
+    "id" : "D174128D-0506-4797-B7B1-7B8D53E0CCC9",
+    "meta" : {
+      "duration" : 1.603715333,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "stop",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.485215208,
+      "usage" : {
+        "completionTokens" : 96,
+        "cost" : 0.0001155,
+        "promptTokens" : 1960,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

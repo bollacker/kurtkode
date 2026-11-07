@@ -1,0 +1,33 @@
+kurtkode-eval bank: 1 models × 1 tasks × 1 trials; judges: bang:qwen/qwen3.5-9b (grader, parent)
+
+=== bang:qwen/qwen3.5-9b
+  [write-pricing-tests #1]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory"}
+  → read_file {"path":"inventory/pricing.py"}
+  → list_dir {"path":"tests"}
+  → write_file {"path":"tests/test_pricing.py","content":"\"\"\"Unit tests for inventory/pricing.py.\"\"\
+  → bash {"command":"cd /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-write-pricing-test
+  → bash {"command":"python3 -c \"print('price_with_tax(10.0, 15) =', round(10.0 * 15 * (1 - pricin
+  → bash {"command":"cd /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-write-pricing-test
+  → write_file {"path":"tests/test_pricing.py","content":"\"\"\"Unit tests for inventory/pricing.py.\"\"\
+  → bash {"command":"cd /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-write-pricing-test
+  → bash {"command":"cd /var/folders/3q/cv7vtc9n2xgcd8n7bt_8z6k00000z9/T/kk-bank-write-pricing-test
+  judge bang:qwen/qwen3.5-9b (parent): 3/3
+  judge bang:qwen/qwen3.5-9b (grader): no verdict
+  PASS · 114s · 12 steps · 11 calls · stop completed
+    - ✓ tests/test_pricing.py tests both functions
+    - ✓ at least 3 passing pricing tests (13)
+    - ✓ all tests pass
+    - ✓ pricing.py unchanged
+
+=== Gold passes by model and kind
+model                                   write-tests all
+bang:qwen/qwen3.5-9b                    1/1         1/1
+
+=== Judges against gold (agreement · failures caught · passes failed · claimed unchecked checks)
+  checks (hard failure)                               1/1 verdicts · agree 100% · caught – · false alarms 0% · unconfirmed 0
+  bang:qwen/qwen3.5-9b (grader)                       0/1 verdicts · agree – · caught – · false alarms – · unconfirmed 0
+  bang:qwen/qwen3.5-9b (parent)                       1/1 verdicts · agree 100% · caught – · false alarms 0% · unconfirmed 0
+
+wrote eval-results/bank-qwen35-9b-2026-10-24-rerun.json

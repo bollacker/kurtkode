@@ -1,0 +1,56 @@
+kurtkode-eval: 1 models × 1 scenarios × 3 trials
+
+=== proxy:qwen/qwen3-coder-30b  [history: asIs]
+  [long-doc #1]
+  → list_dir {"path":"."}
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"in_progress"},{"content":"Read part0
+  → write_file {"path":"FILES.md","content":"# Package Documentation\n\nThis file contains documentation 
+  → read_file {"path":"src/part01.py"}
+  FAIL score 0.00 · 35s · 9 steps · 5 calls · 0 errors · 0 compactions · peak 3757 tok · stop completed · min free 52% · 26660+971 tok
+    - 0/14 correct, 0 listed
+    - compactions: 0
+    - no invented files
+    - 13 files never read
+  [long-doc #2]
+  → list_dir {"path":"."}
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"in_progress"},{"content":"Document p
+  → write_file {"path":"FILES.md","content":"# Package Files Documentation\n"}
+  → read_file {"path":"src/part01.py"}
+  → edit_file {"path":"FILES.md","old_string":"# Package Files Documentation\n","new_string":"# Package 
+  → read_file {"path":"src/part02.py"}
+  → edit_file {"path":"FILES.md","new_string":"# Package Files Documentation\n\nsrc/part01.py — Walrus11
+  → read_file {"path":"src/part03.py"}
+  FAIL score 0.14 · 48s · 13 steps · 9 calls · 0 errors · 0 compactions · peak 5312 tok · stop completed · min free 52% · 48211+1206 tok
+    - 2/14 correct, 2 listed
+    - compactions: 0
+    - no invented files
+    - 11 files never read
+  [long-doc #3]
+  → list_dir {"path":"."}
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"in_progress"},{"content":"Read part0
+  → write_file {"path":"FILES.md","content":""}
+  → read_file {"path":"src/part01.py"}
+  → edit_file {"path":"FILES.md","old_string":"","new_string":"src/part01.py — Walrus11 — The main class
+  → edit_file {"path":"FILES.md","old_string":"src/part01.py — Walrus11 — The main class for part 1 that
+  → edit_file {"path":"FILES.md","old_string":"","new_string":"src/part01.py — Walrus11 — The main class
+  → write_file {"path":"FILES.md","content":"src/part01.py — Walrus11 — The main class for part 1 that ca
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part02.py"}
+  → write_file {"path":"FILES.md","content":"src/part01.py — Walrus11 — The main class for part 1 that ca
+  → todo_write {"todos":[{"content":"Create FILES.md file","status":"completed"},{"content":"Read part01.
+  → read_file {"path":"src/part03.py"}
+  FAIL score 0.14 · 73s · 19 steps · 14 calls · 3 errors · 0 compactions · peak 6336 tok · stop completed · min free 51% · 79722+2118 tok
+    - 2/14 correct, 2 listed
+    - compactions: 0
+    - no invented files
+    - 11 files never read
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+proxy:qwen/qwen3-coder-30b                  0/3 0.10 52s          
+wrote transcripts to eval-results/nudge-ab-transcripts/v2
+
+wrote eval-results/nudge-ab-v2-2026-09-27.json

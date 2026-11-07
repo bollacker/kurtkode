@@ -1,0 +1,202 @@
+kurtkode-eval: 1 models × 5 scenarios × 2 trials
+
+=== google-gemini:gemini-3-flash-preview  [history: asIs]
+  [explain-repo #1]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory/"}
+  → read_file {"path":"inventory/models.py"}
+  → read_file {"path":"inventory/storage.py"}
+  → read_file {"path":"inventory/pricing.py"}
+  → read_file {"path":"inventory/api.py"}
+  → read_file {"path":"cli.py"}
+  → list_dir {"path":"tests/"}
+  PASS score 1.00 · 13s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3168 tok · stop completed · min free 37% · 18226+1303 tok · $0.0130
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [explain-repo #2]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory/"}
+  → read_file {"path":"inventory/models.py"}
+  → read_file {"path":"inventory/storage.py"}
+  → read_file {"path":"inventory/pricing.py"}
+  → read_file {"path":"inventory/api.py"}
+  → read_file {"path":"cli.py"}
+  → list_dir {"path":"tests/"}
+  PASS score 1.00 · 14s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3094 tok · stop completed · min free 36% · 17981+1488 tok · $0.0135
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [find-definition #1]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"limit":20,"offset":31,"path":"inventory/storage.py"}
+  → read_file {"limit":10,"offset":1,"path":"inventory/storage.py"}
+  PASS score 1.00 · 5s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 1505 tok · stop completed · min free 37% · 5070+469 tok · $0.0039
+    - expected storage.py:31, cited [31]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"path":"inventory/storage.py"}
+  PASS score 1.00 · 3s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1788 tok · stop completed · min free 37% · 3981+282 tok · $0.0028
+    - expected storage.py:31, cited [31, 33, 34]
+    - names InsufficientStock
+  [fix-tests #1]
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  PASS score 1.00 · 15s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3402 tok · stop completed · min free 38% · 29700+889 tok · $0.0175
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  PASS score 1.00 · 14s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3279 tok · stop completed · min free 38% · 28193+992 tok · $0.0171
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b\n","old_string":"def sub(a, b):\n    retur
+  → todo_write {"todos":[{"content":"Create NOTES.md with descriptions of bugs and fixes","status":"in_pr
+  → write_file {"content":"sub: return a - b\nmean: return sum(values) / len(values)\n","path":"NOTES.md"
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Create NOTES.md with descriptions of bugs and fixes","status":"compl
+  PASS score 1.00 · 13s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3374 tok · stop completed · min free 37% · 28653+1020 tok · $0.0174
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b\n","old_string":"def sub(a, b):\n    retur
+  → todo_write {"todos":[{"content":"Create NOTES.md with bug descriptions","status":"in_progress"},{"con
+  → write_file {"content":"sub: use a - b instead of a + b\nmean: divide by len(values) instead of len(va
+  → todo_write {"todos":[{"content":"Create NOTES.md with bug descriptions","status":"completed"},{"conte
+  PASS score 1.00 · 11s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 2982 tok · stop completed · min free 38% · 21532+933 tok · $0.0136
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [long-doc #1]
+  → todo_write {"todos":[{"content":"List Python files under src","status":"in_progress"},{"content":"Rea
+  → glob {"pattern":"src/**/*.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part01.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part02.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part03.py"}
+  → read_file {"path":"src/part04.py"}
+  → read_file {"path":"src/part05.py"}
+  → read_file {"path":"src/part06.py"}
+  ⊜ compacted 8131 → 4282 tokens (summary 2 s, 444 bytes)
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part07.py"}
+  → read_file {"path":"src/part08.py"}
+  → read_file {"path":"src/part09.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part10.py"}
+  ⊜ compacted 7637 → 4592 tokens (summary 1 s, 179 bytes)
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part11.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part12.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part13.py"}
+  ⊜ compacted 7604 → 4966 tokens (summary 3 s, 1962 bytes)
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → read_file {"path":"src/part14.py"}
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  → write_file {"content":"# Project Files\n\n| File | Main Class | Description |\n| :--- | :--- | :--- |
+  ⊜ compacted 7944 → 4794 tokens (summary 3 s, 1536 bytes)
+  → todo_write {"todos":[{"content":"List Python files under src","status":"completed"},{"content":"Read 
+  FAIL score 0.50 · 55s · 29 steps · 28 calls · 0 errors · 4 compactions · peak 7291 tok · stop completed · min free 35% · 141987+6662 tok · $0.0682
+    - 7/14 correct, 14 listed
+    - compactions: 4
+    - no invented files
+    - read every file
+    final: The documentation task is complete. I've analyzed all 14 files in `src/` and created `FILES.md` with a summary of their main classes and purposes. ⏎  ⏎ I've summarized our session. Use this for the next one.
+  [long-doc #2]
+  → list_dir {"path":"."}
+  → glob {"pattern":"src/**/*.py"}
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"pending"},{"content":"
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"in_progress"},{"conten
+  → read_file {"path":"src/part01.py"}
+  → write_file {"content":"src/part01.py — Walrus11 — A class that calculates weight based on its size us
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part02.py"}
+  → edit_file {"new_string":"src/part01.py — Walrus11 — A class that calculates weight based on its size
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part03.py"}
+  → edit_file {"new_string":"src/part02.py — Nettle64 — A class that computes weight based on its size u
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part04.py"}
+  ⊜ compacted 7397 → 4974 tokens (summary 3 s, 1445 bytes)
+  → edit_file {"new_string":"src/part03.py — Ibis52 — A class that determines weight based on size using
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part05.py"}
+  → edit_file {"new_string":"src/part04.py — Walrus78 — A class that computes its weight using a module-
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part06.py"}
+  → edit_file {"new_string":"src/part05.py — Walrus84 — A class that calculates weight for its given siz
+  ⊜ compacted 7874 → 4729 tokens (summary 4 s, 1411 bytes)
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part07.py"}
+  → edit_file {"new_string":"src/part06.py — Vole26 — A class that computes weight based on its size and
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part08.py"}
+  → edit_file {"new_string":"src/part07.py — Yarrow65 — A class that calculates weight based on its size
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  ⊜ compacted 7532 → 5012 tokens (summary 4 s, 1577 bytes)
+  → read_file {"path":"src/part09.py"}
+  → edit_file {"new_string":"src/part08.py — Quokka30 — A class that computes weight based on size using
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part10.py"}
+  → edit_file {"new_string":"src/part09.py — Cobalt91 — A class that determines weight based on its size
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  ⊜ compacted 7622 → 4959 tokens (summary 3 s, 2365 bytes)
+  → read_file {"path":"src/part11.py"}
+  → edit_file {"new_string":"src/part10.py — Zircon28 — A class that computes weight based on its size a
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part12.py"}
+  → edit_file {"new_string":"src/part11.py — Quillwort41 — A class that determines weight by aggregating
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  ⊜ compacted 7540 → 4719 tokens (summary 3 s, 1674 bytes)
+  → read_file {"path":"src/part13.py"}
+  → edit_file {"new_string":"src/part12.py — Russet29 — A class that computes weight from its size using
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  → read_file {"path":"src/part14.py"}
+  → edit_file {"new_string":"src/part13.py — Lichen55 — A class that calculates weight based on its size
+  → todo_write {"todos":[{"content":"Document src/part01.py in FILES.md","status":"completed"},{"content"
+  ⊜ compacted 7438 → 4677 tokens (summary 2 s, 1370 bytes)
+  → read_file {"path":"FILES.md"}
+  PASS score 1.00 · 92s · 48 steps · 47 calls · 0 errors · 6 compactions · peak 7276 tok · stop completed · min free 37% · 251750+9332 tok · $0.1115
+    - 14/14 correct, 14 listed
+    - compactions: 6
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          find-definition       fix-tests             deny-feedback         long-doc              
+google-gemini:gemini-3-flash-preview        2/2 1.00 13s          2/2 1.00 4s           2/2 1.00 15s          2/2 1.00 12s          1/2 0.75 73s          
+
+=== Spend
+  reported with replies: $0.2785 (excludes compaction summaries)
+wrote transcripts to eval-results/s8-gemini-lean-transcripts
+
+wrote eval-results/s8-gemini-lean.json

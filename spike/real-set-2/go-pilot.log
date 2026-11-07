@@ -1,0 +1,66 @@
+key usage at start: Openrouter $2712.3188
+kurtkode-eval record: 1 models × 11 tasks × 1 trials into /Users/me/git/kurtkode/eval-results/runs/real4
+  openrouter:anthropic/claude-haiku-5.5: 11 runs to record
+  [openrouter:anthropic/claude-haiku-5.5 1/11, 1 passed] cel02 #1: PASS 127s 20 steps $0.0172
+  [openrouter:anthropic/claude-haiku-5.5 2/11, 2 passed] cel01 #1: PASS 149s 23 steps $0.0258
+  [openrouter:anthropic/claude-haiku-5.5 3/11, 3 passed] cel04 #1: PASS 77s 14 steps $0.0106
+  [openrouter:anthropic/claude-haiku-5.5 4/11, 4 passed] cel03 #1: PASS 171s 22 steps $0.0282
+  [openrouter:anthropic/claude-haiku-5.5 5/11, 5 passed] cel05 #1: PASS 251s 16 steps $0.0308
+  [openrouter:anthropic/claude-haiku-5.5 6/11, 6 passed] opa01 #1: PASS 170s 18 steps $0.0198
+  [openrouter:anthropic/claude-haiku-5.5 7/11, 7 passed] opa02 #1: PASS 81s 16 steps $0.0111
+  [openrouter:anthropic/claude-haiku-5.5 8/11, 8 passed] opa04 #1: PASS 209s 22 steps $0.0277
+  [openrouter:anthropic/claude-haiku-5.5 9/11, 9 passed] opa03 #1: PASS 356s 23 steps $0.0417
+  [openrouter:anthropic/claude-haiku-5.5 10/11, 10 passed] opa05 #1: PASS 122s 25 steps $0.0168
+  [openrouter:anthropic/claude-haiku-5.5 11/11, 10 passed] opa06 #1: FAIL 391s 60 steps $0.0744
+
+Runs: 11 recorded, 0 degraded copies; 0 judgments.
+
+### Cheapest above the floor
+
+Configurations whose 95% Wilson lower bound on success clears the floor, cheapest per run first (list price; local models are timed, not priced, and are listed after).
+
+**80%**: none priced
+
+**90%**: none priced
+
+**95%**: none priced
+
+### Subagent models (real runs, all trials)
+
+| model | pass rate (95% CI) | mean s | mean steps | mean tokens in/out | list $ per run | $ per success |
+|---|---|---|---|---|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 91% (62–98%) 10/11 | 191 | 23.5 | 799736/30916 | 0.0277 | 0.0304 |
+
+Passes by kind:
+
+| model | edit | fix |
+|---|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 1/1 | 9/10 |
+
+### Judges against gold
+
+A verdict of 0–1 is "fail", 2–3 "pass". Failures are real failed runs and degraded copies.
+
+All runs each judge rated:
+
+| judge (path) | runs | no verdict | agreement | kappa | failures caught (95% CI) | passes failed (95% CI) | claimed unchecked | list $ |
+|---|---|---|---|---|---|---|---|---|
+
+### Grounded checks, and judges combined with them
+
+|  | failures caught (95% CI) | passes failed (95% CI) |
+|---|---|---|
+| checks at the run's end | – | – |
+| checks and the re-run check | – | – |
+
+### Failures caught, by kind of failure
+
+| failure | grounded |
+|---|---|
+
+### Judging its own model's runs, and others'
+
+| judge (path) | own runs: agreement | own runs: failures caught | others' runs: agreement | others' runs: failures caught |
+|---|---|---|---|---|
+
+exit 0

@@ -1,0 +1,151 @@
+diff --git a/sqlglot/expressions/properties.py b/sqlglot/expressions/properties.py
+index 4a03ddc..bfbd4a5 100644
+--- a/sqlglot/expressions/properties.py
++++ b/sqlglot/expressions/properties.py
+@@ -395,6 +395,10 @@ class PartitionedOfProperty(Property):
+     arg_types = {"this": True, "expression": True}
+ 
+ 
++class PhysicalProperty(Property):
++    arg_types = {"this": True, "value": False}
++
++
+ class StreamingTableProperty(Property):
+     arg_types = {}
+ 
+@@ -502,6 +506,10 @@ class StorageHandlerProperty(Property):
+     arg_types = {"this": True}
+ 
+ 
++class StorageProperty(Property):
++    arg_types = {"expressions": True}
++
++
+ class UsingProperty(Property):
+     # kind: JAR, FILE, or ARCHIVE; this: the resource path (string literal)
+     arg_types = {"this": True, "kind": True}
+diff --git a/sqlglot/generator.py b/sqlglot/generator.py
+index 49048f5..2c43d8f 100644
+--- a/sqlglot/generator.py
++++ b/sqlglot/generator.py
+@@ -774,6 +774,7 @@ class Generator:
+         exp.OutputModelProperty: exp.Properties.Location.POST_SCHEMA,
+         exp.PartitionedByProperty: exp.Properties.Location.POST_WITH,
+         exp.PartitionedOfProperty: exp.Properties.Location.POST_SCHEMA,
++        exp.PhysicalProperty: exp.Properties.Location.UNSUPPORTED,
+         exp.PrimaryKey: exp.Properties.Location.POST_SCHEMA,
+         exp.Property: exp.Properties.Location.POST_WITH,
+         exp.RefreshTriggerProperty: exp.Properties.Location.POST_SCHEMA,
+@@ -801,6 +802,7 @@ class Generator:
+         exp.SqlSecurityProperty: exp.Properties.Location.POST_SCHEMA,
+         exp.StabilityProperty: exp.Properties.Location.POST_SCHEMA,
+         exp.StorageHandlerProperty: exp.Properties.Location.POST_SCHEMA,
++        exp.StorageProperty: exp.Properties.Location.UNSUPPORTED,
+         exp.StreamingTableProperty: exp.Properties.Location.POST_CREATE,
+         exp.StrictProperty: exp.Properties.Location.POST_SCHEMA,
+         exp.Tags: exp.Properties.Location.POST_WITH,
+diff --git a/sqlglot/generators/oracle.py b/sqlglot/generators/oracle.py
+index 78d49f5..ee0953d 100644
+--- a/sqlglot/generators/oracle.py
++++ b/sqlglot/generators/oracle.py
+@@ -113,8 +113,17 @@ class OracleGenerator(generator.Generator):
+         **generator.Generator.PROPERTIES_LOCATION,
+         exp.VolatileProperty: exp.Properties.Location.UNSUPPORTED,
+         exp.TableSpaceProperty: exp.Properties.Location.POST_SCHEMA,
++        exp.PhysicalProperty: exp.Properties.Location.POST_SCHEMA,
++        exp.StorageProperty: exp.Properties.Location.POST_SCHEMA,
+     }
+ 
++    def physicalproperty_sql(self, expression: exp.PhysicalProperty) -> str:
++        value = self.sql(expression, "value")
++        return f"{expression.name}{f' {value}' if value else ''}"
++
++    def storageproperty_sql(self, expression: exp.StorageProperty) -> str:
++        return f"STORAGE ({self.expressions(expression, sep=' ', flat=True)})"
++
+     def currenttimestamp_sql(self, expression: exp.CurrentTimestamp) -> str:
+         if expression.args.get("sysdate"):
+             return "SYSDATE"
+diff --git a/sqlglot/parsers/oracle.py b/sqlglot/parsers/oracle.py
+index 9e9577a..d2c6363 100644
+--- a/sqlglot/parsers/oracle.py
++++ b/sqlglot/parsers/oracle.py
+@@ -83,6 +83,29 @@ class OracleParser(parser.Parser):
+         "TABLESPACE": lambda self: self.expression(
+             exp.TableSpaceProperty(this=self._parse_id_var())
+         ),
++        **dict.fromkeys(
++            ("PCTFREE", "PCTUSED", "INITRANS", "MAXTRANS"),
++            lambda self: self._parse_physical_property(),
++        ),
++        **dict.fromkeys(
++            ("LOGGING", "NOLOGGING"),
++            lambda self: self.expression(exp.PhysicalProperty(this=self._prev.text.upper())),
++        ),
++        "STORAGE": lambda self: self._parse_storage(),
++    }
++
++    STORAGE_OPTIONS = {
++        "INITIAL",
++        "NEXT",
++        "MINEXTENTS",
++        "MAXEXTENTS",
++        "MAXSIZE",
++        "PCTINCREASE",
++        "FREELISTS",
++        "FREELIST",
++        "BUFFER_POOL",
++        "FLASH_CACHE",
++        "CELL_FLASH_CACHE",
+     }
+ 
+     QUERY_MODIFIER_PARSERS = {
+@@ -113,6 +136,48 @@ class OracleParser(parser.Parser):
+         ),
+     }
+ 
++    def _parse_physical_property(self) -> exp.PhysicalProperty:
++        name = self._prev.text.upper()
++        value = self._parse_number()
++        if value is None:
++            self.raise_error(f"Expected value for {name}")
++        return self.expression(exp.PhysicalProperty(this=name, value=value))
++
++    def _parse_storage(self) -> exp.StorageProperty:
++        def parse_options() -> list[exp.Expr]:
++            options: list[exp.Expr] = []
++            while self._match_texts(self.STORAGE_OPTIONS):
++                name = self._prev.text.upper()
++                if name == "FREELIST":
++                    if not self._match_text_seq("GROUPS"):
++                        self.raise_error("Expected GROUPS after FREELIST")
++                    name = "FREELIST GROUPS"
++
++                if name in ("BUFFER_POOL", "FLASH_CACHE", "CELL_FLASH_CACHE"):
++                    value: exp.Expr | None = self._parse_var_from_options(
++                        {
++                            "KEEP": (),
++                            "DEFAULT": (),
++                            "RECYCLE" if name == "BUFFER_POOL" else "NONE": (),
++                        }
++                    )
++                elif name in ("MAXEXTENTS", "MAXSIZE") and self._match_text_seq("UNLIMITED"):
++                    value = exp.var("UNLIMITED")
++                else:
++                    value = self._parse_number()
++                    if (
++                        value is not None
++                        and name in ("INITIAL", "NEXT", "MAXSIZE")
++                        and self._match_texts(("K", "M", "G", "T", "P", "E"))
++                    ):
++                        value = exp.var(f"{value.name}{self._prev.text.upper()}")
++                if value is None:
++                    self.raise_error(f"Expected value for {name}")
++                options.append(self.expression(exp.PhysicalProperty(this=name, value=value)))
++            return options
++
++        return self.expression(exp.StorageProperty(expressions=self._parse_wrapped(parse_options)))
++
+     def _parse_to_number(self) -> exp.ToNumber:
+         # https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/TO_NUMBER.html
+         this = self._parse_bitwise()

@@ -1,0 +1,96 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-25T04:11:10Z",
+    "id" : "A25720C3-6043-470A-A734-3D34E3CFBE5B",
+    "meta" : {
+      "duration" : 4.67769725,
+      "endpointID" : "00000000-0000-0000-0000-00000000C0DE",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-qat",
+      "requestIDs" : [
+        "chatcmpl-vg10smxzsaphtohzoz78rm"
+      ],
+      "requestedModel" : "google\/gemma-4-26b-a4b-qat",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 3.67367175,
+      "usage" : {
+        "completionTokens" : 51,
+        "promptTokens" : 2196,
+        "reasoningTokens" : 33
+      },
+      "usageRaw" : {
+        "completion_tokens" : 51,
+        "completion_tokens_details" : {
+          "reasoning_tokens" : 33
+        },
+        "prompt_tokens" : 2196,
+        "total_tokens" : 2247
+      }
+    },
+    "reasoning" : "\nI need to find the value of `TAX_RATE` in the project. I'll start by searching for `TAX_RATE` using `grep`.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"TAX_RATE\"}",
+        "id" : "444113764",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "inventory\/pricing.py:3: TAX_RATE = 0.0825\ninventory\/pricing.py:16:     return round(subtotal * (1 + TAX_RATE), 2)",
+    "createdAt" : "2026-10-25T04:11:10Z",
+    "id" : "85E7CEDC-0503-40ED-B391-66E6D11E4301",
+    "role" : "tool",
+    "toolCallID" : "444113764",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.01637399196624756,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "The value of `TAX_RATE` is `0.0825`, as defined in `inventory\/pricing.py:3`.",
+    "createdAt" : "2026-10-25T04:11:13Z",
+    "id" : "F8A260CE-1BE2-4E8D-B444-EDAFF76315A6",
+    "meta" : {
+      "duration" : 2.86220825,
+      "endpointID" : "00000000-0000-0000-0000-00000000C0DE",
+      "finishReason" : "stop",
+      "reportedModel" : "google\/gemma-4-26b-a4b-qat",
+      "requestIDs" : [
+        "chatcmpl-coax8uamm8sl2mjfvzfqxm"
+      ],
+      "requestedModel" : "google\/gemma-4-26b-a4b-qat",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.902608958,
+      "usage" : {
+        "completionTokens" : 103,
+        "promptTokens" : 2267,
+        "reasoningTokens" : 70
+      },
+      "usageRaw" : {
+        "completion_tokens" : 103,
+        "completion_tokens_details" : {
+          "reasoning_tokens" : 70
+        },
+        "prompt_tokens" : 2267,
+        "total_tokens" : 2370
+      }
+    },
+    "reasoning" : "\nI found `TAX_RATE` defined in `inventory\/pricing.py` at line 3.\nThe value is `0.0825`.\n\nI'll double check the file just to be sure I'm not missing anything else, but `grep` showed the definition.\n\nI'll confirm the value.",
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

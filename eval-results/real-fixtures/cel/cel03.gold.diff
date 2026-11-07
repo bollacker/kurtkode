@@ -1,0 +1,166 @@
+diff --git a/cel/env.go b/cel/env.go
+index 7139e41..b226e2a 100644
+--- a/cel/env.go
++++ b/cel/env.go
+@@ -48,6 +48,10 @@ type Source = common.Source
+ type Ast struct {
+ 	source Source
+ 	impl   *celast.AST
++	// loadErr captures an error detected while loading the AST (e.g. an over-deep AST ingested via
++	// ParsedExprToAst / CheckedExprToAst) so it can be surfaced when the Ast is checked or planned
++	// instead of recursing into the checker or planner on adversarially deep input.
++	loadErr error
+ }
+ 
+ // NativeRep converts the AST to a Go-native representation.
+@@ -395,6 +399,13 @@ func NewCustomEnv(opts ...EnvOption) (*Env, error) {
+ // It is possible to have both non-nil Ast and Issues values returned from this call: however,
+ // the mere presence of an Ast does not imply that it is valid for use.
+ func (e *Env) Check(ast *Ast) (*Ast, *Issues) {
++	// Surface any error recorded while the Ast was loaded (e.g. an over-deep AST rejected by
++	// ParsedExprToAst / CheckedExprToAst) before recursing into the type checker on it.
++	if ast != nil && ast.loadErr != nil {
++		errs := common.NewErrors(ast.Source())
++		errs.ReportErrorString(common.NoLocation, ast.loadErr.Error())
++		return nil, NewIssuesWithSourceInfo(errs, ast.NativeRep().SourceInfo())
++	}
+ 	// Construct the internal checker env, erroring if there is an issue adding the declarations.
+ 	chk, err := e.initChecker()
+ 	if err != nil {
+@@ -687,6 +698,12 @@ func (e *Env) ParseSource(src Source) (*Ast, *Issues) {
+ 
+ // Program generates an evaluable instance of the Ast within the environment (Env).
+ func (e *Env) Program(ast *Ast, opts ...ProgramOption) (Program, error) {
++	// Surface any error recorded while the Ast was loaded (e.g. an over-deep AST rejected by
++	// ParsedExprToAst / CheckedExprToAst) rather than recursing into the planner on it. This is a
++	// cheap field read; the depth traversal itself runs once at conversion time, not here.
++	if ast != nil && ast.loadErr != nil {
++		return nil, ast.loadErr
++	}
+ 	return e.PlanProgram(ast.NativeRep(), opts...)
+ }
+ 
+diff --git a/cel/io.go b/cel/io.go
+index 2e61122..c991c95 100644
+--- a/cel/io.go
++++ b/cel/io.go
+@@ -52,7 +52,12 @@ func CheckedExprToAstWithSource(checkedExpr *exprpb.CheckedExpr, src Source) (*A
+ 	if err != nil {
+ 		return nil, err
+ 	}
+-	return &Ast{source: src, impl: checked}, nil
++	out := &Ast{source: src, impl: checked}
++	if err := checkLoadedASTDepth(checked); err != nil {
++		out.loadErr = err
++		return out, err
++	}
++	return out, nil
+ }
+ 
+ // AstToCheckedExpr converts an Ast to an protobuf CheckedExpr value.
+@@ -83,7 +88,26 @@ func ParsedExprToAstWithSource(parsedExpr *exprpb.ParsedExpr, src Source) *Ast {
+ 		src = common.NewInfoSource(parsedExpr.GetSourceInfo())
+ 	}
+ 	e, _ := ast.ProtoToExpr(parsedExpr.GetExpr())
+-	return &Ast{source: src, impl: ast.NewAST(e, info)}
++	out := &Ast{source: src, impl: ast.NewAST(e, info)}
++	// ParsedExprToAstWithSource has no error return, so record an over-depth violation on the Ast
++	// to be surfaced when it is later checked or planned.
++	out.loadErr = checkLoadedASTDepth(out.impl)
++	return out
++}
++
++// checkLoadedASTDepth guards ASTs that enter through the proto conversion helpers
++// (ParsedExprToAst / CheckedExprToAst) against nesting deeper than the parser's recursion limit.
++// Those entry points bypass the parser, so without this check a deeply nested loaded AST could
++// exhaust the Go stack during later checking or planning. It returns a normal error rather than
++// risking that overflow; the traversal itself is bounded so it stays safe on the same input.
++//
++// Embedders that fully control their AST inputs can skip this by building the AST through the
++// common/ast package directly instead of these conversion helpers.
++func checkLoadedASTDepth(a *ast.AST) error {
++	if ast.ExceedsDepth(a, defaultMaxASTDepth) {
++		return fmt.Errorf("input exceeds maximum expression nesting depth: %d", defaultMaxASTDepth)
++	}
++	return nil
+ }
+ 
+ // AstToParsedExpr converts an Ast to an protobuf ParsedExpr value.
+diff --git a/cel/options.go b/cel/options.go
+index 86a98d3..054008d 100644
+--- a/cel/options.go
++++ b/cel/options.go
+@@ -109,12 +109,20 @@ const (
+ 	limitCodePointSize
+ 	// The number of attempts to recover from a parse error.
+ 	limitParseErrorRecovery
++	// The maximum nesting depth permitted for ASTs loaded outside the parser.
++	limitMaxASTDepth
+ )
+ 
++// defaultMaxASTDepth mirrors the parser's default maxRecursionDepth (250) and
++// is applied to ASTs that enter through non-parser ingestion paths (e.g. via
++// ParsedExprToAst / CheckedExprToAst) when no explicit limit is configured.
++const defaultMaxASTDepth = 250
++
+ var limitIDsToNames = map[limitID]string{
+ 	limitCodePointSize:       "cel.limit.expression_code_points",
+ 	limitParseErrorRecovery:  "cel.limit.parse_error_recovery",
+ 	limitParseRecursionDepth: "cel.limit.parse_recursion_depth",
++	limitMaxASTDepth:         "cel.limit.max_ast_depth",
+ }
+ 
+ func limitNameByID(id limitID) (string, bool) {
+@@ -950,6 +958,18 @@ func ParserExpressionSizeLimit(limit int) EnvOption {
+ 	return setLimit(limitCodePointSize, limit)
+ }
+ 
++// ExpressionNestingDepthLimit records the maximum nesting depth permitted for ASTs in the
++// environment configuration so that the value round-trips through env.Config export/import.
++//
++// ASTs loaded outside the parser (e.g. via ParsedExprToAst / CheckedExprToAst) bypass the
++// parser's recursion limit, so those conversion paths validate nesting depth against the
++// parser-matching default (250) to avoid a Go stack overflow during later checking or planning.
++// Embedders that fully control their AST inputs and want to skip the check can construct the AST
++// through the common/ast package directly rather than the cel conversion helpers.
++func ExpressionNestingDepthLimit(limit int) EnvOption {
++	return setLimit(limitMaxASTDepth, limit)
++}
++
+ // EnableHiddenAccumulatorName sets the parser to use the identifier '@result' for accumulators
+ // which is not normally accessible from CEL source.
+ func EnableHiddenAccumulatorName(enabled bool) EnvOption {
+diff --git a/common/ast/navigable.go b/common/ast/navigable.go
+index 13e5777..364edfa 100644
+--- a/common/ast/navigable.go
++++ b/common/ast/navigable.go
+@@ -181,6 +181,29 @@ func PreOrderVisit(expr Expr, visitor Visitor) {
+ 	visit(expr, visitor, preOrder, 0, 0)
+ }
+ 
++// ExceedsDepth determines whether the AST contains expressions nested deeper than the specified
++// maxDepth. The root expression has depth 0, so a maxDepth of 250 permits expressions nested up
++// to and including 250 levels deep.
++//
++// The traversal is bounded: it descends at most maxDepth+1 levels, so it remains safe to call on
++// adversarially deep inputs that could otherwise exhaust the Go stack during later checking or
++// planning. A non-positive maxDepth disables the check and returns false.
++func ExceedsDepth(a *AST, maxDepth int) bool {
++	if a == nil || maxDepth <= 0 {
++		return false
++	}
++	exceedsDepth := false
++	visitor := NewExprVisitor(func(e Expr) {
++		if nav, ok := e.(NavigableExpr); ok && nav.Depth() >= maxDepth {
++			exceedsDepth = true
++		}
++	})
++	// Bound the walk to maxDepth+1 levels so it never recurses past the first level that exceeds
++	// the limit, keeping the check itself safe on the deep inputs it guards against.
++	visit(NavigateAST(a), visitor, postOrder, 0, maxDepth+1)
++	return exceedsDepth
++}
++
+ type visitOrder int
+ 
+ const (

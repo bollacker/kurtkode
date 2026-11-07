@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "The /search endpoint takes about 4 seconds per request. Make it faster.",
+      "Our nightly import job's runtime doubled as the data grew. Find out where the time goes and fix it.",
+      "Memory in the worker process keeps growing until it gets OOM-killed after a few hours.",
+      "Profile this script and tell me what's slow.",
+      "CPU sits at 100% while the dashboard loads large accounts. Speed it up without changing the results.",
+      "Add a benchmark to CI so we notice if parse() gets slower again.",
+      "The Rust rewrite of our CLI is slower than the old Python version on big files. Why?"
+    ],
+    "should_not": [
+      "Benchmark throughput dropped between tag v5.4 and HEAD. Find the commit that caused it.",
+      "The app hangs forever when two import jobs run at the same time.",
+      "test_cache fails randomly when the tests run in parallel.",
+      "Rename fetchAll to fetchAllOrders across the codebase.",
+      "What does the --workers flag of our server do?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "slow-summary",
+      "fixture": "fixtures/slow-summary",
+      "prompt": "The nightly logsum job (`python3 -m logsum access.log`) has become really slow now that we have a lot more users; big logs take most of an hour. I'm pretty sure it's the regex in logsum/parse.py being recompiled for every line. Please make it faster. The summary output must stay exactly the same.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Measured the runtime on a big realistic log (e.g. from tools/make_log.py) before changing code",
+        "Profiled (cProfile or equivalent) instead of acting on the user's guess about the regex",
+        "Fixed the real hot spot (the list lookup in UserIndex) while keeping pseudonyms in first-appearance order",
+        "Compared output before and after on the same input and re-measured the speedup after the change",
+        "Report gives before/after timings and the profile evidence, and says the regex was not the bottleneck"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Two order workers sometimes both get the last item in stock. Make reservations safe under concurrency.",
+      "Our job runner hangs forever every few days; a thread dump shows two threads each waiting on a lock the other holds.",
+      "The hit counter is lower than the number of requests when we run with 8 threads. Why?",
+      "This async function sometimes returns before the database write finishes. Fix the missing await problems in this module.",
+      "Is this cache safe to use from multiple goroutines? go test -race reports a data race in cache.go.",
+      "Parallelize the thumbnail generation with a thread pool without breaking the shared progress counter.",
+      "Our Node service double-charges when a user clicks Pay twice quickly; both requests read the order as unpaid."
+    ],
+    "should_not": [
+      "test_worker_pool fails one CI run in ten; I think it's a timing issue in the test. Make the test reliable.",
+      "The batch job takes six hours single-threaded. Profile it and make it faster.",
+      "It worked in v1.4 and the deadlock started after we upgraded. Which commit introduced it?",
+      "The import script silently skips rows it can't parse. Make it report them instead.",
+      "Explain what Python's GIL is."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "oversell",
+      "fixture": "fixtures/oversell",
+      "prompt": "Under load our order workers sometimes both reserve the last unit of an item, and the warehouse stock levels drift away from what the deliveries and orders add up to. The workers call depot.stock from several threads at once (reserve, restock and transfer between warehouses). Please make the stock operations safe to call concurrently. Tests: python3 -m unittest.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Reproduced the race with a concurrent test (threads hammering reserve/restock, ideally with a widened window) before fixing",
+        "Made each check-then-act (read stock, decide, write) atomic under one lock, not only the write",
+        "Handled transfer without deadlock risk (one lock, or two locks always taken in a fixed order)",
+        "Did not rely on sleeps, retries or timing to make the race rarer",
+        "Showed the concurrent test passing repeatedly after the fix and the existing tests still passing"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

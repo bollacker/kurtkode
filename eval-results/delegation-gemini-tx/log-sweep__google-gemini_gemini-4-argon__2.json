@@ -1,0 +1,148 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:01:47Z",
+    "id" : "A89BEA56-F84E-493A-BCEF-65FC2980FEA7",
+    "meta" : {
+      "duration" : 1.840897375,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "2TjdatiQH5nkz7IP0q26gQo"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.810584084,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 26,
+        "cost" : 0.0022819999999999997,
+        "costIsEstimate" : true,
+        "promptTokens" : 1011,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 26,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 26
+          }
+        ],
+        "promptTokenCount" : 1011,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 1011
+          }
+        ],
+        "totalTokenCount" : 1037
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "path" : "logs",
+              "pattern" : "ERROR"
+            },
+            "id" : "call_790773",
+            "name" : "grep"
+          },
+          "thoughtSignature" : "ElkKVwFpFH0T\/xSuPCrvQhL6BTuBDfFMVzv93TrnGYvsDSijjRgL\/0W5NlSZNxs9Q3Vkj6XrrfSsfwUrNr3ceKaoUkrvgcCjCSGlIrgKFfabq83OM3bxNopmIA=="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\":\"logs\",\"pattern\":\"ERROR\"}",
+        "id" : "call_790773",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "logs\/service-1.log:50: 2026-04-01 01:08:59 ERROR worker.1: request timeout after 30 s\nlogs\/service-1.log:139: 2026-04-01 01:25:18 ERROR worker.1: request timeout after 30 s\nlogs\/service-1.log:228: 2026-04-01 01:41:37 ERROR worker.1: request timeout after 30 s\nlogs\/service-2.log:10: 2026-04-02 02:01:39 ERROR worker.2: request timeout after 30 s\nlogs\/service-2.log:99: 2026-04-02 02:17:58 ERROR worker.2: request timeout after 30 s\nlogs\/service-2.log:188: 2026-04-02 02:34:17 ERROR worker.2: request timeout after 30 s\nlogs\/service-2.log:277: 2026-04-02 02:50:36 ERROR worker.2: request timeout after 30 s\nlogs\/service-3.log:59: 2026-04-03 03:10:38 ERROR worker.3: disk quota exceeded on \/data\nlogs\/service-3.log:148: 2026-04-03 03:26:57 ERROR worker.3: disk quota exceeded on \/data\nlogs\/service-3.log:237: 2026-04-03 03:43:16 ERROR worker.3: disk quota exceeded on \/data\nlogs\/service-4.log:19: 2026-04-04 04:03:18 ERROR worker.4: disk quota exceeded on \/data\nlogs\/service-4.log:108: 2026-04-04 04:19:37 ERROR worker.4: connection refused by db-3\nlogs\/service-4.log:197: 2026-04-04 04:35:56 ERROR worker.4: connection refused by db-0\nlogs\/service-4.log:286: 2026-04-04 04:52:15 ERROR worker.4: connection refused by db-0\nlogs\/service-5.log:68: 2026-04-05 05:12:17 ERROR worker.5: connection refused by db-0\nlogs\/service-5.log:157: 2026-04-05 05:28:36 ERROR worker.5: connection refused by db-1",
+    "createdAt" : "2026-10-24T23:01:47Z",
+    "id" : "AB19EA32-4705-404E-9D4C-6DB8F7EA4015",
+    "role" : "tool",
+    "toolCallID" : "call_790773",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.01803898811340332,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "- `request timeout after 30 s`: **7**\n- `connection refused by db-*`: **5** (`db-0`: 3, `db-1`: 1, `db-3`: 1)\n- `disk quota exceeded on \/data`: **4**\n\n**Total ERRORs: 16**",
+    "createdAt" : "2026-10-24T23:01:49Z",
+    "id" : "8F6ADDD7-BF40-4200-A067-227101AC0BDB",
+    "meta" : {
+      "duration" : 2.258069292,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "2zjdavWNGOnQz7IP1Mzn2AI"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.7076134170000001,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 76,
+        "cost" : 0.004272,
+        "costIsEstimate" : true,
+        "promptTokens" : 1756,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 76,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 76
+          }
+        ],
+        "promptTokenCount" : 1756,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 1756
+          }
+        ],
+        "totalTokenCount" : 1832
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "- `request timeout after 30 s`: **7**\n- `connection refused by db-*`: **5** (`db-0`: 3, `db-1`: 1, `db-3`: 1)\n- `disk quota exceeded on \/data`: **4**\n\n**Total ERRORs: 16**",
+          "thoughtSignature" : "ElkKVwFpFH0Ttno0UrAENdXa\/anx3KsepJwxQQn9BPhlbBAfEgSenbfI8y\/yEHwptsWa72X8gfrFLDFO1kX1zOUyiof3LqVLKMSmEPPLMWq+DUBJ\/mz6PGd+xw=="
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

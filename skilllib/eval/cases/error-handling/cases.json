@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "The importer catches every exception and just returns an empty list, so we never find out when a file is bad. Fix the error handling.",
+      "Add input validation to the signup API: reject bad emails and too-long names with clear 400 errors.",
+      "Our payment client returns None when the provider times out and callers treat that as success. Make failures explicit.",
+      "Prod started with default settings because the config had a typo, and nothing logged an error. Make it fail loudly.",
+      "Review this module's try/except blocks; I think it's hiding errors.",
+      "The error messages from our CLI just say 'something went wrong'. Make them say what failed and where.",
+      "Should this function raise or return an error code when the file is missing? Clean up how errors propagate here."
+    ],
+    "should_not": [
+      "The app crashes with KeyError: 'user_id' in handlers.py line 40. Find out why and fix it.",
+      "Two workers sometimes process the same job twice. Make the queue consumer safe.",
+      "This test fails one run in ten on CI with a timeout.",
+      "Write a migration that adds a NOT NULL email column to the users table.",
+      "What exceptions can json.loads raise?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "silent-config",
+      "fixture": "fixtures/silent-config",
+      "prompt": "Last week prod came up on port 8080 with an empty allowlist because someone typed \"alowlist\" in settings.json, and nobody noticed for hours. Make bad configuration fail loudly at startup with config.ConfigError and a message that names the file and the problem: invalid JSON, unknown keys, wrong types (port: integer 1-65535, workers: integer >= 1, allowlist: list of strings, debug: true/false), and an APP_PORT environment variable that isn't a valid port. A missing settings.json is fine; defaults apply then. Tests: python3 -m unittest.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Found every place that swallows configuration errors, including the fallback to defaults in server.start, not only config.load",
+        "Narrowed the missing-file case to FileNotFoundError instead of treating every read error as missing",
+        "Raised ConfigError with the file name and the offending key or value, keeping the original exception as the cause",
+        "Added tests for the failure cases (invalid JSON, unknown key, wrong type, bad APP_PORT, start-up path)",
+        "Ran the full test suite and reported which silent fallbacks were removed"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

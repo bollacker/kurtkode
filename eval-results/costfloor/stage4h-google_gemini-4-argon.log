@@ -1,0 +1,303 @@
+key usage at start: Openrouter $2612.4813
+kurtkode-eval: 1 models × 5 scenarios × 3 trials
+
+=== openrouter:google/gemini-4-argon +subagents >openrouter:anthropic/claude-haiku-5.5 forced  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → task {"prompt":"Read all four meeting notes files in `notes/` for January 2026:\n- `notes/2026-
+  → task {"kind":"search","importance":"high","description":"Check Feb 2026 notes for postponements
+  → task {"description":"Check Mar 2026 notes for postponements","kind":"search","agent":"explore",
+  → task {"importance":"high","kind":"search","prompt":"Read all four meeting notes files in `notes
+  ⤷ explore subagent: Check Jan 2026 notes for postponements
+  ⤷ explore subagent: Check Apr 2026 notes for postponements
+  ⤷ explore subagent: Check Feb 2026 notes for postponements
+  ⤷ explore subagent: Check Mar 2026 notes for postponements
+  → read_file {"offset":1,"path":"notes/2026-01-10.md","limit":60}
+  → read_file {"limit":60,"offset":1,"path":"notes/2026-02-10.md"}
+  → read_file {"offset":1,"limit":60,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":60,"path":"notes/2026-03-24.md","offset":1}
+  → read_file {"path":"notes/2026-04-17.md","offset":1,"limit":60}
+  ⊜ compacted 9723 → 7693 tokens (summary 30 s, 2743 bytes)
+  → rate_task {"checked":"read-the-files","note":"Accurately identified the billing migration postponeme
+  → rate_task {"checked":"read-the-files","verdict":3,"note":"Accurately identified the vendor review po
+  → rate_task {"checked":"read-the-files","verdict":3,"task":"Check Mar 2026 notes for postponements","n
+  → rate_task {"verdict":3,"checked":"read-the-files","note":"Accurately identified the hiring plan post
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ⊜ compacted 8297 → 3813 tokens (summary 11 s, 2010 bytes)
+  PASS score 1.00 · 128s · 5 steps · 14 calls · 0 errors · 2 compactions · peak 7693 tok · stop completed · min free 60% · 22005+1536 tok · $0.0594
+    - 5/5 right
+    - none wrong
+    - subagent runs: 4
+    - peak prompt 7693 tokens
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → task {"prompt":"Read the four files in `notes/` for January 2026:\n- `notes/2026-01-03.md`\n- `
+  → task {"description":"Check Feb 2026 meeting notes","importance":"high","kind":"search","agent":
+  → task {"prompt":"Read the four files in `notes/` for March 2026:\n- `notes/2026-03-03.md`\n- `no
+  → task {"description":"Check Apr 2026 meeting notes","agent":"explore","prompt":"Read the four fi
+  ⤷ explore subagent: Check Apr 2026 meeting notes
+  ⤷ explore subagent: Check Jan 2026 meeting notes
+  ⤷ explore subagent: Check Feb 2026 meeting notes
+  ⤷ explore subagent: Check Mar 2026 meeting notes
+  → read_file {"offset":42,"path":"notes/2026-01-10.md","limit":10}
+  → read_file {"limit":10,"offset":42,"path":"notes/2026-02-10.md"}
+  → read_file {"offset":42,"limit":10,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"path":"notes/2026-03-24.md","offset":42}
+  → read_file {"limit":10,"offset":42,"path":"notes/2026-04-17.md"}
+  → rate_task {"task":"Check Jan 2026 meeting notes","verdict":3,"note":"Accurately identified the postp
+  → rate_task {"verdict":3,"note":"Accurately identified the postponement in 2026-02-10.md and distingui
+  → rate_task {"checked":"read-the-files","note":"Accurately identified the postponements in 2026-03-03.
+  → rate_task {"verdict":3,"note":"Accurately identified the postponement in 2026-04-17.md and confirmed
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 66s · 5 steps · 14 calls · 0 errors · 0 compactions · peak 6420 tok · stop completed · min free 60% · 22951+1549 tok · $0.0413
+    - 5/5 right
+    - none wrong
+    - subagent runs: 4
+    - peak prompt 6420 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → task {"agent":"explore","importance":"high","prompt":"Read the following meeting note files in 
+  → task {"kind":"search","prompt":"Read the following meeting note files in `notes/`:\n- notes/202
+  ⤷ explore subagent: Check Mar and Apr notes
+  ⤷ explore subagent: Check Jan and Feb notes
+  → read_file {"offset":1,"path":"notes/2026-01-10.md","limit":60}
+  → read_file {"offset":1,"limit":60,"path":"notes/2026-02-10.md"}
+  → read_file {"offset":1,"limit":60,"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-24.md","limit":60,"offset":1}
+  → read_file {"path":"notes/2026-04-17.md","offset":1,"limit":60}
+  → read_file {"offset":40,"path":"notes/2026-03-10.md","limit":10}
+  → read_file {"path":"notes/2026-03-17.md","offset":40,"limit":10}
+  → read_file {"limit":10,"offset":40,"path":"notes/2026-04-03.md"}
+  → read_file {"path":"notes/2026-04-10.md","limit":10,"offset":40}
+  → read_file {"offset":40,"path":"notes/2026-04-24.md","limit":10}
+  ⊜ compacted 8468 → 4402 tokens (summary 11 s, 3072 bytes)
+  → read_file {"offset":40,"limit":10,"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-17.md","offset":40,"limit":10}
+  → read_file {"offset":40,"limit":10,"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md","offset":40,"limit":10}
+  → read_file {"path":"notes/2026-02-17.md","offset":40,"limit":10}
+  → read_file {"limit":10,"offset":40,"path":"notes/2026-02-24.md"}
+  → rate_task {"note":"Accurately identified the two meetings in Jan/Feb where items were postponed and 
+  → rate_task {"note":"Accurately identified the three meetings in Mar/Apr where items were postponed an
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 95s · 7 steps · 21 calls · 0 errors · 1 compactions · peak 7743 tok · stop completed · min free 60% · 32244+1512 tok · $0.0621
+    - 5/5 right
+    - none wrong
+    - subagent runs: 2
+    - peak prompt 7743 tokens
+  [log-sweep #1]
+  → list_dir {"path":"logs"}
+  → task {"kind":"search","description":"Count errors in service-1.log","tier":"cheap","prompt":"Re
+  → task {"importance":"high","prompt":"Read/search `logs/service-2.log` and find all lines contain
+  → task {"prompt":"Read/search `logs/service-3.log` and find all lines containing `ERROR`. Identif
+  → task {"kind":"search","description":"Count errors in service-4.log","tier":"cheap","prompt":"Re
+  → task {"description":"Count errors in service-5.log","kind":"search","prompt":"Read/search `logs
+  ⤷ explore subagent: Count errors in service-2.log
+  ⤷ explore subagent: Count errors in service-4.log
+  ⤷ explore subagent: Count errors in service-5.log
+  ⤷ explore subagent: Count errors in service-1.log
+  ⤷ explore subagent: Count errors in service-3.log
+  → grep {"path":"logs","pattern":"ERROR"}
+  → rate_task {"checked":"spot-checked","task":"Count errors in service-1.log","verdict":3,"note":"Accur
+  → rate_task {"task":"Count errors in service-2.log","verdict":3,"note":"Accurately found all 4 ERROR l
+  → rate_task {"verdict":3,"task":"Count errors in service-3.log","note":"Accurately found all 3 ERROR l
+  → rate_task {"verdict":3,"note":"Accurately found all 4 ERROR lines in service-4.log and grouped them 
+  → rate_task {"note":"Accurately found both ERROR lines in service-5.log.","verdict":3,"task":"Count er
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 58s · 5 steps · 12 calls · 0 errors · 0 compactions · peak 5836 tok · stop completed · min free 60% · 20679+1248 tok · $0.0380
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 5836 tokens
+  [log-sweep #2]
+  → list_dir {"path":"logs"}
+  → task {"kind":"search","verify":"none","agent":"explore","tier":"cheap","importance":"high","pro
+  → task {"agent":"explore","description":"Count errors in service-2.log","prompt":"Read or search 
+  → task {"prompt":"Read or search `logs/service-3.log` to find all `ERROR` log entries. Report eve
+  → task {"prompt":"Read or search `logs/service-4.log` to find all `ERROR` log entries. Report eve
+  → task {"agent":"explore","prompt":"Read or search `logs/service-5.log` to find all `ERROR` log e
+  ⤷ explore subagent: Count errors in service-4.log
+  ⤷ explore subagent: Count errors in service-3.log
+  ⤷ explore subagent: Count errors in service-2.log
+  ⤷ explore subagent: Count errors in service-1.log
+  ⤷ explore subagent: Count errors in service-5.log
+  → grep {"pattern":"ERROR","path":"logs"}
+  → rate_task {"task":"Count errors in service-1.log","verdict":3,"checked":"spot-checked","note":"Accur
+  → rate_task {"task":"Count errors in service-2.log","checked":"spot-checked","verdict":3,"note":"Accur
+  → rate_task {"checked":"spot-checked","verdict":3,"task":"Count errors in service-3.log","note":"Accur
+  → rate_task {"note":"Accurate report of all ERROR lines and counts in service-4.log.","verdict":3,"che
+  → rate_task {"note":"Accurate report of all ERROR lines and counts in service-5.log.","task":"Count er
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 58s · 5 steps · 12 calls · 0 errors · 0 compactions · peak 5725 tok · stop completed · min free 60% · 20308+1007 tok · $0.0403
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 5725 tokens
+  [log-sweep #3]
+  → list_dir {"path":"logs"}
+  → task {"agent":"explore","kind":"search","importance":"high","prompt":"Read `logs/service-1.log`
+  → task {"kind":"search","agent":"explore","importance":"high","description":"Count ERRORs in serv
+  → task {"prompt":"Read `logs/service-3.log` (or grep for `ERROR` in `logs/service-3.log`). List e
+  → task {"kind":"search","importance":"high","agent":"explore","description":"Count ERRORs in serv
+  → task {"prompt":"Read `logs/service-5.log` (or grep for `ERROR` in `logs/service-5.log`). List e
+  ⤷ explore subagent: Count ERRORs in service-3.log
+  ⤷ explore subagent: Count ERRORs in service-4.log
+  ⤷ explore subagent: Count ERRORs in service-2.log
+  ⤷ explore subagent: Count ERRORs in service-5.log
+  ⤷ explore subagent: Count ERRORs in service-1.log
+  → grep {"pattern":"ERROR","path":"logs"}
+  → rate_task {"issues":[],"task":"Count ERRORs in service-1.log","verdict":3,"note":"Accurate count and
+  → rate_task {"checked":"spot-checked","note":"Accurate count and line numbers verified with grep.","is
+  → rate_task {"checked":"spot-checked","task":"Count ERRORs in service-3.log","verdict":3,"issues":[],"
+  → rate_task {"issues":[],"checked":"spot-checked","task":"Count ERRORs in service-4.log","verdict":3,"
+  → rate_task {"note":"Accurate count and line numbers verified with grep.","verdict":3,"issues":[],"tas
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 56s · 5 steps · 12 calls · 0 errors · 0 compactions · peak 6043 tok · stop completed · min free 61% · 21253+1249 tok · $0.0373
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 6043 tokens
+  [two-questions #1]
+  → task {"verify":"none","description":"Find reserve_stock definition","prompt":"Find where `reser
+  → task {"description":"Find class in parts/src/part04.py","prompt":"Read `parts/src/part04.py` an
+  ⤷ explore subagent: Find reserve_stock definition
+  ⤷ explore subagent: Find class in parts/src/part04.py
+  → read_file {"path":"inventory/storage.py","offset":20,"limit":30}
+  → read_file {"path":"parts/src/part04.py","limit":30,"offset":45}
+  → rate_task {"note":"Accurately found reserve_stock at inventory/storage.py:31.","issues":[],"task":"F
+  → rate_task {"checked":"read-the-files","task":"Find class in parts/src/part04.py","verdict":3,"note":
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 49s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 3897 tok · stop completed · min free 61% · 13047+473 tok · $0.0258
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #2]
+  → task {"kind":"search","prompt":"Find where `reserve_stock` is defined in this repository. Retur
+  → task {"agent":"explore","kind":"search","description":"Check class in parts/src/part04.py","pro
+  ⤷ explore subagent: Check class in parts/src/part04.py
+  ⤷ explore subagent: Find reserve_stock definition
+  → read_file {"limit":45,"offset":1,"path":"inventory/storage.py"}
+  → read_file {"limit":70,"path":"parts/src/part04.py","offset":1}
+  → rate_task {"verdict":3,"checked":"read-the-files","task":"Find reserve_stock definition","note":"Acc
+  → rate_task {"verdict":3,"task":"Check class in parts/src/part04.py","note":"Accurately identified Sed
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 43s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 4593 tok · stop completed · min free 61% · 14319+557 tok · $0.0256
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #3]
+  → task {"prompt":"Find where `reserve_stock` is defined in this repository. Return the exact file
+  → task {"kind":"search","prompt":"Read `parts/src/part04.py` and report which class it declares (
+  ⤷ explore subagent: Find class in part04.py
+  ⤷ explore subagent: Find reserve_stock definition
+  → read_file {"offset":1,"path":"inventory/storage.py","limit":50}
+  → read_file {"path":"parts/src/part04.py","offset":1,"limit":70}
+  → rate_task {"task":"Find reserve_stock definition","verdict":3,"note":"Accurately found the definitio
+  → rate_task {"verdict":3,"task":"Find class in part04.py","note":"Accurately reported that parts/src/p
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 44s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 4556 tok · stop completed · min free 61% · 14210+469 tok · $0.0245
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"path":"inventory/pricing.py"}
+  PASS score 1.00 · 22s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2580 tok · stop completed · min free 61% · 7409+99 tok · $0.0158
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 26s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 2543 tok · stop completed · min free 61% · 4752+180 tok · $0.0113
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → task {"verify":"none","prompt":"Search the project for `TAX_RATE` and report where it is define
+  ⤷ explore subagent: Find TAX_RATE definition and value
+  → read_file {"path":"inventory/pricing.py"}
+  → rate_task {"task":"Find TAX_RATE definition and value","issues":[],"note":"Accurately found the defi
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 41s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2905 tok · stop completed · min free 61% · 10620+315 tok · $0.0220
+    - ✓ 0.0825
+    - subagent runs: 1
+  [small-fix #1]
+  → task {"importance":"high","description":"Read calc.py and test_calc.py","agent":"explore","prom
+  ⤷ explore subagent: Read calc.py and test_calc.py
+  → read_file {"path":"calc.py"}
+  → rate_task {"note":"Accurately read and reported both files with line numbers.","checked":"read-the-f
+  ✎ parent 3/3 (read-the-files)
+  → task {"prompt":"In `calc.py`, `sub(a, b)` currently has `return a + b`. Fix `sub(a, b)` so it r
+  ⤷ general subagent: Fix sub() in calc.py
+  → read_file {"path":"calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → rate_task {"checked":"ran-tests","verdict":3,"note":"Fixed sub() cleanly at calc.py:9 and verified t
+  ✎ parent 3/3 (ran-tests)
+  ✎ recheck no problems
+  PASS score 1.00 · 66s · 6 steps · 7 calls · 0 errors · 0 compactions · peak 4579 tok · stop completed · min free 61% · 23978+499 tok · $0.0356
+    - ✓ test_sub passes
+    - subagent runs: 2
+  [small-fix #2]
+  → task {"agent":"explore","tier":"cheap","description":"Read calc.py and test_calc.py","importanc
+  ⤷ explore subagent: Read calc.py and test_calc.py
+  → read_file {"path":"calc.py"}
+  → rate_task {"note":"Accurately reported the contents of calc.py and test_calc.py and line numbers.","
+  ✎ parent 3/3 (read-the-files)
+  → task {"agent":"general","importance":"high","description":"Fix sub() in calc.py and run test_su
+  ⤷ general subagent: Fix sub() in calc.py and run test_sub
+  → read_file {"path":"calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → rate_task {"task":"Fix sub() in calc.py and run test_sub","note":"Updated sub() in calc.py to return
+  ✎ parent 3/3 (ran-tests)
+  ✎ recheck no problems
+  PASS score 1.00 · 65s · 6 steps · 7 calls · 0 errors · 0 compactions · peak 4542 tok · stop completed · min free 61% · 23698+548 tok · $0.0360
+    - ✓ test_sub passes
+    - subagent runs: 2
+  [small-fix #3]
+  → task {"prompt":"Read calc.py and test_calc.py in the project root and report their exact conten
+  ⤷ explore subagent: Read calc.py and test_calc.py
+  → read_file {"path":"calc.py"}
+  → rate_task {"note":"Read calc.py and test_calc.py accurately with exact line numbers.","task":"Read c
+  ✎ parent 3/3 (read-the-files)
+  → task {"description":"Fix sub in calc.py","prompt":"In `calc.py`, fix `sub(a, b)` at lines 8-9 s
+  ⤷ general subagent: Fix sub in calc.py
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → rate_task {"note":"Fixed sub() in calc.py:9 without touching unrelated code, and the test passes.","
+  ✎ parent 3/3 (ran-tests)
+  ✎ recheck no problems
+  PASS score 1.00 · 98s · 6 steps · 8 calls · 0 errors · 0 compactions · peak 4841 tok · stop completed · min free 61% · 24556+824 tok · $0.0482
+    - ✓ test_sub passes
+    - subagent runs: 2
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:google/gemini-4-argon +subagents 3/3 1.00 96s          3/3 1.00 58s          3/3 1.00 45s          3/3 1.00 30s          3/3 1.00 76s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:google/gemini-4-argon +subagents 3/3 [yes]             3/3 [yes]             3/3 [yes]             1/3 [no]              3/3 [no]              
+
+=== Spend
+  Openrouter: $2.1322 (key usage)
+  reported with replies: $0.5231 (excludes compaction summaries)
+
+wrote eval-results/costfloor/stage4h-google_gemini-4-argon.json

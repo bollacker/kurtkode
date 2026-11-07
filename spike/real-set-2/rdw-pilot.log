@@ -1,0 +1,57 @@
+key usage at start: Openrouter $2657.3419
+kurtkode-eval record: 1 models × 3 tasks × 1 trials into /Users/me/git/kurtkode/eval-results/runs/rdw-pilot
+  openrouter:anthropic/claude-haiku-5.5: 3 runs to record
+  [openrouter:anthropic/claude-haiku-5.5 1/3, 1 passed] rdw03 #1: PASS 80s 9 steps $0.0093
+  [openrouter:anthropic/claude-haiku-5.5 2/3, 2 passed] rdw01 #1: PASS 181s 17 steps $0.0230
+  [openrouter:anthropic/claude-haiku-5.5 3/3, 3 passed] rdw02 #1: PASS 268s 19 steps $0.0184
+
+Runs: 3 recorded, 0 degraded copies; 0 judgments.
+
+### Cheapest above the floor
+
+Configurations whose 95% Wilson lower bound on success clears the floor, cheapest per run first (list price; local models are timed, not priced, and are listed after).
+
+**80%**: none priced
+
+**90%**: none priced
+
+**95%**: none priced
+
+### Subagent models (real runs, all trials)
+
+| model | pass rate (95% CI) | mean s | mean steps | mean tokens in/out | list $ per run | $ per success |
+|---|---|---|---|---|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 100% (44–100%) 3/3 | 176 | 15.0 | 396063/17349 | 0.0169 | 0.0169 |
+
+Passes by kind:
+
+| model | write-tests |
+|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 3/3 |
+
+### Judges against gold
+
+A verdict of 0–1 is "fail", 2–3 "pass". Failures are real failed runs and degraded copies.
+
+All runs each judge rated:
+
+| judge (path) | runs | no verdict | agreement | kappa | failures caught (95% CI) | passes failed (95% CI) | claimed unchecked | list $ |
+|---|---|---|---|---|---|---|---|---|
+
+### Grounded checks, and judges combined with them
+
+|  | failures caught (95% CI) | passes failed (95% CI) |
+|---|---|---|
+| checks at the run's end | – | – |
+| checks and the re-run check | – | – |
+
+### Failures caught, by kind of failure
+
+| failure | grounded |
+|---|---|
+
+### Judging its own model's runs, and others'
+
+| judge (path) | own runs: agreement | own runs: failures caught | others' runs: agreement | others' runs: failures caught |
+|---|---|---|---|---|
+

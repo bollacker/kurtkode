@@ -1,0 +1,114 @@
+[
+  {
+    "content" : "I'll help you find where `reserve_stock` is defined and what happens when there isn't enough stock. Let me search for this function in the codebase.\n\n",
+    "createdAt" : "2026-09-27T14:45:29Z",
+    "id" : "E6D47C57-6F1F-463B-B4F9-FAB6DE6CE49F",
+    "meta" : {
+      "duration" : 0.647524875,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.332657375,
+      "usage" : {
+        "completionTokens" : 57,
+        "cost" : 0.00042864,
+        "promptTokens" : 1482,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\": \"def reserve_stock\"}",
+        "id" : "call_670ce23b261b42a18e97d636",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "inventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:",
+    "createdAt" : "2026-09-27T14:45:29Z",
+    "id" : "071325F2-70DF-47AC-B77C-29AB42F89998",
+    "role" : "tool",
+    "toolCallID" : "call_670ce23b261b42a18e97d636",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.017886996269226074,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Now I've found that `reserve_stock` is defined in `inventory\/storage.py` at line 31. Let me read this file to understand what happens when there isn't enough stock.\n\n",
+    "createdAt" : "2026-09-27T14:45:29Z",
+    "id" : "6276BF85-391B-4722-8962-8B83EA1011D2",
+    "meta" : {
+      "duration" : 0.596376667,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.348939292,
+      "usage" : {
+        "completionTokens" : 62,
+        "cost" : 0.00045832,
+        "promptTokens" : 1576,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"inventory\/storage.py\"}",
+        "id" : "call_c9ae729447664239b4c4f98c",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n11\tclass SqliteStore:\n12\t    def __init__(self, path=\":memory:\"):\n13\t        self.db = sqlite3.connect(path)\n14\t        self.db.execute(\"create table if not exists items (sku text primary key, name text, quantity int)\")\n15\t        self.db.execute(\"create table if not exists reservations (id integer primary key, sku text, units int)\")\n16\t\n17\t    def add_item(self, item: Item):\n18\t        self.db.execute(\"insert into items values (?, ?, ?)\", (item.sku, item.name, item.quantity))\n19\t\n20\t    def get_item(self, sku: str) -> Item:\n21\t        row = self.db.execute(\"select sku, name, quantity from items where sku = ?\", (sku,)).fetchone()\n22\t        return Item(*row) if row else None\n23\t\n24\t    def list_items(self):\n25\t        return [Item(*r) for r in self.db.execute(\"select sku, name, quantity from items\")]\n26\t\n27\t    # Reservations hold stock for an order until it ships or is cancelled.\n28\t    # Callers must release() cancelled reservations.\n29\t    # Quantities are whole units.\n30\t\n31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-09-27T14:45:29Z",
+    "id" : "7190D08E-7D73-4BEE-812B-05DDE3B7CF0F",
+    "role" : "tool",
+    "toolCallID" : "call_c9ae729447664239b4c4f98c",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0004589557647705078,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Based on the code I've read, I can now answer your question:\n\nThe `reserve_stock` method is defined in `inventory\/storage.py` at line 31.\n\nWhen there isn't enough stock, the method raises an `InsufficientStock` exception. This happens in line 33-34 where it checks if the item exists and if there are enough units available. If not, it raises the `InsufficientStock` exception with a message indicating the SKU, the number of units wanted, and the number of units available.\n\nSpecifically:\n- Location of definition: `inventory\/storage.py:31`\n- When insufficient stock: Raises `InsufficientStock` exception (line 33-34)",
+    "createdAt" : "2026-09-27T14:45:30Z",
+    "id" : "E3EC4F57-7173-40E5-A922-08FDC8A0141D",
+    "meta" : {
+      "duration" : 1.057988916,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "stop",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.344555583,
+      "usage" : {
+        "completionTokens" : 148,
+        "cost" : 0.000746,
+        "promptTokens" : 2180,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

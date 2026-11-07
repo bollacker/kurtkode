@@ -1,0 +1,39 @@
+18 runs on Google Gemini:gemini-3.6-flash → results/task-gemini36-r3.jsonl
+  clarify-requirements/close-accounts skills: MISS loaded=['implement-change'] 59.9s
+  clarify-requirements/close-accounts skills: MISS loaded=['implement-change'] 76.6s
+  clarify-requirements/close-accounts forced: ok loaded=['clarify-requirements'] 84.3s
+  clarify-requirements/close-accounts forced: ok loaded=['clarify-requirements', 'verify-before-done'] 94.8s
+  clarify-requirements/close-accounts skills: MISS loaded=['implement-change', 'verify-before-done'] 96.2s
+  clarify-requirements/close-accounts forced: ok loaded=['clarify-requirements'] 96.7s
+  implement-change/invoice-discount forced: ok loaded=['implement-change'] 50.4s
+  implement-change/invoice-discount forced: ok loaded=['implement-change', 'verify-before-done'] 69.9s
+  implement-change/invoice-discount forced: ok loaded=['implement-change'] 67.4s
+  implement-change/invoice-discount skills: ok loaded=['implement-change'] 61.3s
+  implement-change/invoice-discount skills: ok loaded=['implement-change', 'verify-before-done'] 68.3s
+  implement-change/invoice-discount skills: ok loaded=['implement-change'] 73.4s
+  verify-before-done/unicode-slugs forced: ok loaded=['verify-before-done'] 107.2s
+  verify-before-done/unicode-slugs forced: MISS loaded=['verify-before-done'] 111.2s
+  verify-before-done/unicode-slugs forced: MISS loaded=['verify-before-done'] 94.7s
+  verify-before-done/unicode-slugs skills: MISS loaded=['implement-change', 'verify-before-done'] 92.3s
+  verify-before-done/unicode-slugs skills: MISS loaded=['implement-change'] 94.3s
+  verify-before-done/unicode-slugs skills: MISS loaded=['implement-change', 'verify-before-done'] 94.9s
+
+TASKS  skill/case  arm  pass  rubric%  loaded-own-skill  steps(tool calls)  cost  secs
+  clarify-requirements/close-accounts          forced    PASS   100  yes   32  $0.187  84
+  clarify-requirements/close-accounts          forced    PASS    90  yes   34  $0.205  95
+  clarify-requirements/close-accounts          forced    PASS   100  yes   29  $0.203  97
+  clarify-requirements/close-accounts          skills    fail    50  no    27  $0.142  60
+  clarify-requirements/close-accounts          skills    fail    50  no    35  $0.181  77
+  clarify-requirements/close-accounts          skills    fail    60  no    40  $0.215  96
+  implement-change/invoice-discount            forced    PASS   100  yes   16  $0.109  50
+  implement-change/invoice-discount            forced    PASS   100  yes   22  $0.146  70
+  implement-change/invoice-discount            forced    PASS   100  yes   20  $0.130  67
+  implement-change/invoice-discount            skills    PASS   100  yes   20  $0.135  61
+  implement-change/invoice-discount            skills    PASS   100  yes   23  $0.151  68
+  implement-change/invoice-discount            skills    PASS   100  yes   19  $0.150  73
+  verify-before-done/unicode-slugs             forced    PASS    70  yes   40  $0.273  107
+  verify-before-done/unicode-slugs             forced    fail    60  yes   40  $0.230  111
+  verify-before-done/unicode-slugs             forced    fail    70  yes   40  $0.216  95
+  verify-before-done/unicode-slugs             skills    fail    80  yes   34  $0.184  92
+  verify-before-done/unicode-slugs             skills    fail    30  no    40  $0.191  94
+  verify-before-done/unicode-slugs             skills    fail    80  yes   38  $0.206  95

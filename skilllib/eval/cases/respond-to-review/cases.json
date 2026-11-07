@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Sam left review comments on my PR. Can you address them?",
+      "Go through the feedback in review.txt and make the changes that make sense.",
+      "The review bot flagged six things on PR 88. Handle them and draft a reply for each thread.",
+      "My lead says my retry loop is wrong and I should use exponential backoff everywhere. Can you deal with her comments?",
+      "Address the requested changes on my merge request and tell me which ones you didn't do and why.",
+      "A reviewer says the cache in utils.py is pointless and should go. Is he right? Change it if so and answer him.",
+      "I got 14 nitpicks and two real objections on my pull request; work through all of them."
+    ],
+    "should_not": [
+      "Review my branch for bugs before I open the PR.",
+      "Write a PR description for these three commits.",
+      "Resolve the merge conflicts in api.py after pulling main.",
+      "Do a security audit of the login endpoints.",
+      "How should I phrase review comments for a junior developer?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "retry-review",
+      "fixture": "fixtures/retry-review",
+      "prompt": "Sam reviewed my fetcher change; the comments are in REVIEW_COMMENTS.md. Please deal with them, and write a reply to each comment in REPLIES.md under a '## Comment N' heading matching Sam's numbering.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read all four comments before changing code",
+        "Checked comment 2's claim by reading config.load (it accepts 0) instead of trusting it",
+        "Applied comments 1, 3 and 4 with tests or runs showing the new behavior, and ran the test suite",
+        "Declined comment 2 with evidence (file:line or a run) and did not change config.load to make the claim true",
+        "Replies state what changed without performative agreement"
+      ],
+      "max_steps": 35
+    }
+  ]
+}

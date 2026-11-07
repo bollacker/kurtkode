@@ -1,0 +1,51 @@
+diff --git a/AgentCore/Sources/AgentCore/Agent/PermissionRules.swift b/AgentCore/Sources/AgentCore/Agent/PermissionRules.swift
+index 945fd04..c1f2da9 100644
+--- a/AgentCore/Sources/AgentCore/Agent/PermissionRules.swift
++++ b/AgentCore/Sources/AgentCore/Agent/PermissionRules.swift
+@@ -65,7 +65,7 @@ public struct PermissionRules: Sendable, Hashable {
+                               "glob": "Glob", "list_dir": "LS", "todo_write": "TodoWrite", "task": "Task",
+                               "skill": "Skill", "ask_user": "AskUserQuestion"]
+     static let readers: Set<String> = ["read_file", "grep", "glob", "list_dir"]
+-    static let editors: Set<String> = ["edit_file", "write_file"]
++    static let editors: Set<String> = ["edit_file", "write_file", "apply_patch"]
+ 
+     /// The strongest rule matching the call (deny, then ask, then allow), or nil.
+     public func decision(toolName: String, args: ToolArguments) -> PermissionRule? {
+@@ -116,8 +116,23 @@ public struct PermissionRules: Sendable, Hashable {
+             return Self.commandMatches(command, spec, action: rule.action, parsed: commands?.parsed)
+         }
+         if rule.tool.hasPrefix("mcp__") { return false }        // MCP rules take no specifier
+-        guard let path = args.string("path") ?? (Self.readers.contains(toolName) ? "." : nil) else { return false }
+-        return pathMatches(path, pattern: spec)
++        let paths = Self.paths(toolName, args)
++        guard !paths.isEmpty else { return false }
++        // A call naming several files (a patch): a deny or ask rule matches if it covers any of them, an allow rule
++        // only if it covers them all.
++        return rule.action == .allow ? paths.allSatisfy { pathMatches($0, pattern: spec) } : paths.contains { pathMatches($0, pattern: spec) }
++    }
++
++    /// The files a call names, however it names them: `path`, Claude Code's `file_path`, inside edit_file's `edits`,
++    /// or a patch's file headers. A search with none searches the root.
++    static func paths(_ toolName: String, _ args: ToolArguments) -> [String] {
++        switch toolName {
++        case "apply_patch": return ((try? PatchParser.parse(ApplyPatchTool.text(args))) ?? []).flatMap(\.paths)
++        case "edit_file": return (try? EditFileTool.path(args)).map { [$0] } ?? []
++        default:
++            if let p = args.string("path") ?? args.string("file_path") { return [p] }
++            return readers.contains(toolName) ? ["."] : []
++        }
+     }
+ 
+     /// Whether a rule's tool name covers kurtkode's tool.
+diff --git a/GAP_ANALYSIS.md b/GAP_ANALYSIS.md
+index c9a8bdf..d853178 100644
+--- a/GAP_ANALYSIS.md
++++ b/GAP_ANALYSIS.md
+@@ -390,6 +390,7 @@ looped on it to the step limit. Results: `eval-results/phase1-b4-warn-count-gemm
+ | A second pass when old_string isn't in the file exactly: whole lines compared without trailing whitespace, then without indentation; used only when it finds one place, and new_string is re-indented to match (a constant shift, or line by line when the old text was flattened); the result says what was ignored. Two loose places: refused with their lines. CRLF kept | `LooseMatch`, `EditFileTool.apply` |
+ | Read before edit: `edit_file`, `write_file` replacing a file, and `apply_patch` updates are refused for a file the run hasn't read, or that changed since (a command, a formatter, the user). A partial read counts; the run's own edits keep a file fresh; appending and new files need no read. The log (`FileReads`) is made per run from the history (reads, edits and writes with successful results, @mentions included), so a resumed session keeps what the model has seen and a compaction forgets it; `AgentConfig.readBeforeEdit` (on) | `FileReads`, `ToolContext.reads`, `AgentLoop` |
+ | `apply_patch`: Codex's V4A format (Update with `@@` anchors and `*** End of File`, Add, Delete, Move to) and unified diffs, code fences tolerated; hunks found in order (exact, then without trailing whitespace, then without indentation, with a note); all files or none; preview and display are the combined diff; affected files include moves and deletes for undo | `ApplyPatch.swift` |
++| Permission rules see every path a call names (follow-up commit): `Edit(...)` rules cover `apply_patch` (deny/ask if any file matches, allow only if all do) and edit_file's `file_path` or path inside `edits`, which a deny rule missed before | `PermissionRules.paths` |
+ | Offered beside edit_file by profile: `ModelProfile.patchTool` (nil = the family table: a new GPT row for `gpt-`, `codex`, `openai/o`, and gpt-oss), in sessions and the eval | `ModelProfile`, `ModelFamily`, `SessionRun`, `EvalKit/Runner` |
+ 
+ Live on Gemma (Full Auto, a 26-line Python class: rename a method and its three uses, add a guard, run the test):

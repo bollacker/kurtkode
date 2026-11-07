@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Why is the batch size 37 in sync.py? It looks arbitrary and I'd like to raise it.",
+      "Who added this sleep(0.2) in the uploader, and why? Is it safe to take out?",
+      "This check for negative quantities in orders.py looks redundant. Was there a reason someone added it?",
+      "When did the default currency switch from USD to EUR, and what was that change about?",
+      "Dig through the git history and find out why we force the date parser to UTC here.",
+      "git blame on this line only shows a big reformatting commit. How do I find the change that actually introduced it?",
+      "There's a strange special case for customer id 0 in billing.py. Find out where it came from before I delete it."
+    ],
+    "should_not": [
+      "The tests passed last week and fail now; there are about 40 commits in between. Find the commit that broke them.",
+      "Write a good commit message for my staged changes and prepare the PR description.",
+      "I have conflicts in config.py after rebasing on main. Please resolve them.",
+      "Where is BATCH_SIZE used, and which functions read it?",
+      "What does git rebase --onto do?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "why-page-size",
+      "fixture": "fixtures/why-page-size",
+      "prompt": "billing/sync.py pulls invoices from Paywise 37 at a time, which makes the nightly sync slow. I'd like to raise PAGE_SIZE to 100. Before I do: why is it 37? Write what you find to HISTORY.md, starting with these three lines:\ncommit: <hash of the commit that set it to 37>\nreason: <one sentence>\nsafe_to_raise: yes or no\nDon't change the code yet.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Looked past git blame's last-touch commit (the restyle) instead of reporting it as the origin",
+        "Followed the file across its rename (paywise_sync.py -> billing/sync.py) with -L, --follow, -S or similar",
+        "Read the full message (body) of the commit that set 37 and quoted or cited its reason",
+        "Did not invent a reason from the code comment or change the code",
+        "HISTORY.md starts with the three requested lines and gives evidence for the verdict"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Add a non-nullable `status` column to the invoices table. There are already a few million rows in prod.",
+      "Write a migration that renames users.fullname to display_name without downtime.",
+      "We need to split the address column into street, city and postcode. Existing data has to be kept.",
+      "alembic upgrade head fails on staging with 'column contains null values'. Help me write the migration properly.",
+      "Add a unique constraint on accounts.email, but I think there are duplicates in the table already.",
+      "Make the prisma schema change for the new tenant_id foreign key and give me a rollback.",
+      "Change the price column from REAL dollars to integer cents and convert the existing rows."
+    ],
+    "should_not": [
+      "This query on the orders table takes 4 seconds. Can you speed it up?",
+      "Upgrade SQLAlchemy from 1.4 to 2.0 across the codebase.",
+      "CI fails at the 'db:migrate' step with a Postgres connection refused error. Fix the pipeline.",
+      "Rename the function get_user_by_mail to get_user_by_email everywhere in the code.",
+      "What's the difference between a LEFT JOIN and an INNER JOIN?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "order-currency",
+      "fixture": "fixtures/order-currency",
+      "prompt": "Every order needs a currency from now on. Please add a `currency` column to orders (ISO code like 'USD'). All existing orders were in USD. New orders must always say their currency explicitly: no default, and it can never be NULL. We deploy schema changes with `python3 migrate.py up`; app.db is a fresh snapshot of production.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Added a new migration file instead of editing the already-applied 0001/0002 migrations",
+        "Wrote both up and down, and ran up, down and up again on a copy of the populated app.db (not only on a fresh database)",
+        "Compared row counts or contents of orders and order_items before and after the migration",
+        "Handled the SQLite table rebuild safely (foreign keys off around it, indexes recreated) rather than relying on a DEFAULT",
+        "Updated the app code and tests so new orders pass a currency, and reported how the migration was verified"
+      ],
+      "max_steps": 45
+    }
+  ]
+}

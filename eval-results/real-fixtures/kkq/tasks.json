@@ -1,0 +1,52 @@
+{"name": "kkq",
+ "testCommand": "true",
+ "gitignore": [".build/", ".swiftpm/"],
+ "tasks": [
+  {"id": "kkq01", "sha": "eb19878", "kind": "search", "maxSteps": 60,
+   "title": "What a project can configure, and what reads it",
+   "prompt": "I want to document everything a project can put in its own folder to change how kurtkode behaves: instruction files, settings files, and the folders it looks in for extensions. Go through the code (the Swift package in AgentCore/) and list every file or folder inside a project, not in the user's home folder, that kurtkode reads to configure itself, including the alternative names it accepts for compatibility with other tools. For each one, say what it configures and which source file reads it, with a path:line reference. Also say which of them can make kurtkode run commands outside its sandbox, and what kurtkode does about that before running them. Don't change any files.",
+   "answer": [
+    {"name": "AGENTS.md instructions", "anyOf": ["AGENTS\\.md"]},
+    {"name": "CLAUDE.md instructions", "anyOf": ["CLAUDE\\.md"]},
+    {"name": "settings.local.json", "anyOf": ["settings\\.local\\.json"]},
+    {"name": "permission rules from the settings files", "anyOf": ["permission"]},
+    {"name": "hooks from the settings files", "anyOf": ["hook"]},
+    {"name": "the test command (testCommand)", "anyOf": ["testCommand"]},
+    {"name": "MCP servers from .mcp.json", "anyOf": ["\\.mcp\\.json"]},
+    {"name": "skills folders", "anyOf": ["(\\.kurtkode|\\.claude|\\.agents)/skills"]},
+    {"name": "subagent definitions", "anyOf": ["(\\.kurtkode|\\.claude)/agents"]},
+    {"name": "slash commands", "anyOf": ["(\\.kurtkode|\\.claude)/commands"]},
+    {"name": "prompt templates", "anyOf": ["\\.kurtkode/prompts"]},
+    {"name": "the user approves project hooks or servers first", "anyOf": ["approv"]}
+   ]},
+  {"id": "kkq02", "sha": "eb19878", "kind": "explain", "maxSteps": 60,
+   "title": "When kurtkode offers to escalate a run",
+   "prompt": "Users ask when and why kurtkode offers to hand a request over to a stronger model. From the code (AgentCore/ and App/), explain: every reason a main run can earn an escalation offer, covering the automatic ones, the ones that depend on a setting, and the ones the user triggers; which ways a run can end that deliberately don't count; which model the offer goes to; and what the offer card's actions are, in what order. Give a path:line reference for each reason. Don't change any files.",
+   "answer": [
+    {"name": "the step limit", "anyOf": ["step limit", "stepLimit"]},
+    {"name": "a reply cut off at the output limit", "anyOf": ["cut off", "truncat", "output limit"]},
+    {"name": "stuck repeating itself", "anyOf": ["repeat", "repetition"]},
+    {"name": "its last check failed after changing files", "anyOf": ["last check", "lastCheck", "last (test|build)"]},
+    {"name": "the project's tests fail after the run", "anyOf": ["testCommand", "project['’]s (own )?tests", "signals\\.suite", "TestSuite", "project tests"]},
+    {"name": "a delegated task's check fails when re-run", "anyOf": ["delegat", "failedRechecks", "re-?check"]},
+    {"name": "unfinished todos", "anyOf": ["todo"]},
+    {"name": "a review finds problems (a setting)", "anyOf": ["escalationReview", "review"]},
+    {"name": "the user's /escalate", "anyOf": ["/escalate"]},
+    {"name": "the user's thumbs down", "anyOf": ["/bad", "thumbs", "👎"]},
+    {"name": "a cost limit doesn't count", "anyOf": ["cost ?limit"]},
+    {"name": "one tier up", "anyOf": ["(one|next) tier", "tier above", "tier up", "lowest[- ]tier[^.\\n]{0,80}above", "above the current (one|tier|model)"]}
+   ]},
+  {"id": "kkq03", "sha": "eb19878", "kind": "explain", "maxSteps": 60,
+   "title": "How spending limits stop a run",
+   "prompt": "Explain how kurtkode keeps spending within the user's limits. From the code (AgentCore/ and App/): which spending limits exist and where the user sets each; what counts toward them, including subagents, summaries, local models, and remote models whose price kurtkode doesn't know; when the check happens; and what happens, and what the user can do, when a limit is reached. Give path:line references. Don't change any files.",
+   "answer": [
+    {"name": "a per-run limit", "anyOf": ["per[- ]run", "run['’]s limit", "runCostLimit", "runLimit", "\\brun limit", "\\*\\*run:?\\*\\*:?\\s*(one|a|each|the)\\b[^.\\n]{0,40}\\brun\\b"]},
+    {"name": "a per-session limit", "anyOf": ["per[- ]session", "session['’]s limit", "sessionCostLimit", "sessionLimit", "\\bsession limit", "\\*\\*session:?\\*\\*"]},
+    {"name": "a daily limit across sessions", "anyOf": ["daily", "dailyCostLimit", "dayLimit", "per day"]},
+    {"name": "a project's daily limit", "anyOf": ["project['’]s (daily )?limit", "projectCostLimit", "projectLimit", "per[- ]project", "project,? (per day|daily)", "daily (limit )?per project"]},
+    {"name": "unpriced remote models count at $3/$15 a million", "anyOf": ["unpricedRate", "\\$ ?3(\\.00)?\\b[^\\n]{0,160}\\$ ?15"]},
+    {"name": "local models count nothing", "anyOf": ["local[^.\\n]{0,160}(nothing|zero|free|\\$ ?0\\b|don['’]t count|not count|no cost|isn['’]t (counted|billed))", "local models?[^.\\n]{0,80}never (hit|reach|count)", "(cost|price) is (0|zero)[^.\\n]{0,80}local", "local[^.\\n]{0,80}(cost|price) (is )?(0|zero)"]},
+    {"name": "subagents count toward the same limits", "anyOf": ["subagent"]},
+    {"name": "the run stops at the limit", "anyOf": ["costLimit", "stopNote", "stops? (the run|at the limit|before)"]}
+   ]}
+ ]}

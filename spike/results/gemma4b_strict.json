@@ -1,0 +1,135 @@
+{
+  "variant": "strict",
+  "steps": 20,
+  "max_tokens": 4096,
+  "report": {
+    "gemma-4-e4b-it": {
+      "stream": {
+        "delta_fields": [
+          "content",
+          "reasoning_content",
+          "role"
+        ],
+        "usage": {
+          "prompt_tokens": 27,
+          "completion_tokens": 282,
+          "total_tokens": 309,
+          "completion_tokens_details": {
+            "reasoning_tokens": 226
+          }
+        },
+        "reasoning_chars": 1010,
+        "ttft_s": 5.35,
+        "total_s": 6.52,
+        "content": "A closure is a function bundled with the lexical environment in which it was defined, allowing it to remember and access variables from its outer scope. This me"
+      },
+      "single": {
+        "ok": true,
+        "finish": "tool_calls",
+        "args": {
+          "path": "src"
+        },
+        "content": ""
+      },
+      "sstream": {
+        "ok": true,
+        "calls": [
+          [
+            "read_file",
+            {
+              "path": "README.md"
+            }
+          ]
+        ],
+        "usage": {
+          "prompt_tokens": 296,
+          "completion_tokens": 51,
+          "total_tokens": 347,
+          "completion_tokens_details": {
+            "reasoning_tokens": 30
+          }
+        }
+      },
+      "agent": [
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 5,
+          "tool_errors": 1,
+          "prompt_tokens_last": 598,
+          "final": "I fixed the bug in `src/calc.py` by changing the implementation of the `sub` function from addition to correct subtracti",
+          "trace": [
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"def sub(a, b)) -> 'ok'"
+          ],
+          "secs": 39.3
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 602,
+          "final": "The bug in `src/calc.py` was fixed by changing the subtraction logic in the `sub` function from addition (`a + b`) to ac",
+          "trace": [
+            "list_dir({\"path\":\"./\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'"
+          ],
+          "secs": 26.5
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 9,
+          "tool_errors": 5,
+          "prompt_tokens_last": 886,
+          "final": "",
+          "trace": [
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"    return a + b\",\"new_s) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"    return a - b\",\"old_string\":\"    return a ) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'"
+          ],
+          "secs": 131.9
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 1,
+          "prompt_tokens_last": 640,
+          "final": "I found that the `sub` function in `src/calc.py` was incorrectly performing addition instead of subtraction, so I update",
+          "trace": [
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"./\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"    return a + b\",\"new_s) -> 'error: old_string occurs 2 times; it mus'",
+            "edit_file({\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string) -> 'ok'"
+          ],
+          "secs": 51.7
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,72 @@
+diff --git a/cel/folding.go b/cel/folding.go
+index 65d85c3..5525f08 100644
+--- a/cel/folding.go
++++ b/cel/folding.go
+@@ -228,7 +228,7 @@ func maybePruneBranches(ctx *OptimizerContext, a *ast.AST, expr ast.NavigableExp
+ 			return true
+ 		}
+ 		needle := args[0]
+-		if (needle.Kind() == ast.LiteralKind || needle.Kind() == ast.IdentKind) && haystack.Kind() == ast.ListKind {
++		if (needle.Kind() == ast.LiteralKind || isSelfEqualIdent(needle)) && haystack.Kind() == ast.ListKind {
+ 			needleIsLit := needle.Kind() == ast.LiteralKind
+ 			needleLitVal := needle.AsLiteral()
+ 			needleIdentVal := needle.AsIdent()
+@@ -615,7 +615,7 @@ func constantCallMatcher(e ast.NavigableExpr) bool {
+ 			return true
+ 		}
+ 		needle := children[0]
+-		if (needle.Kind() == ast.LiteralKind || needle.Kind() == ast.IdentKind) && haystack.Kind() == ast.ListKind {
++		if (needle.Kind() == ast.LiteralKind || isSelfEqualIdent(needle)) && haystack.Kind() == ast.ListKind {
+ 			needleIsLit := needle.Kind() == ast.LiteralKind
+ 			needleLitVal := needle.AsLiteral()
+ 			needleIdentVal := needle.AsIdent()
+@@ -639,6 +639,49 @@ func constantCallMatcher(e ast.NavigableExpr) bool {
+ 	return true
+ }
+ 
++// isSelfEqualIdent indicates whether the expression is an identifier whose static type
++// guarantees that its runtime value is equal to itself.
++//
++// Matching an identifier against a list element by name only proves list membership when the
++// value the name resolves to is self-equal. A double may be NaN, which is not equal to itself,
++// and dyn, abstract, and struct types may all hold a NaN at runtime, so the check is limited
++// to the scalar types which cannot, and to the aggregate types whose type parameters are
++// themselves self-equal.
++func isSelfEqualIdent(e ast.Expr) bool {
++	if e.Kind() != ast.IdentKind {
++		return false
++	}
++	nav, ok := e.(ast.NavigableExpr)
++	if !ok {
++		return false
++	}
++	return isSelfEqualType(nav.Type())
++}
++
++// isSelfEqualType indicates whether all runtime values of the given type are equal to themselves.
++func isSelfEqualType(t *types.Type) bool {
++	if t == nil {
++		return false
++	}
++	switch t.Kind() {
++	case types.BoolKind, types.BytesKind, types.DurationKind, types.IntKind,
++		types.NullTypeKind, types.StringKind, types.TimestampKind, types.TypeKind,
++		types.UintKind:
++		return true
++	case types.ListKind, types.MapKind:
++		// Aggregates compare element-wise, so they are self-equal exactly when their type
++		// parameters are. A list(dyn) or map(string, double) may still contain a NaN.
++		for _, p := range t.Parameters() {
++			if !isSelfEqualType(p) {
++				return false
++			}
++		}
++		return true
++	default:
++		return false
++	}
++}
++
+ func isExprConstantOfKind(e ast.Expr, t *types.Type) bool {
+ 	return e.Kind() == ast.LiteralKind && e.AsLiteral().Type() == t
+ }

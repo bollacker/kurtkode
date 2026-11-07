@@ -1,0 +1,164 @@
+kurtkode-eval: 1 models × 5 scenarios × 2 trials
+
+=== anthropic:claude-haiku-5-5  [history: asIs]
+  [explain-repo #1]
+  → list_dir {"path": "."}
+  → read_file {"path": "README.md"}
+  → read_file {"path": "cli.py"}
+  → glob {"pattern": "**/*"}
+  → read_file {"path": "inventory/__init__.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "tests/test_storage.py"}
+  PASS score 1.00 · 14s · 4 steps · 10 calls · 0 errors · 0 compactions · peak 4767 tok · stop completed · min free 37% · 11284+2215 tok · $0.0018
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 8 files
+  [explain-repo #2]
+  → list_dir {"path": "."}
+  → list_dir {"path": "inventory"}
+  → read_file {"path": "README.md"}
+  → read_file {"path": "cli.py"}
+  → glob {"pattern": "**/*"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "tests/test_storage.py"}
+  → read_file {"path": "inventory/__init__.py"}
+  PASS score 1.00 · 12s · 4 steps · 11 calls · 0 errors · 0 compactions · peak 4960 tok · stop completed · min free 36% · 11557+2178 tok · $0.0018
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 8 files
+  [find-definition #1]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  PASS score 1.00 · 4s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2992 tok · stop completed · min free 37% · 6783+463 tok · $0.0006
+    - expected storage.py:31, cited [31, 7]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  PASS score 1.00 · 5s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2996 tok · stop completed · min free 38% · 6792+521 tok · $0.0007
+    - expected storage.py:31, cited [31, 7]
+    - names InsufficientStock
+  [fix-tests #1]
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -60"}
+  → list_dir {"path": "."}
+  → read_file {"path": "calc.py"}
+  → read_file {"path": "test_calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "    return sum(values) / (len(values) - 1)", "new_strin
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -15"}
+  PASS score 1.00 · 5s · 4 steps · 7 calls · 0 errors · 0 compactions · peak 4464 tok · stop completed · min free 38% · 14742+723 tok · $0.0010
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -80"}
+  → list_dir {"path": "."}
+  → read_file {"path": "calc.py"}
+  → read_file {"path": "test_calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "    return sum(values) / (len(values) - 1)", "new_strin
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -20"}
+  PASS score 1.00 · 5s · 4 steps · 7 calls · 0 errors · 0 compactions · peak 4460 tok · stop completed · min free 38% · 14731+707 tok · $0.0010
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -n 60"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "    return sum(values) / (len(values) - 1)", "new_strin
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -n 15"}
+  → write_file {"path": "NOTES.md", "content": "- `sub` (calc.py:8-9): returns `a + b`; fix by returning 
+  PASS score 1.00 · 7s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 4587 tok · stop completed · min free 38% · 15231+1010 tok · $0.0012
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -60"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "    return sum(values) / (len(values) - 1)", "new_strin
+  → bash {"command": "python3 -m unittest -v 2>&1 | tail -15"}
+  → write_file {"path": "NOTES.md", "content": "- `sub` (calc.py:8-9): returns `a + b` instead of subtrac
+  PASS score 1.00 · 8s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 4474 tok · stop completed · min free 39% · 14992+909 tok · $0.0011
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [long-doc #1]
+  → glob {"pattern": "src/**/*.py"}
+  → read_file {"path": "FILES.md"}
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part05.py","status":"in_progress"},{
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → read_file {"path": "src/part04.py"}
+  → read_file {"path": "src/part05.py"}
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part05.py","status":"completed"},{"c
+  → read_file {"path": "src/part06.py"}
+  → read_file {"path": "src/part07.py"}
+  → read_file {"path": "src/part08.py"}
+  → read_file {"path": "src/part09.py"}
+  → read_file {"path": "src/part10.py"}
+  ⊜ compacted 11491 → 8830 tokens (summary 6 s, 2683 bytes)
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part05.py","status":"completed"},{"c
+  → read_file {"path": "src/part11.py"}
+  → read_file {"path": "src/part12.py"}
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  ⊜ compacted 11487 → 7606 tokens (summary 7 s, 2625 bytes)
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part05.py","status":"completed"},{"c
+  → write_file {"path": "FILES.md", "content": "`src/part01.py` — `Walrus11` — Stores a `size` (default 1
+  ⊜ compacted 9123 → 6033 tokens (summary 6 s, 2546 bytes)
+  → read_file {"path": "FILES.md"}
+  → glob {"pattern": "src/part*.py"}
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part05.py","status":"completed"},{"c
+  PASS score 1.00 · 38s · 8 steps · 24 calls · 1 errors · 3 compactions · peak 8830 tok · stop completed · min free 37% · 49047+3849 tok · $0.0059
+    - 14/14 correct, 14 listed
+    - compactions: 3
+    - no invented files
+    - read every file
+  [long-doc #2]
+  → glob {"pattern": "src/**/*.py"}
+  → todo_write {"todos": [{"content":"Read src/part01.py and record its class","status":"in_progress"},{"
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → read_file {"path": "src/part04.py"}
+  → read_file {"path": "src/part05.py"}
+  ⊜ compacted 7601 → 5291 tokens (summary 5 s, 2021 bytes)
+  → todo_write {"todos": [{"content":"Read src/part01.py and record its class","status":"completed"},{"co
+  → read_file {"path": "src/part06.py"}
+  → read_file {"path": "src/part07.py"}
+  → read_file {"path": "src/part08.py"}
+  ⊜ compacted 7622 → 5808 tokens (summary 6 s, 2264 bytes)
+  → todo_write {"todos": [{"content":"Read src/part01.py and record its class","status":"completed"},{"co
+  → read_file {"path": "src/part09.py"}
+  → read_file {"path": "src/part10.py"}
+  ⊜ compacted 7652 → 5081 tokens (summary 9 s, 2331 bytes)
+  → read_file {"path": "src/part11.py"}
+  → read_file {"path": "src/part12.py"}
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  → read_file {"path": "src/part10.py", "offset": 13, "limit": 60}
+  ⊜ compacted 8263 → 5342 tokens (summary 6 s, 2599 bytes)
+  → glob {"pattern": "FILES.md"}
+  → write_file {"path": "FILES.md", "content": "`src/part01.py` — `Walrus11` — Module with six `helper_1_
+  → todo_write {"todos": [{"content":"Read src/part01.py through src/part14.py and record each class","st
+  → read_file {"path": "FILES.md"}
+  ⊜ compacted 8097 → 5653 tokens (summary 6 s, 2524 bytes)
+  → read_file {"path": "src/part09.py"}
+  PASS score 1.00 · 72s · 18 steps · 24 calls · 0 errors · 5 compactions · peak 6970 tok · stop completed · min free 35% · 98923+5356 tok · $0.0090
+    - 14/14 correct, 14 listed
+    - compactions: 5
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          find-definition       fix-tests             deny-feedback         long-doc              
+anthropic:claude-haiku-5-5                  2/2 1.00 13s          2/2 1.00 5s           2/2 1.00 5s           2/2 1.00 7s           2/2 1.00 55s          
+
+=== Spend
+  reported with replies: $0.0242 (excludes compaction summaries)
+wrote transcripts to eval-results/s8-haiku-detailed-transcripts
+
+wrote eval-results/s8-haiku-detailed.json

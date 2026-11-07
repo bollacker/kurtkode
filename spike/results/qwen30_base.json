@@ -1,0 +1,130 @@
+{
+  "variant": "base",
+  "steps": 20,
+  "max_tokens": 4096,
+  "report": {
+    "qwen/qwen3-coder-30b": {
+      "stream": {
+        "delta_fields": [
+          "content",
+          "role"
+        ],
+        "usage": {
+          "prompt_tokens": 19,
+          "completion_tokens": 54,
+          "total_tokens": 73,
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "reasoning_chars": 0,
+        "ttft_s": 4.17,
+        "total_s": 5.14,
+        "content": "A closure is a programming feature that allows an inner function to access and \"close over\" variables from its outer function's scope, even after the outer func"
+      },
+      "single": {
+        "ok": true,
+        "finish": "tool_calls",
+        "args": {
+          "path": "src"
+        },
+        "content": ""
+      },
+      "sstream": {
+        "ok": true,
+        "calls": [
+          [
+            "read_file",
+            {
+              "path": "README.md"
+            }
+          ]
+        ],
+        "usage": {
+          "prompt_tokens": 489,
+          "completion_tokens": 20,
+          "total_tokens": 509,
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        }
+      },
+      "agent": [
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 996,
+          "final": "I've fixed the bug in the calculator code. The issue was in the `sub` function in `src/calc.py` which was incorrectly re",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"def add(a, b):\\n    retu) -> 'ok'"
+          ],
+          "secs": 11.8
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 4,
+          "tool_errors": 0,
+          "prompt_tokens_last": 910,
+          "final": "I've fixed the bug in the source code. The issue was in `src/calc.py` where the `sub` function was incorrectly implement",
+          "trace": [
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"def add(a, b):\\n    retu) -> 'ok'"
+          ],
+          "secs": 10.0
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 984,
+          "final": "I've fixed the bug in the calculator implementation. The issue was in the `sub` function in `src/calc.py`, which was inc",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"def add(a, b):\\n    retu) -> 'ok'"
+          ],
+          "secs": 10.8
+        },
+        {
+          "ok": true,
+          "outcome": "stopped",
+          "fixed": true,
+          "stopped": true,
+          "steps": 6,
+          "tool_errors": 0,
+          "prompt_tokens_last": 934,
+          "final": "I've fixed the bug in the source code. The issue was in `src/calc.py` where the `sub` function was incorrectly returning",
+          "trace": [
+            "list_dir({\"path\":\".\"}) -> 'README.md\\nsrc\\ntests'",
+            "list_dir({\"path\":\"src\"}) -> 'calc.py'",
+            "list_dir({\"path\":\"tests\"}) -> 'test_calc.py'",
+            "read_file({\"path\":\"tests/test_calc.py\"}) -> 'from src.calc import add, sub\\n\\n\\ndef test'",
+            "read_file({\"path\":\"src/calc.py\"}) -> 'def add(a, b):\\n    return a + b\\n\\n\\ndef su'",
+            "edit_file({\"path\":\"src/calc.py\",\"old_string\":\"def add(a, b):\\n    retu) -> 'ok'"
+          ],
+          "secs": 9.8
+        }
+      ]
+    }
+  }
+}

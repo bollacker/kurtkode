@@ -1,0 +1,35 @@
+{
+  "triggers": {
+    "should": [
+      "I need a pattern that pulls the order id and the amount out of these log lines.",
+      "My grep -E for IPv4 addresses also matches 999.1.1.1. Fix it.",
+      "The validation regex for product codes lets bad codes through; tighten it.",
+      "Extract every date like 03/10/2026 or 2026-10-03 from these notes, with sed or Python.",
+      "Why does Go's regexp refuse to compile my pattern with (?=...) in it?",
+      "The log parser misses lines where the user name is in quotes. Can you fix its regex?",
+      "Our email check rejects valid addresses that contain a plus sign."
+    ],
+    "should_not": [
+      "Rename getUser to fetchUser across the codebase, but not inside strings or the legacy module.",
+      "Read config.json and print the database host.",
+      "Write a robust bash script that rotates our log files nightly.",
+      "The log search endpoint is slow on big files. Make it faster."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "access-log",
+      "fixture": "fixtures/access-log",
+      "prompt": "parse_line in logparse.py misses a lot of request lines in our logs (quoted user names, durations in seconds, PATCH requests, ...) and it also picks up lines that aren't requests. The log format is described in README.md and samples/requests.log has some real lines. Please fix it so it handles the format properly.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Wrote down examples beyond the six samples, including lines that must NOT match (request-like text inside other messages, other components)",
+        "Anchored the pattern to the line structure instead of searching anywhere in the line",
+        "Matched fields by structure (quoted or bare user, ms or s) rather than loose `.*` or separate per-field searches",
+        "Tested the pattern against positive and negative examples (a script or tests) and ran the project tests",
+        "Converted values as specified (user '-' to None, seconds to milliseconds, status to int)"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Upgrade django from 4.2 to 5.1 and fix whatever breaks.",
+      "Dependabot opened 14 PRs. Can you bring our npm packages up to date without breaking the app?",
+      "We're stuck on pydantic v1. Move us to v2 please.",
+      "npm audit reports 3 high severity vulnerabilities. Fix them.",
+      "Bump tokio to the latest version in Cargo.toml and make it compile and pass tests.",
+      "Our lockfile is two years old. Update the Go modules to current versions safely.",
+      "The vendored copy of libyaml is ancient; switch us to the new release that's sitting in third_party/."
+    ],
+    "should_not": [
+      "CI fails at the install step with 'Could not find a version that satisfies the requirement'. Please fix the build.",
+      "Add a migration that renames the users.fullname column to display_name.",
+      "Prepare the 3.2.0 release: bump our version and write the changelog.",
+      "Rename our internal helper get_cfg to load_config in every file that uses it.",
+      "What's the difference between ^1.2.0 and ~1.2.0 in package.json?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "textkit-v2",
+      "fixture": "fixtures/textkit-v2",
+      "prompt": "Please move the blog to textkit 2.0.0. It's already vendored next to the 1.4.2 we use now (see vendor/ and vendor.txt). We need 2.0 for newer Python support; readers shouldn't notice any difference on the site.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read textkit 2.0.0's CHANGELOG and listed its breaking changes before or while upgrading",
+        "Searched the code for every use of each changed function (slugify, truncate, count_words, strip_tags), in both blog/posts.py and blog/feed.py",
+        "Handled the silent changes (slugify default separator, truncate width) even though the existing tests did not fail on them",
+        "Did not edit the vendored 2.0.0 code to restore old behavior",
+        "Ran the tests after the upgrade and reported which breaking changes applied and how each was handled"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

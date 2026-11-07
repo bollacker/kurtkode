@@ -1,0 +1,67 @@
+kurtkode-eval: 1 models × 1 scenarios × 2 trials
+
+=== proxy:qwen/qwen3-coder-30b-a3b-instruct  [history: asIs]
+  [long-doc #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "src"}
+  → todo_write {"todos": [{"content": "Create FILES.md file", "status": "in_progress"}, {"content": "Read
+  → read_file {"path": "src/part01.py"}
+  → write_file {"path": "FILES.md", "content": "src/part01.py — Walrus11 — The part's main type."}
+  → read_file {"path": "src/part02.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The part's main type.", "ne
+  → read_file {"path": "src/part03.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The part's main type.\nsrc/
+  → read_file {"path": "src/part04.py"}
+  FAIL score 0.21 · 116s · 14 steps · 10 calls · 0 errors · 0 compactions · peak 6117 tok · stop completed · min free 73% · 58934+1367 tok · $0.0045
+    - 3/14 correct, 3 listed
+    - compactions: 0
+    - no invented files
+    - 10 files never read
+  [long-doc #2]
+  → list_dir {}
+  → list_dir {}
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part03.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part04.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part05.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part06.py"}
+  ⊜ compacted 7755 → 6185 tokens
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part07.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part08.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part09.py"}
+  ⊜ compacted 8231 → 6384 tokens
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part10.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  → read_file {"path": "src/part11.py"}
+  ⊜ compacted 8174 → 6450 tokens
+  → read_file {"path": "src/part12.py"}
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  → todo_write {"todos": [{"content": "Document part01.py - Walrus11 class", "status": "completed"}, {"co
+  ⊜ compacted 8388 → 6802 tokens
+  FAIL score 0.00 · 356s · 31 steps · 27 calls · 1 errors · 4 compactions · peak 7901 tok · stop completed · min free 73% · 182065+5229 tok · $0.0142
+    - 0/14 correct, 0 listed
+    - compactions: 4
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+proxy:qwen/qwen3-coder-30b-a3b-instruct     0/2 0.11 236s         
+
+=== Spend
+  proxy: $0.0205 (key usage)
+  reported with replies: $0.0187 (excludes compaction summaries)
+wrote transcripts to eval-results/retry-openrouter-2026-10-10-transcripts
+
+wrote eval-results/retry-openrouter-2026-10-10.json

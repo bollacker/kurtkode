@@ -1,0 +1,806 @@
+### long-doc remote
+kurtkode-eval: 4 models × 1 scenarios × 2 trials
+
+=== openrouter:qwen/qwen3-coder-30b-a3b-instruct  [history: asIs]
+  [long-doc #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  FAIL score 0.00 · 25s · 8 steps · 4 calls · 0 errors · 0 compactions · peak 3852 tok · stop completed · min free 32% · 25031+360 tok · $0.0018
+    - 0/14 correct, 0 listed
+    - compactions: 0
+    - no invented files
+    - 12 files never read
+  [long-doc #2]
+  → list_dir {}
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  FAIL score 0.00 · 19s · 8 steps · 4 calls · 0 errors · 0 compactions · peak 3774 tok · stop completed · min free 33% · 21535+355 tok · $0.0016
+    - 0/14 correct, 0 listed
+    - compactions: 0
+    - no invented files
+    - 12 files never read
+
+=== openrouter:google/gemma-4-26b-a4b-it  [history: asIs, merge]
+  [long-doc #1]
+  → todo_write {"todos": [{"content": "List all Python files under src", "status": "in_progress"}]}
+  → list_dir {"path": "src"}
+  → todo_write {"todos": [{"content": "List all Python files under src", "status": "completed"}, {"conten
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → read_file {"path": "src/part04.py"}
+  → read_file {"path": "src/part05.py"}
+  → read_file {"path": "src/part06.py"}
+  → read_file {"path": "src/part07.py"}
+  ⊜ compacted 7386 → 6489 tokens
+  → todo_write {"todos": [{"content": "List all Python files under src", "status": "completed"}, {"conten
+  → read_file {"path": "src/part08.py"}
+  → read_file {"path": "src/part09.py"}
+  → read_file {"path": "src/part10.py"}
+  → read_file {"path": "src/part11.py"}
+  ⊜ compacted 8156 → 6250 tokens
+  → read_file {"path": "src/part12.py"}
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  ⊜ compacted 8096 → 6344 tokens
+  → todo_write {"todos": [{"content": "List all Python files under src", "status": "completed"}, {"conten
+  → write_file {"content": "src/part01.py — Walrus11 — The part's main type.\nsrc/part02.py — Nettle64 — 
+  FAIL score 0.79 · 37s · 21 steps · 20 calls · 1 errors · 3 compactions · peak 7397 tok · stop completed · min free 33% · 109753+1149 tok · $0.0056
+    - 11/14 correct, 11 listed
+    - compactions: 3
+    - no invented files
+    - read every file
+    final:  ⏎ I have completed the task. I read all the Python files in `src/`, extracted the class names and their descriptions, and created the `FILES.md` file with the required documentation. ⏎  ⏎ Files documented in `FILES.md`: ⏎ - `src/part01.py` — `Walrus11` ⏎ - `src/part02.py` — `Nettle64` ⏎ - `src/part
+  [long-doc #2]
+  → list_dir {"path": "\".\""}
+  → bash {"command": "ls -a"}
+  → todo_write {"todos": [{"content": "Explore src directory", "status": "in_progress"}, {"content": "Rea
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → read_file {"path": "src/part04.py"}
+  → read_file {"path": "src/part05.py"}
+  → read_file {"path": "src/part06.py"}
+  → read_file {"path": "src/part07.py"}
+  ⊜ compacted 7396 → 6446 tokens
+  → read_file {"path": "src/part08.py"}
+  → read_file {"path": "src/part09.py"}
+  → read_file {"path": "src/part10.py"}
+  → read_file {"path": "src/part11.py"}
+  ⊜ compacted 8143 → 6168 tokens
+  → glob {"pattern": "src/*.py"}
+  → read_file {"path": "src/part12.py"}
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  → todo_write {"todos": [{"content": "Explore src directory", "status": "completed"}, {"content": "Read 
+  → write_file {"content": "src/part01.py — Walrus11 — A class providing mathematical operations.\nsrc/pa
+  ⊜ compacted 8158 → 6478 tokens
+  FAIL score 0.57 · 32s · 22 steps · 21 calls · 1 errors · 3 compactions · peak 7801 tok · stop completed · min free 32% · 112568+1109 tok · $0.0059
+    - 8/14 correct, 14 listed
+    - compactions: 3
+    - no invented files
+    - read every file
+    final:  ⏎ The documentation task is complete. I have read all files in `src` and populated `FILES.md` with the required information. ⏎  ⏎ `FILES.md` content: ⏎ ```markdown ⏎ src/part01.py — Walrus11 — A class providing mathematical operations. ⏎ src/part02.py — Nettle64 — A class for numerical processing. 
+
+=== openrouter:qwen/qwen3-coder  [history: asIs]
+  [long-doc #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "src"}
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "in_progres
+  → read_file {"path": "src/part01.py"}
+  → read_file {"path": "src/part02.py"}
+  → read_file {"path": "src/part03.py"}
+  → read_file {"path": "src/part04.py"}
+  → read_file {"path": "src/part05.py"}
+  → write_file {"content": "src/part01.py — Walrus11 — The part's main type.\nsrc/part02.py — Nettle64 — 
+  → read_file {"path": "src/part06.py"}
+  → read_file {"path": "src/part07.py"}
+  ⊜ compacted 7556 → 6417 tokens
+  → read_file {"path": "src/part08.py"}
+  → read_file {"path": "src/part09.py"}
+  → read_file {"path": "src/part10.py"}
+  → read_file {"path": "src/part11.py"}
+  → read_file {"path": "src/part12.py"}
+  ⊜ compacted 8503 → 6362 tokens
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  → grep {"path": "src", "pattern": "class"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  ⊜ compacted 8381 → 6472 tokens
+  → read_file {"path": "FILES.md"}
+  → write_file {"path": "FILES.md", "content": "src/part06.py \u2014 Vole26 \u2014 The part's main type.\
+  → read_file {"path": "FILES.md"}
+  PASS score 1.00 · 28s · 24 steps · 23 calls · 1 errors · 3 compactions · peak 7845 tok · stop completed · min free 32% · 135978+2294 tok · $0.0315
+    - 14/14 correct, 14 listed
+    - compactions: 3
+    - no invented files
+    - read every file
+  [long-doc #2]
+  → list_dir {"path": "."}
+  → list_dir {"path": "src"}
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "in_progres
+  → read_file {"path": "src/part01.py"}
+  → write_file {"path": "FILES.md", "content": "src/part01.py — Walrus11 — The part's main type."}
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part02.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The part's main type.", "ne
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part03.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The part's main type.\nsrc/
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part04.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py — Walrus11 — The part's main type.\nsrc/
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  ⊜ compacted 7757 → 6181 tokens
+  → read_file {"path": "src/part05.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part06.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  ⊜ compacted 8196 → 6206 tokens
+  → read_file {"path": "src/part07.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part08.py"}
+  ⊜ compacted 7911 → 6100 tokens
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part09.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  ⊜ compacted 8082 → 6389 tokens
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part10.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  ⊜ compacted 8158 → 5927 tokens
+  → read_file {"path": "src/part11.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  ⊜ compacted 7656 → 6247 tokens
+  → read_file {"path": "src/part12.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part13.py"}
+  ⊜ compacted 8228 → 6334 tokens
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  → read_file {"path": "src/part14.py"}
+  → edit_file {"path": "FILES.md", "old_string": "src/part01.py \u2014 Walrus11 \u2014 The part's main t
+  ⊜ compacted 8744 → 5994 tokens
+  → todo_write {"todos": [{"content": "Read part01.py and document it in FILES.md", "status": "completed"
+  FAIL score 0.79 · 72s · 46 steps · 45 calls · 0 errors · 8 compactions · peak 7807 tok · stop completed · min free 32% · 280955+10090 tok · $0.0646
+    - 11/14 correct, 14 listed
+    - compactions: 8
+    - no invented files
+    - read every file
+    final: I've completed documenting all Python files in the src directory in FILES.md. Here's what I did: ⏎  ⏎ 1. Read each file (part01.py through part14.py) to identify the main class declared in each ⏎ 2. Added a documentation line for each file in FILES.md in the format: `src/partXX.py — ClassName — The 
+
+=== openrouter:openai/gpt-oss-120b  [history: asIs]
+  [long-doc #1]
+  → glob {
+  "path": "",
+  "pattern": "src/**/*.py"
+}
+  → read_file {
+  "path": "src/part01.py",
+  "limit": 200
+}
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "pen
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "in_
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  → read_file {
+  "path": "src/part02.py",
+  "limit": 200
+}
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  → read_file {
+  "path": "src/part03.py",
+  "limit": 200
+}
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  → read_file {
+  "path": "src/part04.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part05.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part06.py",
+  "limit": 200
+}
+  ⊜ compacted 7438 → 6013 tokens
+  → glob {
+  "pattern": "src/part*.py"
+}
+  → read_file {
+  "path": "src/part07.py",
+  "limit": 200
+}
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  → read_file {
+  "path": "src/part08.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part09.py",
+  "limit": 200
+}
+  ⊜ compacted 7850 → 6164 tokens
+  → read_file {
+  "path": "src/part10.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part11.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part12.py",
+  "limit": 200
+}
+  ⊜ compacted 7873 → 6363 tokens
+  → read_file {
+  "path": "src/part13.py",
+  "limit": 200
+}
+  → read_file {
+  "path": "src/part14.py",
+  "limit": 200
+}
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part01.py — Walrus11 — The part's main type.\nsr
+  → todo_write {
+  "todos": [
+    {"content": "Read src/part01.py and extract class info", "status": "com
+  ⊜ compacted 8144 → 6213 tokens
+  PASS score 1.00 · 307s · 28 steps · 25 calls · 0 errors · 4 compactions · peak 7441 tok · stop completed · min free 32% · 146528+5323 tok · $0.0055
+    - 14/14 correct, 14 listed
+    - compactions: 4
+    - no invented files
+    - read every file
+  [long-doc #2]
+  → list_dir {
+  "path": "."
+}
+  → list_dir {
+  "path": "src"
+}
+  → list_dir {
+  "path": "."
+}
+  → read_file {
+  "path": "FILES.md"
+}
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "pending"},
+    {"conten
+  → read_file {
+  "path": "src/part01.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part01.py — Walrus11 — The part's main type.\n"
+
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part02.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part02.py — Nettle64 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part03.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part03.py — Ibis52 — The part's main type.\n",
+ 
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part04.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part04.py — Walrus78 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part05.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part05.py — Walrus84 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  ⊜ compacted 7656 → 4667 tokens
+  → read_file {
+  "path": "src/part06.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part06.py — Vole26 — The part's main type.\n",
+ 
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part07.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part07.py — Yarrow65 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part08.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part08.py — Quokka30 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → read_file {
+  "path": "src/part09.py",
+  "limit": 200
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part09.py — Cobalt91 — The part's main type.\n",
+  ⊜ compacted 7489 → 6452 tokens
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"json
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → list_dir {
+  "path": "src"
+}
+  → read_file {
+  "path": "src/part10.py",
+  "limit": 200
+}
+  → grep {
+  "path": "src/part10.py",
+  "pattern": "^class ",
+  "case_insensitive": false
+}
+  → read_file {
+  "path": "src/part10.py",
+  "offset": 48,
+  "limit": 20
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part10.py — Zircon28 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → grep {
+  "path": "src/part11.py",
+  "pattern": "^class ",
+  "case_insensitive": false
+}
+  → read_file {
+  "path": "src/part11.py",
+  "offset": 48,
+  "limit": 20
+}
+  ⊜ compacted 8103 → 4070 tokens
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part11.py — Quillwort41 — The part's main type.\
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → grep {
+  "path": "src/part12.py",
+  "pattern": "^class ",
+  "case_insensitive": false
+}
+  → read_file {
+  "path": "src/part12.py",
+  "offset": 48,
+  "limit": 20
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part12.py — Russet29 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → grep {
+  "path": "src/part13.py",
+  "pattern": "^class ",
+  "case_insensitive": false
+}
+  → read_file {
+  "path": "src/part13.py",
+  "offset": 48,
+  "limit": 20
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part13.py — Lichen55 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  → grep {
+  "path": "src/part14.py",
+  "pattern": "^class ",
+  "case_insensitive": false
+}
+  → read_file {
+  "path": "src/part14.py",
+  "offset": 48,
+  "limit": 20
+}
+  → write_file {
+  "path": "FILES.md",
+  "content": "src/part14.py — Osprey31 — The part's main type.\n",
+  → todo_write {
+  "todos": [
+    {"content": "Process src/part01.py", "status": "completed"},
+    {"cont
+  PASS score 1.00 · 364s · 59 steps · 55 calls · 3 errors · 3 compactions · peak 7928 tok · stop completed · min free 84% · 304951+7613 tok · $0.0110
+    - 14/14 correct, 14 listed
+    - compactions: 3
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+openrouter:google/gemma-4-26b-a4b-it        0/2 0.68 35s          
+openrouter:openai/gpt-oss-120b              2/2 1.00 336s         
+openrouter:qwen/qwen3-coder                 1/2 0.89 50s          
+openrouter:qwen/qwen3-coder-30b-a3b-instruct0/2 0.00 22s          
+
+=== Spend
+  Openrouter: $0.1485 (key usage)
+  reported with replies: $0.1275 (excludes compaction summaries)
+wrote transcripts to eval-results/remote-transcripts
+
+wrote eval-results/remote-longdoc-2026-09-27.json
+### switch S1 fix-tests
+kurtkode-eval: 0 models × 1 scenarios × 2 trials
+
+=== switch lmstudio:qwen/qwen3-coder-30b → openrouter:qwen/qwen3-coder-30b-a3b-instruct, after 3 steps
+  [fix-tests #1]
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 86%)
+  phase 1: lmstudio:qwen/qwen3-coder-30b, 3 steps
+  → list_dir {}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  phase 2: openrouter:qwen/qwen3-coder-30b-a3b-instruct
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, 
+  → bash {"command": "python3 -m unittest -v"}
+  PASS score 1.00 · 28s · 10 steps · 6 calls · 0 errors · 0 compactions · stop completed · 27405+784 tok · $0.0016
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 86%)
+  phase 1: lmstudio:qwen/qwen3-coder-30b, 3 steps
+  → list_dir {}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  phase 2: openrouter:qwen/qwen3-coder-30b-a3b-instruct
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"new_string": "def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    retur
+  → bash {"command": "python3 -m unittest -v"}
+  → todo_write {"todos": 
+[{"content": "Identify bugs in calc.py", "status": "completed"}, {"content": "F
+  PASS score 1.00 · 42s · 12 steps · 8 calls · 0 errors · 0 compactions · stop completed · 35567+1449 tok · $0.0024
+    - tests pass
+    - changed: ["calc.py"]
+
+=== switch openrouter:qwen/qwen3-coder-30b-a3b-instruct → lmstudio:mistralai/devstral-small-2-2512, after 3 steps
+  [fix-tests #1]
+  phase 1: openrouter:qwen/qwen3-coder-30b-a3b-instruct, 3 steps
+  → list_dir {}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  loading mistralai/devstral-small-2-2512 with 32768 context, 1 slot (free memory 86%)
+  phase 2: lmstudio:mistralai/devstral-small-2-2512
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "def mean(values):\n    \"\"\"Average of a non-empty lis
+  → read_file {"path": "calc.py"}
+  → bash {"command": "python3 -m unittest -v"}
+  PASS score 1.00 · 82s · 9 steps · 8 calls · 0 errors · 0 compactions · stop completed · 23116+555 tok · $0.0005
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  phase 1: openrouter:qwen/qwen3-coder-30b-a3b-instruct, 3 steps
+  → list_dir {}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  loading mistralai/devstral-small-2-2512 with 32768 context, 1 slot (free memory 86%)
+  phase 2: lmstudio:mistralai/devstral-small-2-2512
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "def mean(values):\n    \"\"\"Average of a non-empty lis
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  PASS score 1.00 · 85s · 9 steps · 8 calls · 0 errors · 0 compactions · stop completed · 23315+599 tok · $0.0021
+    - tests pass
+    - changed: ["calc.py"]
+
+=== switch openrouter:openai/gpt-oss-120b → lmstudio:google/gemma-4-12b-qat, after 3 steps
+  [fix-tests #1]
+  phase 1: openrouter:openai/gpt-oss-120b, 3 steps
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 200
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  loading google/gemma-4-12b-qat with 32768 context, 1 slot (free memory 86%)
+  phase 2: lmstudio:google/gemma-4-12b-qat
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → bash {"command":"python3 -m unittest -v","timeout":120}
+  PASS score 1.00 · 44s · 6 steps · 5 calls · 0 errors · 0 compactions · stop completed · 12741+779 tok · $0.0002
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  phase 1: openrouter:openai/gpt-oss-120b, 3 steps
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 200
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  loading google/gemma-4-12b-qat with 32768 context, 1 slot (free memory 86%)
+  phase 2: lmstudio:google/gemma-4-12b-qat
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → bash {"command":"python3 -m unittest -v","timeout":120}
+  PASS score 1.00 · 40s · 6 steps · 5 calls · 0 errors · 0 compactions · stop completed · 12716+689 tok · $0.0002
+    - tests pass
+    - changed: ["calc.py"]
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       fix-tests             
+lmstudio:qwen/qwen3-coder-30b → openrouter:q2/2 1.00 35s          
+openrouter:openai/gpt-oss-120b → lmstudio:go2/2 1.00 42s          
+openrouter:qwen/qwen3-coder-30b-a3b-instruct2/2 1.00 84s          
+
+=== Spend
+  Openrouter: $0.0073 (key usage)
+  reported with replies: $0.0070 (excludes compaction summaries)
+wrote transcripts to eval-results/switch-remote-transcripts
+
+wrote eval-results/switch-remote-fix-2026-09-27.json
+### switch S2 long-doc
+kurtkode-eval: 0 models × 1 scenarios × 2 trials
+
+=== switch lmstudio:qwen/qwen3-coder-30b → openrouter:qwen/qwen3-coder-30b-a3b-instruct, after 15 steps
+  [long-doc #1]
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 86%)
+  phase 1: lmstudio:qwen/qwen3-coder-30b, 15 steps
+  → list_dir {"path":"."}
+  → list_dir {"path":"src"}
+  → write_file {"path":"FILES.md","content":"# Package Files Documentation\n"}
+  → todo_write {"todos":[{"content":"Document part01.py","status":"in_progress"},{"content":"Document par
+  → read_file {"path":"src/part01.py"}
+  → edit_file {"path":"FILES.md","old_string":"# Package Files Documentation\n","new_string":"# Package 
+  → todo_write {"todos":[{"content":"Document part01.py","status":"completed"},{"content":"Document part0
+  → read_file {"path":"src/part02.py"}
+  → edit_file {"new_string":"# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class 
+  → todo_write {"todos":[{"content":"Document part01.py","status":"completed"},{"content":"Document part0
+  → read_file {"path":"src/part03.py"}
+  → edit_file {"new_string":"# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class 
+  → todo_write {"todos":[{"content":"Document part01.py","status":"completed"},{"content":"Document part0
+  → read_file {"path":"src/part04.py"}
+  → edit_file {"new_string":"# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class 
+  phase 2: openrouter:qwen/qwen3-coder-30b-a3b-instruct
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  ⊜ compacted 7556 → 6048 tokens
+  → list_dir {"path": "src"}
+  → read_file {"path": "src/part05.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part06.py"}
+  ⊜ compacted 7819 → 5656 tokens
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part07.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 7907 → 6069 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part08.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 7713 → 5999 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part09.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 7770 → 6253 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part10.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 8097 → 5948 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part11.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 7741 → 6002 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part12.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 8011 → 5914 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part13.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  ⊜ compacted 8024 → 4801 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part14.py"}
+  → edit_file {"new_string": "# Package Files Documentation\n\nsrc/part01.py — Walrus11 — The main class
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  PASS score 1.00 · 235s · 48 steps · 47 calls · 0 errors · 9 compactions · stop completed · 268805+10604 tok · $0.0734
+    - 14/14 correct, 14 listed
+    - compactions: 9
+    - no invented files
+    - read every file
+  [long-doc #2]
+  loading qwen/qwen3-coder-30b with 32768 context, 1 slot (free memory 85%)
+  phase 1: lmstudio:qwen/qwen3-coder-30b, 15 steps
+  → list_dir {}
+  → list_dir {"path":"src"}
+  → write_file {"path":"FILES.md","content":"# Package Documentation\n\nThis file contains documentation 
+  → todo_write {"todos":[{"content":"Document part01.py","status":"in_progress"},{"content":"Document par
+  → read_file {"path":"src/part01.py"}
+  → edit_file {"path":"FILES.md","old_string":"# Package Documentation\n\nThis file contains documentati
+  → edit_file {"path":"FILES.md","new_string":"src/part02.py — Walrus21 — The main class for part 2 that
+  → read_file {"path":"src/part02.py"}
+  → edit_file {"path":"FILES.md","new_string":"# Package Documentation\n\nThis file contains documentati
+  → read_file {"path":"FILES.md"}
+  → edit_file {"path":"FILES.md","new_string":"# Package Documentation\n\nThis file contains documentati
+  → todo_write {"todos":[{"content":"Document part01.py","status":"completed"},{"content":"Document part0
+  → read_file {"path":"src/part03.py"}
+  → edit_file {"path":"FILES.md","new_string":"# Package Documentation\n\nThis file contains documentati
+  → todo_write {"todos":[{"content":"Document part01.py","status":"completed"},{"content":"Document part0
+  phase 2: openrouter:qwen/qwen3-coder-30b-a3b-instruct
+  → read_file {"path": "src/part04.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7815 → 5874 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part05.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part06.py"}
+  ⊜ compacted 7724 → 5613 tokens
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part07.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7930 → 5957 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part08.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7794 → 5969 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part09.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7800 → 5671 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part10.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7418 → 5800 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part11.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 7760 → 5997 tokens
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → read_file {"path": "src/part12.py"}
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 8055 → 4922 tokens
+  → read_file {"path": "src/part13.py"}
+  → read_file {"path": "src/part14.py"}
+  → todo_write {"todos": 
+[{"content": "Document part01.py", "status": "completed"}, {"content": "Documen
+  → edit_file {"path": "FILES.md", "new_string": "# Package Documentation\n\nThis file contains document
+  ⊜ compacted 8110 → 5924 tokens
+  PASS score 1.00 · 217s · 46 steps · 45 calls · 1 errors · 9 compactions · stop completed · 250996+9736 tok · $0.0679
+    - 14/14 correct, 14 listed
+    - compactions: 9
+    - no invented files
+    - read every file
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       long-doc              
+lmstudio:qwen/qwen3-coder-30b → openrouter:q2/2 1.00 226s         
+
+=== Spend
+  Openrouter: $0.1715 (key usage)
+  reported with replies: $0.1412 (excludes compaction summaries)
+wrote transcripts to eval-results/switch-remote-transcripts
+
+wrote eval-results/switch-remote-longdoc-2026-09-27.json
+### CHAIN DONE

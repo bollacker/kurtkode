@@ -1,0 +1,424 @@
+key usage at start: Openrouter $2604.2807
+kurtkode-eval: 2 models × 5 scenarios × 3 trials
+
+=== openrouter:anthropic/claude-sonnet-5.5  [history: asIs]
+  [survey #1]
+  → list_dir {"path": "notes"}
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → grep {"pattern": "^(?!.*\\(item \\d+\\))(?!#)(?!Attendees)(?!\\s*$).+", "path": "notes"}
+  ⊜ compacted 8714 → 3981 tokens (summary 11 s, 2635 bytes)
+  → grep {"pattern": "postpon|defer|delay|push|later date|hold off|held off|revisit|reschedul|next 
+  PASS score 1.00 · 35s · 5 steps · 11 calls · 3 errors · 1 compactions · peak 8587 tok · stop completed · min free 66% · 20317+1183 tok · $0.0432
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 8587 tokens
+  [survey #2]
+  → list_dir {"path": "notes"}
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → read_file {"path": "notes/2026-03-03.md"}
+  → read_file {"path": "notes/2026-03-10.md"}
+  → read_file {"path": "notes/2026-03-17.md"}
+  → read_file {"path": "notes/2026-03-24.md"}
+  → read_file {"path": "notes/2026-04-03.md"}
+  → read_file {"path": "notes/2026-04-10.md"}
+  → read_file {"path": "notes/2026-04-17.md"}
+  → read_file {"path": "notes/2026-04-24.md"}
+  → read_file {"path": "notes/2026-02-03.md", "offset": 40}
+  → read_file {"path": "notes/2026-02-10.md", "offset": 40}
+  → read_file {"path": "notes/2026-02-17.md", "offset": 40}
+  → read_file {"path": "notes/2026-02-24.md", "offset": 40}
+  ⊜ compacted 9578 → 3903 tokens (summary 7 s, 2933 bytes)
+  → read_file {"path": "notes/2026-03-03.md", "offset": 40}
+  → read_file {"path": "notes/2026-03-10.md", "offset": 40}
+  → read_file {"path": "notes/2026-03-17.md", "offset": 40}
+  → read_file {"path": "notes/2026-03-24.md", "offset": 40}
+  → read_file {"path": "notes/2026-04-03.md", "offset": 40}
+  → read_file {"path": "notes/2026-04-10.md", "offset": 40}
+  → read_file {"path": "notes/2026-04-17.md", "offset": 40}
+  → read_file {"path": "notes/2026-04-24.md", "offset": 40}
+  → grep {"pattern": "postpone|delay|defer|push|hold off|reschedul|moves to|later|revisit", "path":
+  PASS score 1.00 · 40s · 7 steps · 30 calls · 11 errors · 1 compactions · peak 9728 tok · stop completed · min free 66% · 33790+2570 tok · $0.0652
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 9728 tokens
+  [survey #3]
+  → list_dir {"path": "notes"}
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → read_file {"path": "notes/2026-03-03.md"}
+  → read_file {"path": "notes/2026-03-10.md"}
+  → read_file {"path": "notes/2026-03-17.md"}
+  → read_file {"path": "notes/2026-03-24.md"}
+  → read_file {"path": "notes/2026-04-03.md"}
+  → read_file {"path": "notes/2026-04-10.md"}
+  → read_file {"path": "notes/2026-04-17.md"}
+  → read_file {"path": "notes/2026-04-24.md"}
+  → grep {"pattern": "postpone|push|defer|delay|later|reschedul|move[ds]? to|slip|bump|resume|hold 
+  → read_file {"path": "notes/2026-02-03.md", "offset": 41}
+  ⊜ compacted 9382 → 3648 tokens (summary 10 s, 2849 bytes)
+  → read_file {"path": "notes/2026-02-17.md", "offset": 44, "limit": 6}
+  → read_file {"path": "notes/2026-03-10.md", "offset": 44, "limit": 6}
+  → read_file {"path": "notes/2026-03-17.md", "offset": 44, "limit": 6}
+  → read_file {"path": "notes/2026-04-03.md", "offset": 44, "limit": 6}
+  → read_file {"path": "notes/2026-04-10.md", "offset": 44, "limit": 6}
+  → read_file {"path": "notes/2026-04-24.md", "offset": 44, "limit": 6}
+  PASS score 1.00 · 39s · 6 steps · 25 calls · 11 errors · 1 compactions · peak 9714 tok · stop completed · min free 66% · 25465+2295 tok · $0.0580
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 9714 tokens
+  [log-sweep #1]
+  → list_dir {"path": "logs"}
+  → grep {"pattern": "ERROR", "path": "logs"}
+  PASS score 1.00 · 15s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2573 tok · stop completed · min free 66% · 4633+315 tok · $0.0103
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2573 tokens
+  [log-sweep #2]
+  → list_dir {"path": "logs"}
+  → grep {"pattern": "ERROR", "path": "logs"}
+  PASS score 1.00 · 16s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2628 tok · stop completed · min free 66% · 6560+328 tok · $0.0106
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2628 tokens
+  [log-sweep #3]
+  → list_dir {"path": "logs"}
+  → grep {"pattern": "ERROR", "path": "logs"}
+  PASS score 1.00 · 15s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2577 tok · stop completed · min free 66% · 4639+355 tok · $0.0107
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2577 tokens
+  [two-questions #1]
+  → grep {"pattern": "def reserve_stock"}
+  → grep {"pattern": "^\\s*class \\w+", "path": "parts/src/part04.py"}
+  PASS score 1.00 · 15s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2004 tok · stop completed · min free 66% · 3956+312 tok · $0.0086
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern": "def reserve_stock"}
+  → grep {"pattern": "^\\s*class ", "path": "parts/src/part04.py"}
+  PASS score 1.00 · 15s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2004 tok · stop completed · min free 66% · 3957+331 tok · $0.0088
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern": "def reserve_stock"}
+  → read_file {"path": "parts/src/part04.py"}
+  PASS score 1.00 · 13s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2634 tok · stop completed · min free 66% · 4674+195 tok · $0.0092
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern": "TAX_RATE"}
+  → read_file {"path": "inventory/pricing.py"}
+  PASS score 1.00 · 14s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2188 tok · stop completed · min free 66% · 5971+221 tok · $0.0082
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern": "TAX_RATE"}
+  PASS score 1.00 · 15s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1901 tok · stop completed · min free 66% · 3745+193 tok · $0.0070
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern": "TAX_RATE"}
+  PASS score 1.00 · 13s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1896 tok · stop completed · min free 66% · 3737+139 tok · $0.0064
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → grep {"pattern": "def sub", "path": "calc.py"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 19s · 4 steps · 4 calls · 0 errors · 0 compactions · peak 3223 tok · stop completed · min free 66% · 11845+455 tok · $0.0138
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 16s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 3128 tok · stop completed · min free 66% · 8860+380 tok · $0.0125
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 16s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 3127 tok · stop completed · min free 66% · 8857+365 tok · $0.0124
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== openrouter:anthropic/claude-sonnet-5.5 +subagents >openrouter:inclusionai/ling-3.0-flash forced  [history: asIs]
+  [survey #1]
+  → list_dir {"path": "notes"}
+  → task {"description": "Find postponements in Jan notes", "agent": "explore", "kind": "search", "
+  → task {"description": "Find postponements in Mar/Apr notes", "agent": "explore", "kind": "search
+  ⤷ explore subagent: Find postponements in Mar/Apr notes
+  ⤷ explore subagent: Find postponements in Jan notes
+  → grep {"pattern": "postpone|defer|delay|push|later|move|hold off|revisit|next (month|quarter|wee
+  → read_file {"path": "notes/2026-01-24.md", "offset": 40, "limit": 10}
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  FAIL score 0.80 · 47s · 5 steps · 5 calls · 0 errors · 0 compactions · peak 5860 tok · stop completed · min free 66% · 23814+1512 tok · $0.0317
+    - 5/5 right
+    - wrong: ["2026-01-24.md", "2026-02-24.md"]
+    - subagent runs: 2
+    - peak prompt 5860 tokens
+    final: - `notes/2026-01-10.md`: the billing migration was pushed back to the second half of the year. ⏎ - `notes/2026-02-10.md`: the vendor review was moved to next month, because it can't happen before the audit is finished. ⏎ - `notes/2026-03-03.md`: the partner portal launch was deferred until Q3. ⏎ - `
+  [survey #2]
+  → list_dir {"path": "notes"}
+  → task {"description": "Find postponements Jan notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Feb notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Mar notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Apr notes", "agent": "explore", "kind": "search", "pro
+  ⤷ explore subagent: Find postponements Jan notes
+  ⤷ explore subagent: Find postponements Mar notes
+  ⤷ explore subagent: Find postponements Apr notes
+  ⤷ explore subagent: Find postponements Feb notes
+  → grep {"pattern": "postpone|defer|push|delay|later|move|hold off|resched|until|next (month|quart
+  ⊜ compacted 7744 → 4816 tokens (summary 7 s, 2779 bytes)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 2/3 (spot-checked): wrong-facts
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 54s · 4 steps · 6 calls · 0 errors · 1 compactions · peak 7477 tok · stop completed · min free 66% · 19056+1777 tok · $0.0487
+    - 5/5 right
+    - none wrong
+    - subagent runs: 4
+    - peak prompt 7477 tokens
+  [survey #3]
+  → list_dir {"path": "notes"}
+  → task {"description": "Find postponements Jan notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Feb notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Mar notes", "agent": "explore", "kind": "search", "pro
+  → task {"description": "Find postponements Apr notes", "agent": "explore", "kind": "search", "pro
+  ⤷ explore subagent: Find postponements Jan notes
+  ⤷ explore subagent: Find postponements Apr notes
+  ⤷ explore subagent: Find postponements Feb notes
+  ⤷ explore subagent: Find postponements Mar notes
+  → grep {"pattern": "postpon|defer|push|move[sd]? to|hold off|delay|revisit|later|back to", "path"
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  FAIL score 0.80 · 46s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 7147 tok · stop completed · min free 66% · 20915+1739 tok · $0.0367
+    - 5/5 right
+    - wrong: ["2026-01-24.md", "2026-02-24.md"]
+    - subagent runs: 4
+    - peak prompt 7147 tokens
+    final: - `notes/2026-01-10.md`: the billing migration was pushed back to the second half of the year (line 46). ⏎ - `notes/2026-02-10.md`: the vendor review was moved to next month, because it can't happen before the audit is finished (line 46). ⏎ - `notes/2026-03-03.md`: the partner portal launch was defe
+  [log-sweep #1]
+  → list_dir {"path": "logs"}
+  → task {"description": "Count ERROR kinds in service-1", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-2", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-3", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-4", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-5", "agent": "explore", "kind": "search", "p
+  → grep {"pattern": "ERROR", "path": "logs", "files_only": true}
+  ⤷ explore subagent: Count ERROR kinds in service-2
+  ⤷ explore subagent: Count ERROR kinds in service-3
+  ⤷ explore subagent: Count ERROR kinds in service-4
+  ⤷ explore subagent: Count ERROR kinds in service-1
+  ⤷ explore subagent: Count ERROR kinds in service-5
+  → grep {"pattern": "ERROR", "path": "logs"}
+  ⊜ compacted 7565 → 5000 tokens (summary 5 s, 2074 bytes)
+  → rate_task {"task": "Count ERROR kinds in service-1", "verdict": 3, "checked": "spot-checked", "note"
+  → rate_task {"task": "Count ERROR kinds in service-2", "verdict": 3, "checked": "spot-checked", "note"
+  → rate_task {"task": "Count ERROR kinds in service-3", "verdict": 3, "checked": "spot-checked", "note"
+  → rate_task {"task": "Count ERROR kinds in service-4", "verdict": 3, "checked": "spot-checked", "note"
+  → rate_task {"task": "Count ERROR kinds in service-5", "verdict": 3, "checked": "spot-checked", "note"
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 55s · 5 steps · 13 calls · 0 errors · 1 compactions · peak 6514 tok · stop completed · min free 66% · 24406+2476 tok · $0.0580
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 6514 tokens
+  [log-sweep #2]
+  → list_dir {"path": "logs"}
+  → task {"description": "Count ERROR kinds in service-1", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-2", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-3", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-4", "agent": "explore", "kind": "search", "p
+  → task {"description": "Count ERROR kinds in service-5", "agent": "explore", "kind": "search", "p
+  → grep {"pattern": "ERROR", "path": "logs", "files_only": true}
+  ⤷ explore subagent: Count ERROR kinds in service-5
+  ⤷ explore subagent: Count ERROR kinds in service-3
+  ⤷ explore subagent: Count ERROR kinds in service-1
+  ⤷ explore subagent: Count ERROR kinds in service-4
+  ⤷ explore subagent: Count ERROR kinds in service-2
+  → grep {"pattern": "ERROR", "path": "logs"}
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 48s · 4 steps · 8 calls · 0 errors · 0 compactions · peak 6071 tok · stop completed · min free 66% · 18420+1623 tok · $0.0330
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 6071 tokens
+  [log-sweep #3]
+  → list_dir {"path": "logs"}
+  → grep {"pattern": "ERROR", "path": "logs/service-1.log"}
+  → task {"description": "Count ERROR kinds in service-2 log", "prompt": "In logs/service-2.log (pr
+  → task {"description": "Count ERROR kinds in service-3 log", "prompt": "In logs/service-3.log (pr
+  → task {"description": "Count ERROR kinds in service-4 log", "prompt": "In logs/service-4.log (pr
+  → task {"description": "Count ERROR kinds in service-5 log", "prompt": "In logs/service-5.log (pr
+  → grep {"pattern": "ERROR", "path": "logs"}
+  ⤷ explore subagent: Count ERROR kinds in service-5 log
+  ⤷ explore subagent: Count ERROR kinds in service-2 log
+  ⤷ explore subagent: Count ERROR kinds in service-3 log
+  ⤷ explore subagent: Count ERROR kinds in service-4 log
+  → grep {"pattern": "error|fatal|exception|fail", "path": "logs", "case_insensitive": true, "glob"
+  → rate_task {"task": "Count ERROR kinds in service-5 log", "verdict": 3, "checked": "spot-checked", "n
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  → rate_task {"task": "Count ERROR kinds in service-2 log", "verdict": 3, "checked": "spot-checked", "n
+  → rate_task {"task": "Count ERROR kinds in service-4 log", "verdict": 3, "checked": "spot-checked", "n
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  ⊜ compacted 8048 → 5284 tokens (summary 6 s, 2531 bytes)
+  → rate_task {"task": "Count ERROR kinds in service-3 log", "verdict": 3, "checked": "spot-checked", "n
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  PASS score 1.00 · 52s · 9 steps · 12 calls · 0 errors · 1 compactions · peak 7826 tok · stop completed · min free 66% · 48150+2795 tok · $0.0644
+    - 3/3 counts right
+    - subagent runs: 4
+    - peak prompt 7826 tokens
+  [two-questions #1]
+  → task {"description": "Find reserve_stock definition", "prompt": "In the project root, find wher
+  → task {"description": "Find class in part04.py", "prompt": "Read the file parts/src/part04.py (p
+  ⤷ explore subagent: Find reserve_stock definition
+  ⤷ explore subagent: Find class in part04.py
+  → grep {"pattern": "def reserve_stock|reserve_stock\\s*="}
+  → grep {"pattern": "^\\s*class\\s", "path": "parts/src/part04.py"}
+  → rate_task {"task": "Find class in part04.py", "verdict": 3, "checked": "spot-checked", "note": "The 
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  → rate_task {"task": "Find reserve_stock definition", "verdict": 3, "checked": "spot-checked", "note":
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  PASS score 1.00 · 33s · 6 steps · 6 calls · 0 errors · 0 compactions · peak 5173 tok · stop completed · min free 66% · 26213+1444 tok · $0.0296
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #2]
+  → task {"description": "Find reserve_stock definition", "prompt": "In the project root, find wher
+  → task {"description": "Find class in part04.py", "prompt": "Read the file parts/src/part04.py (r
+  ⤷ explore subagent: Find class in part04.py
+  ⤷ explore subagent: Find reserve_stock definition
+  → grep {"pattern": "def reserve_stock"}
+  → grep {"pattern": "^\\s*class ", "path": "parts/src/part04.py"}
+  → read_file {"path": "parts/src/part04.py", "offset": 50, "limit": 6}
+  → rate_task {"task": "Find class in part04.py", "verdict": 3, "checked": "spot-checked", "note": "Repo
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  → rate_task {"task": "Find reserve_stock definition", "verdict": 3, "checked": "spot-checked", "note":
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  PASS score 1.00 · 32s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 5235 tok · stop completed · min free 66% · 35608+1556 tok · $0.0319
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #3]
+  → task {"description": "Find reserve_stock definition", "prompt": "In the project (root is the cu
+  → task {"description": "Find class in part04.py", "prompt": "Read the file parts/src/part04.py (r
+  ⤷ explore subagent: Find reserve_stock definition
+  ⤷ explore subagent: Find class in part04.py
+  → grep {"pattern": "def\\s+reserve_stock"}
+  → grep {"pattern": "^\\s*class\\s", "path": "parts/src/part04.py"}
+  → rate_task {"task": "Find class in part04.py", "verdict": 3, "checked": "spot-checked", "note": "Its 
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  → rate_task {"task": "Find reserve_stock definition", "verdict": 3, "checked": "spot-checked", "note":
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  PASS score 1.00 · 31s · 6 steps · 6 calls · 0 errors · 0 compactions · peak 4962 tok · stop completed · min free 66% · 25720+1302 tok · $0.0277
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [tiny-lookup #1]
+  → task {"description": "Find TAX_RATE value", "prompt": "In the project at the current root direc
+  ⤷ explore subagent: Find TAX_RATE value
+  → grep {"pattern": "TAX_RATE"}
+  → rate_task {"task": "Find TAX_RATE value", "verdict": 3, "checked": "spot-checked", "note": "Grep con
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 36s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 4007 tok · stop completed · min free 66% · 15007+669 tok · $0.0180
+    - ✓ 0.0825
+    - subagent runs: 1
+  [tiny-lookup #2]
+  → task {"description": "Find TAX_RATE value", "prompt": "In the project at the current root, find
+  → grep {"pattern": "TAX_RATE"}
+  ⤷ explore subagent: Find TAX_RATE value
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  PASS score 1.00 · 36s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 3799 tok · stop completed · min free 66% · 7237+475 tok · $0.0150
+    - ✓ 0.0825
+    - subagent runs: 1
+  [tiny-lookup #3]
+  → task {"agent": "explore", "description": "Find TAX_RATE value", "prompt": "Find where TAX_RATE 
+  ⤷ explore subagent: Find TAX_RATE value
+  → grep {"pattern": "TAX_RATE"}
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 34s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 3739 tok · stop completed · min free 66% · 10719+437 tok · $0.0145
+    - ✓ 0.0825
+    - subagent runs: 1
+  [small-fix #1]
+  → read_file {"path": "calc.py"}
+  → read_file {"path": "test_calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub 2>&1"}
+  PASS score 1.00 · 20s · 3 steps · 4 calls · 0 errors · 0 compactions · peak 4929 tok · stop completed · min free 66% · 13917+659 tok · $0.0202
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → task {"description": "Read calc.py and test_calc.py", "agent": "explore", "kind": "search", "pr
+  ⤷ explore subagent: Read calc.py and test_calc.py
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 40s · 4 steps · 4 calls · 0 errors · 0 compactions · peak 5264 tok · stop completed · min free 66% · 19475+777 tok · $0.0227
+    - ✓ test_sub passes
+    - subagent runs: 1
+  [small-fix #3]
+  → task {"description": "Inspect calc.py and test_sub", "agent": "explore", "kind": "search", "pro
+  ⤷ explore subagent: Inspect calc.py and test_sub
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 36s · 4 steps · 4 calls · 0 errors · 0 compactions · peak 5105 tok · stop completed · min free 66% · 18992+781 tok · $0.0223
+    - ✓ test_sub passes
+    - subagent runs: 1
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:anthropic/claude-sonnet-5.5      3/3 1.00 38s          3/3 1.00 15s          3/3 1.00 14s          3/3 1.00 14s          3/3 1.00 17s          
+openrouter:anthropic/claude-sonnet-5.5 +suba1/3 0.87 49s          3/3 1.00 52s          3/3 1.00 32s          3/3 1.00 35s          3/3 1.00 32s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:anthropic/claude-sonnet-5.5      0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+openrouter:anthropic/claude-sonnet-5.5 +suba3/3 [yes]             3/3 [yes]             3/3 [yes]             3/3 [no]              2/3 [no]              
+
+=== Spend
+  Openrouter: $4.0449 (key usage)
+  reported with replies: $0.7591 (excludes compaction summaries)
+
+wrote eval-results/costfloor/stage4-anthropic_claude-sonnet-5.5.json

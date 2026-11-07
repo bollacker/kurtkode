@@ -1,0 +1,158 @@
+[
+  {
+    "content" : "I'll help you find where `reserve_stock` is defined and understand what happens when there isn't enough stock. Let me search for this function in the codebase.\n\n",
+    "createdAt" : "2026-09-27T14:45:31Z",
+    "id" : "A7CCB09D-E4E2-4B6D-86E7-E54D75CE2BBF",
+    "meta" : {
+      "duration" : 0.625362208,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.326415417,
+      "usage" : {
+        "completionTokens" : 57,
+        "cost" : 0.00042842,
+        "promptTokens" : 1481,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\": \"reserve_stock\"}",
+        "id" : "call_fd92e58b874149248d101113",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "cli.py:24:         print(store.reserve_stock(args.sku, args.units))\ninventory\/api.py:14:         r = store.reserve_stock(request[\"sku\"], int(request[\"units\"]))\ninventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:\ntests\/test_storage.py:11:         s.reserve_stock(\"A1\", 2)\ntests\/test_storage.py:18:             s.reserve_stock(\"A1\", 2)",
+    "createdAt" : "2026-09-27T14:45:31Z",
+    "id" : "68A6E6F0-9814-4CC1-B0CC-99B192552880",
+    "role" : "tool",
+    "toolCallID" : "call_fd92e58b874149248d101113",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.02175295352935791,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Now I can see that `reserve_stock` is defined in `inventory\/storage.py` at line 31. Let me read that file to understand the implementation and see what happens when there isn't enough stock.\n\n",
+    "createdAt" : "2026-09-27T14:45:32Z",
+    "id" : "55F9FB03-7A01-4D5D-AF7B-37D49CC6DC0F",
+    "meta" : {
+      "duration" : 0.675961208,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.350266708,
+      "usage" : {
+        "completionTokens" : 66,
+        "cost" : 0.00048246,
+        "promptTokens" : 1653,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"inventory\/storage.py\"}",
+        "id" : "call_e8f4290443f945c9ade8a0d7",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n11\tclass SqliteStore:\n12\t    def __init__(self, path=\":memory:\"):\n13\t        self.db = sqlite3.connect(path)\n14\t        self.db.execute(\"create table if not exists items (sku text primary key, name text, quantity int)\")\n15\t        self.db.execute(\"create table if not exists reservations (id integer primary key, sku text, units int)\")\n16\t\n17\t    def add_item(self, item: Item):\n18\t        self.db.execute(\"insert into items values (?, ?, ?)\", (item.sku, item.name, item.quantity))\n19\t\n20\t    def get_item(self, sku: str) -> Item:\n21\t        row = self.db.execute(\"select sku, name, quantity from items where sku = ?\", (sku,)).fetchone()\n22\t        return Item(*row) if row else None\n23\t\n24\t    def list_items(self):\n25\t        return [Item(*r) for r in self.db.execute(\"select sku, name, quantity from items\")]\n26\t\n27\t    # Reservations hold stock for an order until it ships or is cancelled.\n28\t    # Callers must release() cancelled reservations.\n29\t    # Quantities are whole units.\n30\t\n31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-09-27T14:45:32Z",
+    "id" : "BCB4E2B0-F635-4538-B3F0-73339AF25412",
+    "role" : "tool",
+    "toolCallID" : "call_e8f4290443f945c9ade8a0d7",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00030994415283203125,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Now I have the information needed to answer your question. Let me also check the models to understand the Reservation class.\n\n",
+    "createdAt" : "2026-09-27T14:45:32Z",
+    "id" : "B443C9F5-73DB-4D59-A98A-B7496461B655",
+    "meta" : {
+      "duration" : 0.592703292,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.323214458,
+      "usage" : {
+        "completionTokens" : 46,
+        "cost" : 0.00058022,
+        "promptTokens" : 2261,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"inventory\/models.py\"}",
+        "id" : "call_e6b8c2ec23e14fb7ae4bb654",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\tfrom dataclasses import dataclass\n 2\t\n 3\t\n 4\t@dataclass\n 5\tclass Item:\n 6\t    sku: str\n 7\t    name: str\n 8\t    quantity: int\n 9\t\n10\t\n11\t@dataclass\n12\tclass Reservation:\n13\t    id: int\n14\t    sku: str\n15\t    units: int\n",
+    "createdAt" : "2026-09-27T14:45:32Z",
+    "id" : "50560102-414A-4AD4-AE60-2F267E777BCA",
+    "role" : "tool",
+    "toolCallID" : "call_e6b8c2ec23e14fb7ae4bb654",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00032198429107666016,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Based on my analysis, I can now answer your question:\n\n`reserve_stock` is defined in `inventory\/storage.py` at line 31.\n\nWhen there isn't enough stock, the function raises an `InsufficientStock` exception (defined at line 7) with a message indicating the SKU, requested units, and available quantity. This happens at line 34 where it checks if the item exists and has sufficient quantity, and raises the exception if not.\n\nThe exact location is:\n- Definition: `inventory\/storage.py:31`\n- Insufficient stock handling: `inventory\/storage.py:34`",
+    "createdAt" : "2026-09-27T14:45:33Z",
+    "id" : "99AE55D6-C0F2-43AE-A8BF-1B1935A07E63",
+    "meta" : {
+      "duration" : 0.971423291,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "stop",
+      "reportedModel" : "qwen\/qwen3-coder",
+      "requestedModel" : "qwen\/qwen3-coder",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.317444083,
+      "usage" : {
+        "completionTokens" : 125,
+        "cost" : 0.00075454,
+        "promptTokens" : 2407,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

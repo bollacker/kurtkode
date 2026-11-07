@@ -1,0 +1,249 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "91B63E58-30D7-4B23-969B-925673EC50C8",
+    "meta" : {
+      "duration" : 0.936797542,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.915886375,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 61,
+        "cost" : 0.0006625,
+        "costIsEstimate" : true,
+        "promptTokens" : 959,
+        "reasoningTokens" : 44
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "pattern" : "def reserve_stock"
+            },
+            "id" : "call_518049",
+            "name" : "grep"
+          },
+          "thoughtSignature" : "EroCCrcCAWkUfRNKAiy71cKB1SzHnxltbhffs\/3ub8tryWn2DkuEhVaDO22DCcc5Eguv\/3GTqNkbr2tgwLRdWhmwBrUTNe6QHEAp96MfdBQHVD009llwt8rpRGfx94EPeI+W30oKFJa6DFuMIFL7vkVF9wXcN13\/at74U8NGzqTCMak1hsDj+mChw721+7\/o0QpaAd32tSC6HASyPzNwJEd2r0tuf69Vv+QFTo\/rUluPu78xTMLw1XafkjDj6AxwnCNYPd5ZDUbr7MPdY\/E1DDiFAYEFt\/ZWMuFou9x7Sp3l07JVyRiITB4bZ2tPw0CE5Mpxat9tdNd0nWhUKdi2DjsVIHictAfRVkZf+zPPJh3ioGWp8YhWjJwZ1LXkG9nHEOa8Ptq7j0ubxH3Ks3T0YbobA3Lbyqvy3m5RDcw="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"def reserve_stock\"}",
+        "id" : "call_518049",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "inventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "7D7BA404-4286-4747-BE49-067D222AB82E",
+    "role" : "tool",
+    "toolCallID" : "call_518049",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.017274975776672363,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "CD88AF6E-7312-4C2C-A6A2-FFEB38499BA8",
+    "meta" : {
+      "duration" : 0.838024583,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.794544166,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 67,
+        "cost" : 0.0007305,
+        "costIsEstimate" : true,
+        "promptTokens" : 1059,
+        "reasoningTokens" : 37
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "limit" : 20,
+              "offset" : 31,
+              "path" : "inventory\/storage.py"
+            },
+            "id" : "call_536154",
+            "name" : "read_file"
+          },
+          "thoughtSignature" : "EpwCCpkCAWkUfRO3WihCIM1APYzyCp\/fvYfhmaNHF8j0wTnxFPQp70nflOcgdjXedrkczEdqSUimGltnw4LsVJgDbXIy96GwKfCdNAgvYqKIW+TXqV3X+EKsGm4dKGjB+HOWkPmem3r55MHoFmEVq7OSZ2YGlRP+dgGeozk12q+x9SLARtO1wF9kuh+jI+x24Yu\/NJlOLRLi9nLO6nkVHUMMjc2IbinHHv\/ViIV6EeXSvD8WdOf8EIrN22EevBukqJRatHt\/aXiWispfDfQwI4jJbz4o45IN4p3M4ywjRTdlIcLsSO7DvhliMEwhABTOpeButdWadkdjHA9Js3hh\/53LyMAgFRlFyXAHord7Amdkqvq\/qKb9hSRoQrcTuzE="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"limit\":20,\"offset\":31,\"path\":\"inventory\/storage.py\"}",
+        "id" : "call_536154",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : "31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "965B714A-0E75-4FD9-9141-EAF0D13E77C3",
+    "role" : "tool",
+    "toolCallID" : "call_536154",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.00028502941131591797,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-10-15T09:56:20Z",
+    "id" : "F179B341-A4AA-4045-8B2B-39CF5EC1814F",
+    "meta" : {
+      "duration" : 1.508737917,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.485388125,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 183,
+        "cost" : 0.001237,
+        "costIsEstimate" : true,
+        "promptTokens" : 1376,
+        "reasoningTokens" : 154
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "limit" : 10,
+              "offset" : 1,
+              "path" : "inventory\/storage.py"
+            },
+            "id" : "call_452666",
+            "name" : "read_file"
+          },
+          "thoughtSignature" : "EsIGCr8GAWkUfRP6xh0G1vb02XGxOlxZ2LoGqPxkUU1U\/8HvEGD8cegjnq\/V8vYGMjCd4YuhOvUbo2cjiKQ4T0JHadV2VIfI05ciXFe1GvoUKGEV07GMwXHe846N8YCFPF1lPtUY1SNvOto9L6HFvg8cV68PTyV4fhXAF1moa50vH9SdX931SJEvcud\/x6wVtg4VIGUJYjRT1uxfscCUtU9P2eh4a2e3CtLurblew4jaDF63\/aQidzFzYV1BXKZtaPJHQCy3i3K9n6Wu1MKg6Bup37sfIJm6Jhpp4x2PadK0E+sv4msxBKunr8kn22AnmmKjsxHwTnF69cVYEZoYa5xzJGfX9xrp9N+ANj9vHNwyrSRINK8j46fHvzNphIdiNMV2ZdZPUXnsOWLuSUKC1gmQkKSKm4KOz7f0TAi00NoqPryvqT9RH7vZYPCtyQH4eiNo4jys8yRRVJnQlia2asP3sa9XPSU7WG4wNSl9a2KSwpVgfPM4b8LVgVV18ZOeg6W+E4IXa438PvnpyP4\/nMBiZBSbcmNEyw7\/Xzm9\/Z4XI6hkwyjxWQoEN89+L3Omevdeo+3WtHer\/aNwAeyULZQz3f4Pwjfa\/Rgg7U6w5ehXQhOy+bbIpw91hEyAqmTr+d5S7DbWCwXSwgJ0M3Mhex15Pot3Z4TmU1wkEoI7M+W3nLxgdCIQJE383lnuHfC+evOa\/1b0LKEBVZBeV64ilyaGtXRwnLiTxLVWtb3zOY5qG6GBVTvarGPDOeswWMqcUWhcrANmQ0+zpEijRSxl+BNk9U8L57YeMfa9jJxMZkQaYqkkbwTqM8Zay\/GdKBUjMHITHnxX4tPGcCq9XO2dnWmcMHxkHdfMpUtitGYuBxkK9l+RyiSh\/5X+UGm3GDUmkfOneq1V7cqVKz69QH+dJ9RzrXmP1c0TOcxjxRT+jj6YIEclP+oqMl9RqzCmZCoRDmyx7aK32xKrFmMfyR\/uvgKStz5DDc75tOFp7UjfzqdHCdKsCrbDPRsQdleY0ZVdEMT1WqxDdEt+buRjOirTk8yYWCfq6FPEOPyILZOR30zrK8RA85QXFokfSN0RmY1tAJriblqmG7+KVpZVxTF6waF\/qBOn"
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"limit\":10,\"offset\":1,\"path\":\"inventory\/storage.py\"}",
+        "id" : "call_452666",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n\n[Showing lines 1–10 of 42. Use offset=11 to read more.]",
+    "createdAt" : "2026-10-15T09:56:20Z",
+    "id" : "594141F7-3A8F-4781-AE7E-676D8B375426",
+    "role" : "tool",
+    "toolCallID" : "call_452666",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.0005009174346923828,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : true
+    }
+  },
+  {
+    "content" : "`reserve_stock` is defined in `inventory\/storage.py:31`.\n\nWhen there isn't enough stock (either the item is missing or its quantity is less than requested), it raises an `InsufficientStock` exception:\n\n```python\n33:         if item is None or item.quantity < units:\n34:             raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n```",
+    "createdAt" : "2026-10-15T09:56:22Z",
+    "id" : "C7AF768B-CEDC-412A-9057-DB5D1BB369C0",
+    "meta" : {
+      "duration" : 1.584465333,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.192299875,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 158,
+        "cost" : 0.001312,
+        "costIsEstimate" : true,
+        "promptTokens" : 1676,
+        "reasoningTokens" : 59
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "`reserve_stock` is defined in `inventory\/storage.py:31`.\n\nWhen there isn't enough stock (either the item is missing or its quantity is less than requested), it raises an `InsufficientStock` exception:\n\n```python\n33:         if item is None or item.quantity < units:\n34:             raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n```",
+          "thoughtSignature" : "EuYCCuMCAWkUfRPE4\/Zgko7309J0M9HgXoferBN+sanouLzW+Qrmpwk8Z7Ep8hGDzLuMM0+hIS0RQTmFRMW+fNUU2\/K3viP7ZNbcq+8p5VNyvep2+QzJuVtFon5Z2PoCX\/tU4ZGV71BpodIV2IHBFYzp5j3XJFCU4sgh\/S8sEJongOgVPVQ7+oZxHdOc7zIGd49F4W49nPmkLbayYp0puSxIdff4MA4ZslOMlBSQkkVyc9kErIn7Q7Oj39OBMSd9TaG+LPQI1vZsVOM4E5HKDggnoTwvYnzL0RpKmXknDbUNFlvtnoRyq8RCL4LLaqZCreVbQS\/TiW5UFG8rAkWGF6j4EUuIccEILfV94GynR+ytEB+3RKzE2YaJaKBV0l0xDMdkCJGO2tGrZNaFKnGN4MmW7YQn2qxS8lxz6TkshHS2ZgDHCsEW0A3k8rPAz7qPdFcNOgRc1Bn\/Auho70hPpzTGN4Bb1vno6g=="
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

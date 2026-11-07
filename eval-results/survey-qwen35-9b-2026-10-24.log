@@ -1,0 +1,57 @@
+kurtkode-eval: 2 models × 1 scenarios × 1 trials
+
+=== bang:qwen/qwen3.5-9b  [history: asIs]
+  [survey #1]
+  → glob {"pattern":"src/**/*.*"}
+  → grep {"pattern":"^\\s*(?:\\w+\\s+)?class\\s+[A-M][a-zA-Z]","path":"src"}
+  PASS score 1.00 · 18s · 4 steps · 2 calls · 0 errors · 0 compactions · peak 1824 tok · stop completed · min free 76% · 6509+780 tok
+    - 10/10 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 1824 tokens
+
+=== bang:qwen/qwen3.5-9b +subagents  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"src"}
+  → grep {"pattern":"\\bclass\\s+\\w+","path":"src","files_only":true}
+  → read_file {"path":"src/part01.py"}
+  → read_file {"path":"src/part02.py"}
+  → read_file {"path":"src/part03.py"}
+  → read_file {"path":"src/part04.py"}
+  → read_file {"path":"src/part05.py"}
+  → read_file {"path":"src/part06.py"}
+  → read_file {"path":"src/part07.py"}
+  → read_file {"path":"src/part08.py"}
+  → read_file {"path":"src/part09.py"}
+  → read_file {"path":"src/part10.py"}
+  → read_file {"path":"src/part11.py"}
+  → read_file {"path":"src/part12.py"}
+  → read_file {"path":"src/part13.py"}
+  → read_file {"path":"src/part14.py"}
+  → read_file {"path":"src/part15.py"}
+  → read_file {"path":"src/part16.py"}
+  → read_file {"path":"src/part17.py"}
+  → read_file {"path":"src/part18.py"}
+  → read_file {"path":"src/part19.py"}
+  → read_file {"path":"src/part20.py"}
+  → read_file {"path":"src/part13.py"}
+  → read_file {"path":"src/part14.py"}
+  → read_file {"path":"src/part15.py"}
+  → read_file {"path":"src/part16.py"}
+  ⊜ compacted 14111 → 6167 tokens (summary 30 s, 1244 bytes)
+  → read_file {"path":"src/part17.py"}
+  → read_file {"path":"src/part18.py"}
+  → read_file {"path":"src/part19.py"}
+  ⊜ compacted 7650 → 4716 tokens (summary 20 s, 1156 bytes)
+  PASS score 1.00 · 124s · 9 steps · 29 calls · 8 errors · 2 compactions · peak 9900 tok · stop completed · min free 75% · 47536+2843 tok
+    - 10/10 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 9900 tokens
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                
+bang:qwen/qwen3.5-9b                        1/1 1.00 18s          
+bang:qwen/qwen3.5-9b +subagents             1/1 1.00 124s         
+
+wrote eval-results/survey-qwen35-9b-2026-10-24.json

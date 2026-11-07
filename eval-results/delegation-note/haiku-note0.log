@@ -1,0 +1,238 @@
+key usage at start: Openrouter $2631.5006
+kurtkode-eval: 1 models × 5 scenarios × 3 trials
+
+=== openrouter:anthropic/claude-haiku-5.5 +subagents >pool note@0  [history: asIs]
+  [survey #1]
+  → glob {"pattern": "notes/*"}
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → read_file {"path": "notes/2026-03-03.md"}
+  → read_file {"path": "notes/2026-03-10.md"}
+  → read_file {"path": "notes/2026-03-17.md"}
+  → read_file {"path": "notes/2026-03-24.md"}
+  → read_file {"path": "notes/2026-04-03.md"}
+  → read_file {"path": "notes/2026-04-10.md"}
+  → read_file {"path": "notes/2026-04-17.md"}
+  → read_file {"path": "notes/2026-04-24.md"}
+  → read_file {"path": "notes/2026-02-10.md", "limit": 60}
+  → read_file {"path": "notes/2026-02-17.md", "limit": 60}
+  ⊜ compacted 13802 → 8071 tokens (summary 9 s, 2358 bytes)
+  → read_file {"path": "notes/2026-02-24.md", "limit": 60}
+  → read_file {"path": "notes/2026-03-03.md", "limit": 60}
+  ⊜ compacted 9885 → 7835 tokens (summary 5 s, 2400 bytes)
+  → read_file {"path": "notes/2026-03-10.md", "limit": 60}
+  → read_file {"path": "notes/2026-03-17.md", "limit": 60}
+  ⊜ compacted 9984 → 8055 tokens (summary 7 s, 2799 bytes)
+  → read_file {"path": "notes/2026-03-24.md", "limit": 60}
+  → read_file {"path": "notes/2026-04-03.md", "limit": 60}
+  ⊜ compacted 10182 → 8088 tokens (summary 7 s, 2823 bytes)
+  → read_file {"path": "notes/2026-04-10.md", "limit": 60}
+  → read_file {"path": "notes/2026-04-17.md", "limit": 60}
+  ⊜ compacted 10158 → 7988 tokens (summary 6 s, 2627 bytes)
+  → read_file {"path": "notes/2026-04-24.md", "limit": 60}
+  ⊜ compacted 8985 → 6841 tokens (summary 5 s, 2353 bytes)
+  PASS score 1.00 · 73s · 9 steps · 28 calls · 11 errors · 6 compactions · peak 11327 tok · stop completed · min free 43% · 67685+3629 tok · $0.0057
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 11327 tokens
+  [survey #2]
+  → list_dir {"path": "notes"}
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → read_file {"path": "notes/2026-03-03.md"}
+  → read_file {"path": "notes/2026-03-10.md"}
+  → read_file {"path": "notes/2026-03-17.md"}
+  → read_file {"path": "notes/2026-03-24.md"}
+  → read_file {"path": "notes/2026-04-03.md"}
+  → read_file {"path": "notes/2026-04-10.md"}
+  → read_file {"path": "notes/2026-04-17.md"}
+  → read_file {"path": "notes/2026-04-24.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-17.md"}
+  ⊜ compacted 13990 → 8182 tokens (summary 10 s, 2315 bytes)
+  → read_file {"path": "notes/2026-02-24.md"}
+  → read_file {"path": "notes/2026-03-03.md"}
+  → read_file {"path": "notes/2026-03-10.md"}
+  ⊜ compacted 10880 → 8843 tokens (summary 9 s, 2522 bytes)
+  → read_file {"path": "notes/2026-03-17.md"}
+  → read_file {"path": "notes/2026-03-24.md"}
+  ⊜ compacted 10929 → 7960 tokens (summary 7 s, 2855 bytes)
+  → read_file {"path": "notes/2026-04-03.md"}
+  → read_file {"path": "notes/2026-04-10.md"}
+  → read_file {"path": "notes/2026-04-17.md"}
+  → read_file {"path": "notes/2026-04-24.md"}
+  ⊜ compacted 11971 → 10011 tokens (summary 6 s, 2899 bytes)
+  FAIL score 0.70 · 60s · 7 steps · 28 calls · 11 errors · 4 compactions · peak 11520 tok · stop completed · min free 43% · 55995+2998 tok · $0.0049
+    - 5/5 right
+    - wrong: ["2026-01-24.md", "2026-02-24.md", "2026-03-17.md"]
+    - subagent runs: 0
+    - peak prompt 11520 tokens
+    final: Five meetings had something postponed or pushed to a later date: ⏎  ⏎ - **`notes/2026-01-10.md`**: the billing migration was pushed to the second half of the year. ⏎ - **`notes/2026-02-10.md`**: the vendor review was moved to next month, because it can't happen before the audit finishes. ⏎ - **`note
+  [survey #3]
+  → glob {"pattern": "notes/*"}
+  → grep {"pattern": "(?i)postpon|pushed|delay|moved to|rescheduled|defer|push(ed)? (back|to|out)|s
+  → grep {"pattern": "(?i)resched|postp|\\bmov(e|ed|es|ing)\\b|slip|hold off|later|another (day|dat
+  → grep {"pattern": "(?i)\\bafter\\b|\\bnext\\b|revisit|again|instead|will (happen|be|now)|milesto
+  → grep {"pattern": "^ - (?!The flaky test|Next meeting)", "path": "notes", "output_mode": "conten
+  ⊜ compacted 8925 → 6031 tokens (summary 8 s, 2268 bytes)
+  → read_file {"path": "notes/2026-01-03.md"}
+  → read_file {"path": "notes/2026-01-10.md"}
+  → read_file {"path": "notes/2026-01-17.md"}
+  → read_file {"path": "notes/2026-01-24.md"}
+  → read_file {"path": "notes/2026-01-31.md"}
+  → read_file {"path": "notes/2026-02-10.md"}
+  → read_file {"path": "notes/2026-02-14.md"}
+  → read_file {"path": "notes/2026-02-24.md"}
+  → list_dir {"path": "notes"}
+  → read_file {"path": "notes/2026-02-24.md", "offset": 36}
+  ⊜ compacted 12358 → 6343 tokens (summary 8 s, 2505 bytes)
+  → read_file {"path": "notes/2026-02-03.md"}
+  → read_file {"path": "notes/2026-02-17.md", "offset": 44}
+  → read_file {"path": "notes/2026-03-03.md", "offset": 44}
+  → read_file {"path": "notes/2026-03-10.md", "offset": 44}
+  → read_file {"path": "notes/2026-03-17.md", "offset": 44}
+  → read_file {"path": "notes/2026-03-24.md", "offset": 44}
+  → read_file {"path": "notes/2026-04-03.md", "offset": 44}
+  → read_file {"path": "notes/2026-04-10.md", "offset": 44}
+  → read_file {"path": "notes/2026-04-17.md", "offset": 44}
+  → read_file {"path": "notes/2026-04-24.md", "offset": 44}
+  → read_file {"path": "notes/2026-02-17.md", "limit": 43}
+  → read_file {"path": "notes/2026-03-03.md", "limit": 43}
+  → read_file {"path": "notes/2026-03-10.md", "limit": 43}
+  → read_file {"path": "notes/2026-03-17.md", "limit": 43}
+  → read_file {"path": "notes/2026-03-24.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-03.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-10.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-17.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-24.md", "limit": 43}
+  ⊜ compacted 14893 → 11891 tokens (summary 7 s, 1176 bytes)
+  → read_file {"path": "notes/2026-04-03.md", "limit": 43}
+  ⊜ compacted 12301 → 6951 tokens (summary 9 s, 2065 bytes)
+  → read_file {"path": "notes/2026-04-10.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-17.md", "limit": 43}
+  ⊜ compacted 8742 → 6766 tokens (summary 6 s, 2249 bytes)
+  → read_file {"path": "notes/2026-04-24.md", "limit": 43}
+  → read_file {"path": "notes/2026-04-03.md", "offset": 44, "limit": 4}
+  → read_file {"path": "notes/2026-04-10.md", "offset": 44, "limit": 4}
+  → read_file {"path": "notes/2026-04-17.md", "offset": 44, "limit": 4}
+  → read_file {"path": "notes/2026-04-24.md", "offset": 44, "limit": 4}
+  FAIL score 0.20 · 81s · 15 steps · 42 calls · 6 errors · 5 compactions · peak 11891 tok · stop completed · min free 43% · 110273+5520 tok · $0.0075
+    - 1/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 11891 tokens
+    final: Only one meeting file records a postponement: ⏎  ⏎ - `notes/2026-04-17.md:46`: the hiring plan was postponed. The team will revisit it in June instead of now, and the req stays frozen until then.
+  [log-sweep #1]
+  → list_dir {"path": "logs"}
+  → grep {"pattern": "ERROR", "path": "logs", "output_mode": "content", "head_limit": 2000}
+  PASS score 1.00 · 15s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 5321 tok · stop completed · min free 43% · 14889+495 tok · $0.0005
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 5321 tokens
+  [log-sweep #2]
+  → bash {"command": "ls -la logs/ && wc -l logs/* && grep -ho 'ERROR[^0-9]*' logs/* | sort | uniq 
+  → bash {"command": "grep -h 'ERROR' logs/* | head -5; echo ---; grep -h 'ERROR' logs/* | wc -l; e
+  → grep {"pattern": "ERROR", "path": "logs", "output_mode": "content"}
+  PASS score 1.00 · 18s · 4 steps · 3 calls · 1 errors · 0 compactions · peak 5982 tok · stop completed · min free 43% · 21191+972 tok · $0.0009
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 5982 tokens
+  [log-sweep #3]
+  → bash {"command": "ls -la logs/ && wc -l logs/* && grep -ho 'ERROR[^0-9]*' logs/* | sort | uniq 
+  → bash {"command": "cd logs && grep -h 'ERROR' * | head -40; echo ---; grep -h 'ERROR' * | wc -l;
+  → bash {"command": "grep -h 'ERROR' logs/service-1.log logs/service-2.log logs/service-3.log logs
+  → bash {"command": "grep -ho 'ERROR.*' logs/service-1.log logs/service-2.log logs/service-3.log l
+  PASS score 1.00 · 20s · 4 steps · 4 calls · 2 errors · 0 compactions · peak 6009 tok · stop completed · min free 43% · 21194+1296 tok · $0.0011
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 6009 tokens
+  [two-questions #1]
+  → grep {"pattern": "def reserve_stock|reserve_stock\\s*=", "output_mode": "content"}
+  → read_file {"path": "parts/src/part04.py"}
+  PASS score 1.00 · 14s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 5317 tok · stop completed · min free 43% · 10227+432 tok · $0.0005
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern": "reserve_stock", "output_mode": "content"}
+  → read_file {"path": "parts/src/part04.py"}
+  PASS score 1.00 · 14s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 5419 tok · stop completed · min free 43% · 10345+448 tok · $0.0005
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern": "def reserve_stock", "output_mode": "content"}
+  → read_file {"path": "parts/src/part04.py"}
+  PASS score 1.00 · 14s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 5316 tok · stop completed · min free 43% · 10226+355 tok · $0.0004
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern": "TAX_RATE", "output_mode": "content"}
+  → read_file {"path": "inventory/pricing.py"}
+  PASS score 1.00 · 14s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 4941 tok · stop completed · min free 42% · 14305+201 tok · $0.0003
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern": "TAX_RATE", "output_mode": "content"}
+  → read_file {"path": "inventory/pricing.py", "limit": 20}
+  PASS score 1.00 · 14s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 4948 tok · stop completed · min free 43% · 14333+298 tok · $0.0004
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern": "TAX_RATE", "output_mode": "content"}
+  PASS score 1.00 · 14s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 4656 tok · stop completed · min free 43% · 9283+264 tok · $0.0003
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → read_file {"path": "calc.py"}
+  → grep {"pattern": "def sub|test_sub"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub 2>&1"}
+  PASS score 1.00 · 15s · 3 steps · 4 calls · 0 errors · 0 compactions · peak 5822 tok · stop completed · min free 43% · 16845+545 tok · $0.0005
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path": "calc.py"}
+  → grep {"pattern": "def sub|test_sub"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 15s · 3 steps · 4 calls · 0 errors · 0 compactions · peak 5798 tok · stop completed · min free 44% · 16817+547 tok · $0.0005
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path": "calc.py"}
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub 2>&1 | tail -20"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → bash {"command": "python3 -m unittest test_calc.CalcTests.test_sub 2>&1 | tail -5"}
+  PASS score 1.00 · 15s · 3 steps · 4 calls · 0 errors · 0 compactions · peak 6050 tok · stop completed · min free 43% · 17320+538 tok · $0.0006
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:anthropic/claude-haiku-5.5 +subag1/3 0.63 71s          3/3 1.00 18s          3/3 1.00 14s          3/3 1.00 14s          3/3 1.00 15s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:anthropic/claude-haiku-5.5 +subag0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+
+=== Spend
+  Openrouter: $0.0771 (key usage)
+  reported with replies: $0.0245 (excludes compaction summaries)
+wrote transcripts to eval-results/delegation-note/haiku-note0-tx
+
+wrote eval-results/delegation-note/haiku-note0.json

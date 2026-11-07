@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "CI is red on my PR and I can't tell why from the log. Can you get it passing?",
+      "npm run build fails with a TypeScript error after I merged main. Please fix the build.",
+      "The GitHub Actions job 'lint' started failing this morning. Here's the run link, sort it out.",
+      "cargo build works on my laptop but the release pipeline fails at the compile step. Help me fix it.",
+      "make fails halfway through with 'Error 2' and a wall of output. What's actually wrong and can you fix it?",
+      "Our Jenkins build is broken since the dependency bump, the log is 4000 lines. Find the problem and fix it.",
+      "mypy is failing in CI on a file I didn't touch. Make the type check pass without just ignoring it."
+    ],
+    "should_not": [
+      "test_upload fails about one CI run in ten, the rest of the time it's green. Fix the flakiness.",
+      "Bump requests from 2.28 to 2.32 and make sure nothing breaks.",
+      "Write a GitHub Actions workflow that runs our tests on every pull request.",
+      "Something in the last 30 commits made the export test fail; find which commit did it.",
+      "What does the -j flag do in make?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "red-pipeline",
+      "fixture": "fixtures/red-pipeline",
+      "prompt": "CI is red on main and I need it green today. The pipeline just runs `bash ci.sh`; the log from the failing run is saved in ci-output.log. Please fix it.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Located the first real error (the lint E201 finding) rather than starting from the last lines of the log",
+        "Reproduced the failure locally by running ci.sh (or its steps) before editing",
+        "Treated the unused-variable lint error as a possible bug and applied the discount instead of deleting the variable or suppressing the rule",
+        "Fixed the malformed data row rather than changing the build script, the tests, ci.sh or the lint config",
+        "Ran ci.sh again at the end and reported it passing"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

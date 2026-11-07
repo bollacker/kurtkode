@@ -1,0 +1,62 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:02:02Z",
+    "id" : "C685EAFF-78BE-408C-A428-58735EA624A0",
+    "meta" : {
+      "duration" : 18.762692833,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it:free",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it:free",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 18.73821475,
+      "usage" : {
+        "completionTokens" : 16,
+        "cost" : 0,
+        "promptTokens" : 1118,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"reserve_stock\"}",
+        "id" : "call_6453",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "cli.py:24:         print(store.reserve_stock(args.sku, args.units))\ninventory\/api.py:14:         r = store.reserve_stock(request[\"sku\"], int(request[\"units\"]))\ninventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:\ntests\/test_storage.py:11:         s.reserve_stock(\"A1\", 2)\ntests\/test_storage.py:18:             s.reserve_stock(\"A1\", 2)",
+    "createdAt" : "2026-09-27T14:02:02Z",
+    "id" : "C2F7EAB1-A9D7-42DE-B0BA-922FB9B64152",
+    "role" : "tool",
+    "toolCallID" : "call_6453",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.029547929763793945,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:03:12Z",
+    "id" : "DED3B88D-99E0-494B-98EC-D8E0986646BD",
+    "meta" : {
+      "duration" : 69.769027833,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "error" : "Server returned HTTP 429: Provider returned error",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it:free",
+      "stopReason" : "failed"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

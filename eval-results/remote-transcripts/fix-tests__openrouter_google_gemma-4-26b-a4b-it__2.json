@@ -1,0 +1,518 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:43Z",
+    "id" : "472FFDFC-574A-48A3-85A7-D6017EA5F17E",
+    "meta" : {
+      "duration" : 0.726150583,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.716169166,
+      "usage" : {
+        "completionTokens" : 13,
+        "cost" : 0.000118485,
+        "promptTokens" : 1712,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"\\\".\\\"\"}",
+        "id" : "chatcmpl-tool-98c7951bd08c77da",
+        "name" : "list_dir"
+      }
+    ]
+  },
+  {
+    "content" : "Error: \".\" does not exist",
+    "createdAt" : "2026-09-27T14:44:43Z",
+    "id" : "BC1B8F85-0F89-4B4D-929D-9CAE2EA4016D",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-98c7951bd08c77da",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00019800662994384766,
+      "isError" : true,
+      "toolName" : "list_dir",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:44Z",
+    "id" : "224D1E00-5CE1-4C4D-9E7E-27E5516C9FFE",
+    "meta" : {
+      "duration" : 0.499341041,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.4878205,
+      "usage" : {
+        "completionTokens" : 19,
+        "cost" : 7.07025e-05,
+        "promptTokens" : 1745,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"command\": \"ls -F\"}",
+        "id" : "chatcmpl-tool-b29ef6d5aa528fd5",
+        "name" : "bash"
+      }
+    ]
+  },
+  {
+    "content" : "README.md\ncalc.py\ntest_calc.py\n\n[Exit code 0.]",
+    "createdAt" : "2026-09-27T14:44:44Z",
+    "id" : "C75B752A-914B-493A-BC1B-5B3521F413E2",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-b29ef6d5aa528fd5",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "display" : "README.md\ncalc.py\ntest_calc.py",
+      "duration" : 0.012722015380859375,
+      "exitCode" : 0,
+      "isError" : false,
+      "toolName" : "bash",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:44Z",
+    "id" : "E03D7AE3-F570-4F2B-9A9B-ACDA3EB9AE76",
+    "meta" : {
+      "duration" : 0.62031825,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.6107905,
+      "usage" : {
+        "completionTokens" : 24,
+        "cost" : 7.39725e-05,
+        "promptTokens" : 1791,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"command\": \"python3 -m unittest -v\"}",
+        "id" : "chatcmpl-tool-a5e8d48c1cda2c24",
+        "name" : "bash"
+      }
+    ]
+  },
+  {
+    "content" : "test_add (test_calc.CalcTests.test_add) ... ok\ntest_mean (test_calc.CalcTests.test_mean) ... FAIL\ntest_sub (test_calc.CalcTests.test_sub) ... FAIL\n\n======================================================================\nFAIL: test_mean (test_calc.CalcTests.test_mean)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"\/private\/var\/folders\/3q\/cv7vtc9n2xgcd8n7bt_8z6k00000z9\/T\/kk-eval-fix-tests-495985A8\/test_calc.py\", line 14, in test_mean\n    self.assertEqual(mean([2, 4, 6]), 4)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nAssertionError: 6.0 != 4\n\n======================================================================\nFAIL: test_sub (test_calc.CalcTests.test_sub)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"\/private\/var\/folders\/3q\/cv7vtc9n2xgcd8n7bt_8z6k00000z9\/T\/kk-eval-fix-tests-495985A8\/test_calc.py\", line 11, in test_sub\n    self.assertEqual(sub(5, 3), 2)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: 8 != 2\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nFAILED (failures=2)\n\n[Exit code 1.]",
+    "createdAt" : "2026-09-27T14:44:44Z",
+    "id" : "5208C9A1-F1C6-4A59-A433-B2C1A4CB65AC",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-a5e8d48c1cda2c24",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "display" : "test_add (test_calc.CalcTests.test_add) ... ok\ntest_mean (test_calc.CalcTests.test_mean) ... FAIL\ntest_sub (test_calc.CalcTests.test_sub) ... FAIL\n\n======================================================================\nFAIL: test_mean (test_calc.CalcTests.test_mean)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"\/private\/var\/folders\/3q\/cv7vtc9n2xgcd8n7bt_8z6k00000z9\/T\/kk-eval-fix-tests-495985A8\/test_calc.py\", line 14, in test_mean\n    self.assertEqual(mean([2, 4, 6]), 4)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nAssertionError: 6.0 != 4\n\n======================================================================\nFAIL: test_sub (test_calc.CalcTests.test_sub)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"\/private\/var\/folders\/3q\/cv7vtc9n2xgcd8n7bt_8z6k00000z9\/T\/kk-eval-fix-tests-495985A8\/test_calc.py\", line 11, in test_sub\n    self.assertEqual(sub(5, 3), 2)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: 8 != 2\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nFAILED (failures=2)",
+      "duration" : 0.05402100086212158,
+      "exitCode" : 1,
+      "isError" : false,
+      "toolName" : "bash",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:46Z",
+    "id" : "0175BB06-88E5-4FBE-9439-57295E0A2164",
+    "meta" : {
+      "duration" : 1.441592958,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.434238333,
+      "usage" : {
+        "completionTokens" : 90,
+        "cost" : 0.0001150575,
+        "promptTokens" : 2201,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"todos\": [{\"content\": \"Run tests and identify failures\", \"status\": \"completed\"}, {\"content\": \"Read calc.py and test_calc.py\", \"status\": \"in_progress\"}, {\"content\": \"Fix bugs in calc.py\", \"status\": \"pending\"}, {\"content\": \"Verify fixes by running tests again\", \"status\": \"pending\"}]}",
+        "id" : "chatcmpl-tool-b419dc90d7715853",
+        "name" : "todo_write"
+      }
+    ]
+  },
+  {
+    "content" : "Todo list updated (1\/4 completed).",
+    "createdAt" : "2026-09-27T14:44:46Z",
+    "id" : "889153FD-7989-4147-8B13-BBA72519E1FA",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-b419dc90d7715853",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.000102996826171875,
+      "isError" : false,
+      "toolName" : "todo_write",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:46Z",
+    "id" : "65CCF094-C11E-48AA-B4F2-9771CD91F1F2",
+    "meta" : {
+      "duration" : 0.678835666,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.669700666,
+      "usage" : {
+        "completionTokens" : 22,
+        "cost" : 9.498e-05,
+        "promptTokens" : 2308,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"calc.py\"}",
+        "id" : "chatcmpl-tool-87db0e41905b0357",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"A tiny calculator library.\"\"\"\n 2\t\n 3\t\n 4\tdef add(a, b):\n 5\t    return a + b\n 6\t\n 7\t\n 8\tdef sub(a, b):\n 9\t    return a + b\n10\t\n11\t\n12\tdef mean(values):\n13\t    \"\"\"Average of a non-empty list.\"\"\"\n14\t    return sum(values) \/ (len(values) - 1)\n",
+    "createdAt" : "2026-09-27T14:44:46Z",
+    "id" : "58B98876-57F3-49B1-9BDB-F8E89E257724",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-87db0e41905b0357",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00039696693420410156,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:47Z",
+    "id" : "6E3D0E28-8ADC-4FB6-83A9-31140B548265",
+    "meta" : {
+      "duration" : 0.714937292,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.70011125,
+      "usage" : {
+        "completionTokens" : 24,
+        "cost" : 0.0001019925,
+        "promptTokens" : 2455,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\": \"test_calc.py\"}",
+        "id" : "chatcmpl-tool-80ad4bb51b220af4",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\timport unittest\n 2\t\n 3\tfrom calc import add, mean, sub\n 4\t\n 5\t\n 6\tclass CalcTests(unittest.TestCase):\n 7\t    def test_add(self):\n 8\t        self.assertEqual(add(2, 3), 5)\n 9\t\n10\t    def test_sub(self):\n11\t        self.assertEqual(sub(5, 3), 2)\n12\t\n13\t    def test_mean(self):\n14\t        self.assertEqual(mean([2, 4, 6]), 4)\n15\t\n16\t\n17\tif __name__ == \"__main__\":\n18\t    unittest.main()\n",
+    "createdAt" : "2026-09-27T14:44:47Z",
+    "id" : "703C5110-902D-4E77-9CC3-C895A8F47857",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-80ad4bb51b220af4",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00102996826171875,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:48Z",
+    "id" : "EE3321DB-ADD2-49ED-9423-44B696B7C88A",
+    "meta" : {
+      "duration" : 1.281740208,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.273414291,
+      "usage" : {
+        "completionTokens" : 89,
+        "cost" : 0.00019971,
+        "promptTokens" : 2662,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"todos\": [{\"content\": \"Run tests and identify failures\", \"status\": \"completed\"}, {\"content\": \"Read calc.py and test_calc.py\", \"status\": \"completed\"}, {\"content\": \"Fix bugs in calc.py\", \"status\": \"in_progress\"}, {\"content\": \"Verify fixes by running tests again\", \"status\": \"pending\"}]}",
+        "id" : "chatcmpl-tool-9ff31e6c779d400a",
+        "name" : "todo_write"
+      }
+    ]
+  },
+  {
+    "content" : "Todo list updated (2\/4 completed).",
+    "createdAt" : "2026-09-27T14:44:48Z",
+    "id" : "AA86A34B-D061-4DF9-A399-9ED09E34A82E",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-9ff31e6c779d400a",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 7.700920104980469e-05,
+      "isError" : false,
+      "toolName" : "todo_write",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:49Z",
+    "id" : "D0258C7A-E158-4A4B-9D63-60E9CE162749",
+    "meta" : {
+      "duration" : 1.0287415,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.016725208,
+      "usage" : {
+        "completionTokens" : 62,
+        "cost" : 0.0001211775,
+        "promptTokens" : 2769,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"new_string\": \"def sub(a, b):\\n    return a - b\", \"old_string\": \"def sub(a, b):\\n    return a + b\", \"path\": \"calc.py\"}",
+        "id" : "chatcmpl-tool-886897faf0b2a26a",
+        "name" : "edit_file"
+      }
+    ]
+  },
+  {
+    "content" : "Edited calc.py: 1 replacement, +1 −1 lines. Lines 5–12 now read:\n5\t    return a + b\n6\t\n7\t\n8\tdef sub(a, b):\n9\t    return a - b\n10\t\n11\t\n12\tdef mean(values):\n",
+    "createdAt" : "2026-09-27T14:44:49Z",
+    "id" : "9DFEE8E6-B219-4C36-A8C7-0D3C6010CEA6",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-886897faf0b2a26a",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "display" : "--- a\/calc.py\n+++ b\/calc.py\n@@ -6,7 +6,7 @@\n \n \n def sub(a, b):\n-    return a + b\n+    return a - b\n \n \n def mean(values):\n",
+      "duration" : 0.0012320280075073242,
+      "isError" : false,
+      "toolName" : "edit_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:51Z",
+    "id" : "B58B0956-425C-45E7-894C-6B0B157FCFBD",
+    "meta" : {
+      "duration" : 1.255645084,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.2446295,
+      "usage" : {
+        "completionTokens" : 97,
+        "cost" : 0.0001358925,
+        "promptTokens" : 2913,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"new_string\": \"def mean(values):\\n    \\\"\\\"\\\"Average of a non-empty list.\\\"\\\"\\\"\\n    return sum(values) \/ len(values)\", \"old_string\": \"def mean(values):\\n    \\\"\\\"\\\"Average of a non-empty list.\\\"\\\"\\\"\\n    return sum(values) \/ (len(values) - 1)\", \"path\": \"calc.py\"}",
+        "id" : "chatcmpl-tool-925071f0097ba6d8",
+        "name" : "edit_file"
+      }
+    ]
+  },
+  {
+    "content" : "Edited calc.py: 1 replacement, +1 −1 lines. Lines 9–14 now read:\n9\t    return a - b\n10\t\n11\t\n12\tdef mean(values):\n13\t    \"\"\"Average of a non-empty list.\"\"\"\n14\t    return sum(values) \/ len(values)\n",
+    "createdAt" : "2026-09-27T14:44:51Z",
+    "id" : "8E7293A9-C2B0-4E3D-8E2C-D0ECD98D5915",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-925071f0097ba6d8",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "display" : "--- a\/calc.py\n+++ b\/calc.py\n@@ -11,4 +11,4 @@\n \n def mean(values):\n     \"\"\"Average of a non-empty list.\"\"\"\n-    return sum(values) \/ (len(values) - 1)\n+    return sum(values) \/ len(values)\n",
+      "duration" : 0.009737014770507812,
+      "isError" : false,
+      "toolName" : "edit_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:52Z",
+    "id" : "C6CAF7AD-CD58-4142-BD8F-6538D81EF7AD",
+    "meta" : {
+      "duration" : 1.186040458,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.170799833,
+      "usage" : {
+        "completionTokens" : 86,
+        "cost" : 0.0001410375,
+        "promptTokens" : 3097,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"todos\": [{\"content\": \"Run tests and identify failures\", \"status\": \"completed\"}, {\"content\": \"Read calc.py and test_calc.py\", \"status\": \"completed\"}, {\"content\": \"Fix bugs in calc.py\", \"status\": \"completed\"}, {\"content\": \"Verify fixes by running tests again\", \"status\": \"in_progress\"}]}",
+        "id" : "chatcmpl-tool-b3be15d810606a9c",
+        "name" : "todo_write"
+      }
+    ]
+  },
+  {
+    "content" : "Todo list updated (3\/4 completed).",
+    "createdAt" : "2026-09-27T14:44:52Z",
+    "id" : "614B5B77-888E-496A-A050-13AE645901C7",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-b3be15d810606a9c",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00017905235290527344,
+      "isError" : false,
+      "toolName" : "todo_write",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:44:52Z",
+    "id" : "4289CA8D-B4D0-4E1F-B7DC-A67EC4B748EE",
+    "meta" : {
+      "duration" : 0.512700958,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.500959458,
+      "usage" : {
+        "completionTokens" : 20,
+        "cost" : 0.00012573,
+        "promptTokens" : 3204,
+        "reasoningTokens" : 0
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"command\": \"python3 -m unittest -v\"}",
+        "id" : "chatcmpl-tool-8d3862dd8339ec8c",
+        "name" : "bash"
+      }
+    ]
+  },
+  {
+    "content" : "test_add (test_calc.CalcTests.test_add) ... ok\ntest_mean (test_calc.CalcTests.test_mean) ... ok\ntest_sub (test_calc.CalcTests.test_sub) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n\n[Exit code 0.]",
+    "createdAt" : "2026-09-27T14:44:53Z",
+    "id" : "6A9121DE-70D3-42A6-BE93-7D785CFFD504",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-8d3862dd8339ec8c",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "display" : "test_add (test_calc.CalcTests.test_add) ... ok\ntest_mean (test_calc.CalcTests.test_mean) ... ok\ntest_sub (test_calc.CalcTests.test_sub) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK",
+      "duration" : 0.06883502006530762,
+      "exitCode" : 0,
+      "isError" : false,
+      "toolName" : "bash",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "\nI have fixed the bugs in `calc.py`.\n\n**Changes made:**\n- Fixed `sub(a, b)` to return `a - b` instead of `a + b`.\n- Fixed `mean(values)` to divide by `len(values)` instead of `len(values) - 1`.\n\nAll tests passed successfully.\n\n```bash\npython3 -m unittest -v\n```\nOutput:\n```\ntest_add (test_calc.CalcTests.test_add) ... ok\ntest_mean (test_calc.CalcTests.test_mean) ... ok\ntest_sub (test_calc.CalcTests.test_sub) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n```",
+    "createdAt" : "2026-09-27T14:44:55Z",
+    "id" : "7B65FCC4-39DD-4B18-B7FE-9307F73D9B0B",
+    "meta" : {
+      "duration" : 2.073589166,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "stop",
+      "reportedModel" : "google\/gemma-4-26b-a4b-it",
+      "requestedModel" : "google\/gemma-4-26b-a4b-it",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.397671125,
+      "usage" : {
+        "completionTokens" : 174,
+        "cost" : 0.0001669125,
+        "promptTokens" : 3315,
+        "reasoningTokens" : 2
+      }
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

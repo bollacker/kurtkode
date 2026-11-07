@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Rename app.users.api.fetch_user to load_user everywhere it's used.",
+      "We deprecated request.get_json_body(). Switch all 60 call sites to request.json().",
+      "Replace every import of lodash's _.get with optional chaining across the frontend.",
+      "Move all callers from the old logger.warn() to logger.warning() in the whole repo.",
+      "The Config class moved from utils/config.py to core/settings.py. Update every import in the project.",
+      "Change all calls of fetchData(url, opts) to fetchData({ url, ...opts }) across src/.",
+      "Can you do a find-and-replace of OldClient with ApiClient over the codebase, but carefully?"
+    ],
+    "should_not": [
+      "Rename the variable tmp to total inside calculate_tax, it's confusing.",
+      "Break up the 200-line export_report function into smaller functions without changing its output.",
+      "Upgrade requests from 2.28 to 2.32 and fix whatever breaks.",
+      "Write a regex that matches ISO dates in our log lines.",
+      "Where is fetch_user defined?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "rename-fetch-user",
+      "fixture": "fixtures/rename-fetch-user",
+      "prompt": "Rename app.users.api.fetch_user to load_user across the repo (we're freeing the name for the new partner API). Update every import, call and reference to it, and don't leave an alias behind. The metric names and log/error message texts that say fetch_user are external contracts that dashboards and alerts match on, so leave those strings exactly as they are. Tests run with python3 -m unittest.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Made an inventory of every occurrence before editing and classified them (our function, other modules' fetch_user, the partner client's method, strings, look-alikes)",
+        "Changed only references to app.users.api.fetch_user, including indirect ones (aliased imports, module-attribute calls, __all__, the mock.patch target), and left legacy.crm.fetch_user and RemoteClient.fetch_user alone",
+        "Reviewed a dry run or diff before writing, and re-ran the inventory afterwards to confirm what is left",
+        "Ran the tests after the change and showed them passing",
+        "Final report lists the files changed and the occurrences deliberately left unchanged, with the reason"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

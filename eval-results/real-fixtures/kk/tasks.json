@@ -1,0 +1,80 @@
+{
+ "name": "kk",
+ "testCommand": "sh run-tests.sh",
+ "testsPath": "AgentCore/Tests",
+ "prepareCommand": "cd AgentCore && swift build --disable-sandbox --build-tests",
+ "gitignore": [
+  ".build/",
+  ".swiftpm/"
+ ],
+ "mayChange": [
+  "AgentCore/Sources/",
+  "AgentCore/Tests/",
+  "App/",
+  "AUDIT_PROMPT.md",
+  "COST_ARCHITECTURE.md",
+  "COST_AUDIT.md",
+  "COST_FLOOR_PLAN.md",
+  "COST_FLOOR_RESULTS.md",
+  "COST_TRACKING_DESIGN.md",
+  "EVAL_PLAN.md",
+  "EVAL_RESULTS.md",
+  "FUNCTIONAL_TESTS.md",
+  "FUNCTIONAL_TEST_RESULTS.md",
+  "GAP_ANALYSIS.md",
+  "HANDOFF.md",
+  "PLAN.md",
+  "SUBAGENTS_DESIGN.md",
+  "SUBAGENT_ROUTING_DESIGN.md",
+  "SYSTEM_PROMPT.md",
+  "TODO.md"
+ ],
+ "checkTimeout": 900,
+ "tasks": [
+  {
+   "id": "kk01",
+   "sha": "f684795",
+   "kind": "fix",
+   "title": "Append after a torn last line starts a new line",
+   "prompt": "If a session file's last line was cut off (a crash mid-write), it still loads fine, because the torn line is skipped, but the next record appended is written onto the end of the torn line. That record is unreadable too and is lost along with it. We saw a model record disappear this way in the functional tests.\n\nFor example: create a session in a SessionStore, append .message(.user(\"one\")), then append the bytes `{\"type\":\"message\",\"message\":{\"id\":\"` to the end of the file with no newline. Loading gives messages [\"one\"]. Now, with a fresh store on the same folder, call load and then `append(.message(.user(\"two\")), to: header.id)`. Reloading from another SessionStore should give [\"one\", \"two\"]; today \"two\" is missing.\n\nFix `SessionStore.append(_:to:)` in AgentCore so that when the file does not end with a newline, the torn line is ended with one first, and the new record starts a line of its own. A file that already ends with a newline, and an empty file, get nothing extra. The wire log has the same flaw when it appends to its index.jsonl (WireLog in Debug/WireLog.swift); fix it the same way. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "kk01-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "kk02",
+   "sha": "2cbf82d",
+   "kind": "fix",
+   "title": "Edit permission rules miss apply_patch and file_path",
+   "prompt": "Permission rules of the form `Edit(<glob>)` only look at a tool call's \"path\" argument, so several ways of editing a file get past a deny rule. With a deny rule `Edit(secrets/**)`, `PermissionRules.decision(toolName:args:)` returns nothing for: `edit_file` called with \"file_path\" instead of \"path\"; `edit_file` called with \"edits\": [{\"path\": \"secrets/key.txt\", ...}]; and `apply_patch`, which names its files only inside the patch text (the \"patch\" argument, \"*** Update File: ...\" headers and the other forms the patch parser reads). A deny rule has to catch all of them.\n\nMake `Edit(...)` rules apply to apply_patch too, and resolve the paths a call names the way the tools themselves do (reuse the tools' own path and patch parsing rather than re-implementing it). A call that names several files, which only a patch does, is judged like this: a deny or ask rule matches if it covers any of the files, an allow rule only if it covers all of them. A call that names no path still matches no Edit rule, and the search tools (read_file, grep, glob, list_dir) with no path still count as searching the root, as now.\n\nWith deny `Edit(secrets/**)` and allow `Edit(src/**)`: a patch touching src/a.swift and secrets/key.txt is denied; one touching src/a.swift and src/b.swift is allowed; one touching src/a.swift and README.md has no matching rule (nil). When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "kk02-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "kk03",
+   "sha": "40b78d5",
+   "title": "Refusals and safety stops are declined replies",
+   "prompt": "Today a refusal looks like a lost or empty reply, so the agent loop asks again (empty-reply nudge, open-todos nudge) or hands the turn to the fallback model, and the same refusal comes back. Add the notion of a declined reply.\n\n`TurnMeta` (ChatTypes.swift) gets `public var declined: Bool?`, set to true on the finished assistant message when the server or model declined: an Anthropic stop_reason \"refusal\", a Gemini finish reason in `GeminiStreamDecoder.declinedReasons` (a static Set<String>: BLOCKED, SAFETY, RECITATION, BLOCKLIST, PROHIBITED_CONTENT, SPII, IMAGE_SAFETY, IMAGE_PROHIBITED_CONTENT), or an OpenAI-style finish_reason \"content_filter\". For the last, `WireFormat.events(fromChunk:)` also emits the note \"The server's content filter stopped the reply.\". The decoders signal this with a new `StreamEvent.declined` case (Equatable), which TurnAccumulator turns into `declined`. The Anthropic refusal's existing note, e.g. [\"The model declined to answer (cyber).\"], stays.\n\nIn `AgentLoop.run`, a declined reply is not nudged, is not retried on the fallback model, and ends the run as .completed with the reply kept: one request, nothing sent to the fallback. `AgentLoop.droppedCall(_:)` is false for a declined message.\n\nAlso fix the lost-reply check in `droppedCall`: it should subtract the thinking the server billed, max(usage.reasoningTokens, reasoning text bytes / 4), from completionTokens (still a lost reply above 10 tokens left). A reply with 2,000 completion tokens, 1,995 of them reasoning tokens, a one-line reasoning summary and empty content is not lost; the same usage with reasoningTokens 0 is. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "kk03-hidden.tgz",
+   "maxSteps": 60,
+   "kind": "edit"
+  },
+  {
+   "id": "kk04",
+   "sha": "b1212ff",
+   "title": "Pace requests by rate-limit headers; explain a 404",
+   "prompt": "Parallel subagents on one Claude model share a rate-limit budget and collect 429s. Anthropic reports the budget on every response in `anthropic-ratelimit-*` headers; use them.\n\nAdd `public actor RateLimits` in AgentCore/LLM (with `static let shared`, and a public `init()`) that keeps, per host, the windows for the limits \"requests\", \"input-tokens\" and \"tokens\". `record(host: String, headers: [AnyHashable: Any], now: Date = Date())` reads `anthropic-ratelimit-<name>-remaining` (an Int) and `anthropic-ratelimit-<name>-reset` (an ISO 8601 date, with or without fractional seconds) for each name that has both; header names are case-insensitive; a newer report for a limit replaces the older one, the other limits are kept. `pause(host: String, now: Date = Date()) -> TimeInterval` returns how long to wait before sending to that host: until the latest reset among windows that are used up and not yet reset (requests: 0 or fewer remaining; the token limits: under 1,000), at most 60 seconds, otherwise 0; an unknown host is 0. In ChatClient, wait that long before a request, and record each response's headers.\n\nAlso `static func retryDelay(fromBody: Data) -> TimeInterval?` on RateLimits: Google's suggested wait in a 429 body (`\"retryDelay\": \"23s\"` -> 23), capped at 60, nil when absent. A retried transient failure without Retry-After uses it before the fixed backoff.\n\nA 404 turn error (retired or renamed model) should keep the server's message and add one that says the server doesn't offer the model: it must contain \"The server doesn't offer <model>\", then say to pick another model. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "kk04-hidden.tgz",
+   "maxSteps": 60,
+   "kind": "edit"
+  },
+  {
+   "id": "kk05",
+   "sha": "ef71941",
+   "title": "Hold OpenRouter price listings that jump more than 3x",
+   "prompt": "On 2026-10-26 OpenRouter's /models listed deepseek-v4-flash-0731 at 10x its price for a few hours, and 340 eval runs were costed at it. Make `RemotePrices` (LLM/CostEntry.swift) distrust a listed price that jumps.\n\nFor remote (third-party) servers, remember the last price adopted for each model and hold a listing that is more than 3x above or below it. The decision is a static, pure function: `RemotePrices.steady(_ fresh: [String: PriceList.Price], remembered: inout [String: RemotePrices.Remembered], server: String, now: Date) -> (prices: [String: PriceList.Price], held: [String: String])`. `fresh` maps model to listed price; `remembered` is keyed \"<server>|<model>\"; the result's `prices` is `fresh` with each held model's remembered price put in place of the listed one, and `held` has a note containing the word \"held\" for each model whose listed price was not used.\n\n`RemotePrices.Remembered` (Codable, Sendable, Hashable) holds the adopted rates, per-search and per-request prices, when it was adopted, and `pending: PriceList.Rates?` plus when it was first seen. Rules: a model seen for the first time is adopted; a change of 3x or less (input and output both, each only compared when both are positive) is adopted at once and clears any pending price. A jump is held: the old price is used and the new one becomes pending. The pending price is adopted once a read at least 6 hours after it was first seen lists the same price again (within 1%). A different jump restarts the clock; a return to the old price adopts it and clears pending. Servers are kept apart.\n\nKeep `price(client:model:)` working, applying this for third-party servers only. Persist the memory as JSON at ~/Library/Caches/kurtkode/remote-prices.json via `RemotePrices(memory: URL?)`, `shared` using that default; the price's version string gets the held note appended after \"; \". When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "kk05-hidden.tgz",
+   "maxSteps": 60,
+   "kind": "edit"
+  }
+ ]
+}

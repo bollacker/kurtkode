@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Add a way to delete users.",
+      "Make the export better. It's kind of slow and people complain about it.",
+      "We need some kind of rate limiting on the API. Go ahead and add it, I'm out for the rest of the day.",
+      "The client wants 'notifications'. Turn that into something concrete we can build and test.",
+      "Before you start on the reporting feature, figure out what exactly it needs to do. Ask me whatever you need to know.",
+      "Ticket says: 'users should be able to export their data'. Write acceptance criteria for it before anyone codes.",
+      "Can you add an archive option for projects? Not sure yet exactly how it should behave."
+    ],
+    "should_not": [
+      "The spec is agreed. Break it into small steps with a check for each and write PLAN.md.",
+      "Add a --json flag to the list command that prints the same fields as JSON, one object per line.",
+      "Fix the typo in the README heading.",
+      "Find where user deletion is handled and list everything that calls it.",
+      "Write HANDOFF.md so the next session can continue this work."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "close-accounts",
+      "fixture": "fixtures/close-accounts",
+      "prompt": "Customers keep asking us to close their accounts. Add delete_user(conn, user_id) to accounts/users.py and a `delete-user USER_ID` command to cli.py. I'm away today so I can't answer questions; write down whatever you assumed in ASSUMPTIONS.md.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read the schema and the code that uses users before writing the delete (noticed ON DELETE CASCADE into orders and the revenue report)",
+        "Named the competing readings of 'delete' (remove the row vs mark closed / anonymize) and chose the one that keeps data and can be undone",
+        "Did not stop to ask or wait for answers in a run where nobody can reply",
+        "ASSUMPTIONS.md lists each assumption with the reason and what would change if it is wrong",
+        "Checked the result against criteria (orders and revenue unchanged, user hidden) with a test or command"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

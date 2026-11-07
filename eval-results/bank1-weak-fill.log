@@ -1,0 +1,91 @@
+kurtkode-eval record: 1 models × 34 tasks × 3 trials into /Users/me/git/kurtkode/eval-results/runs/bank1
+  lmstudio:gemma-4-e4b-it: 1 runs to record
+  [lmstudio:gemma-4-e4b-it 1/1, 1 passed] find-reserve-def #1: PASS 13s 3 steps · 4 degraded
+
+Runs: 612 recorded, 331 degraded copies; 2084 judgments. (126 stray-edit copies of read-only tasks left out: explore agents can't edit.)
+
+### Subagent models (real runs, all trials)
+
+| model | pass rate (95% CI) | mean s | mean steps | mean tokens in/out | list $ per run |
+|---|---|---|---|---|---|
+| bang:qwen/qwen3.5-9b | 88% (81–93%) 90/102 | 32 | 5.7 | 16422/971 | – |
+| google-gemini:gemini-3.6-flash | 100% (96–100%) 102/102 | 12 | 7.3 | 19850/1322 | 0.0197 |
+| google-gemini:gemini-3.8-flash | 100% (96–100%) 102/102 | 17 | 7.3 | 19845/1197 | 0.0195 |
+| google-gemini:gemini-4-argon | 100% (96–100%) 102/102 | 19 | 3.6 | 8180/513 | 0.0207 |
+| lmstudio:gemma-4-e4b-it | 81% (73–88%) 83/102 | 80 | 5.0 | 11525/1878 | – |
+| lmstudio:google/gemma-4-26b-a4b-qat | 86% (78–92%) 88/102 | 58 | 5.6 | 11942/1189 | – |
+
+Passes by kind:
+
+| model | edit | explain | fix | refactor | research | review | run | search | summarize | write-tests |
+|---|---|---|---|---|---|---|---|---|---|---|
+| bang:qwen/qwen3.5-9b | 6/6 | 16/18 | 9/9 | 6/6 | 8/9 | 7/9 | 6/6 | 16/21 | 10/12 | 6/6 |
+| google-gemini:gemini-3.6-flash | 6/6 | 18/18 | 9/9 | 6/6 | 9/9 | 9/9 | 6/6 | 21/21 | 12/12 | 6/6 |
+| google-gemini:gemini-3.8-flash | 6/6 | 18/18 | 9/9 | 6/6 | 9/9 | 9/9 | 6/6 | 21/21 | 12/12 | 6/6 |
+| google-gemini:gemini-4-argon | 6/6 | 18/18 | 9/9 | 6/6 | 9/9 | 9/9 | 6/6 | 21/21 | 12/12 | 6/6 |
+| lmstudio:gemma-4-e4b-it | 3/6 | 15/18 | 8/9 | 6/6 | 6/9 | 7/9 | 6/6 | 18/21 | 10/12 | 4/6 |
+| lmstudio:google/gemma-4-26b-a4b-qat | 6/6 | 15/18 | 9/9 | 6/6 | 6/9 | 6/9 | 6/6 | 18/21 | 12/12 | 4/6 |
+
+### Judges against gold
+
+A verdict of 0–1 is "fail", 2–3 "pass". Failures are real failed runs and degraded copies.
+
+All runs each judge rated:
+
+| judge (path) | runs | no verdict | agreement | kappa | failures caught (95% CI) | passes failed (95% CI) | claimed unchecked | list $ |
+|---|---|---|---|---|---|---|---|---|
+| bang:qwen/qwen3.5-9b (grader) | 260 | 0 | 78% | 0.53 | 64% (55–72%) 72/113 | 12% (7–18%) 17/147 | 0 | – |
+| bang:qwen/qwen3.5-9b (parent) | 260 | 46 | 79% | 0.50 | 49% (38–60%) 39/80 | 3% (1–7%) 4/134 | 52 | – |
+| google-gemini:gemini-3.8-flash (grader) | 391 | 0 | 78% | 0.57 | 66% (60–72%) 166/250 | 2% (1–6%) 3/141 | 0 | 1.071 |
+| google-gemini:gemini-3.8-flash (parent) | 391 | 72 | 84% | 0.68 | 75% (68–80%) 152/204 | 0% (0–3%) 0/115 | 2 | 3.692 |
+| google-gemini:gemini-4-argon (grader) | 391 | 0 | 78% | 0.57 | 66% (60–71%) 164/250 | 1% (0–4%) 1/141 | 0 | 1.310 |
+| google-gemini:gemini-4-argon (parent) | 391 | 5 | 85% | 0.71 | 77% (71–82%) 189/246 | 0% (0–3%) 0/140 | 0 | 6.011 |
+
+Only the 239 runs every judge rated (101 failures):
+
+| judge (path) | runs | no verdict | agreement | kappa | failures caught (95% CI) | passes failed (95% CI) | claimed unchecked | list $ |
+|---|---|---|---|---|---|---|---|---|
+| bang:qwen/qwen3.5-9b (grader) | 239 | 0 | 80% | 0.58 | 67% (58–76%) 68/101 | 11% (7–17%) 15/138 | 0 | – |
+| bang:qwen/qwen3.5-9b (parent) | 239 | 41 | 79% | 0.50 | 49% (37–60%) 35/72 | 3% (1–8%) 4/126 | 50 | – |
+| google-gemini:gemini-3.8-flash (grader) | 239 | 0 | 83% | 0.63 | 62% (53–71%) 63/101 | 2% (1–6%) 3/138 | 0 | 0.641 |
+| google-gemini:gemini-3.8-flash (parent) | 239 | 45 | 87% | 0.71 | 68% (57–77%) 54/80 | 0% (0–3%) 0/114 | 0 | 2.179 |
+| google-gemini:gemini-4-argon (grader) | 239 | 0 | 83% | 0.64 | 61% (52–70%) 62/101 | 1% (0–4%) 1/138 | 0 | 0.808 |
+| google-gemini:gemini-4-argon (parent) | 239 | 3 | 88% | 0.75 | 72% (62–80%) 71/99 | 0% (0–3%) 0/137 | 0 | 3.523 |
+
+### Grounded checks, and judges combined with them
+
+|  | failures caught (95% CI) | passes failed (95% CI) |
+|---|---|---|
+| checks at the run's end | 16% (12–21%) 41/262 | 1% (0–4%) 1/150 |
+| checks and the re-run check | 36% (31–42%) 95/262 | 1% (0–4%) 1/150 |
+| grounded + bang:qwen/qwen3.5-9b (grader) | 71% (62–78%) 80/113 | 12% (7–18%) 17/147 |
+| grounded + bang:qwen/qwen3.5-9b (parent) | 56% (47–65%) 63/113 | 3% (1–7%) 4/147 |
+| grounded + google-gemini:gemini-3.8-flash (grader) | 72% (66–77%) 179/250 | 2% (1–6%) 3/141 |
+| grounded + google-gemini:gemini-3.8-flash (parent) | 63% (57–69%) 158/250 | 1% (0–4%) 1/141 |
+| grounded + google-gemini:gemini-4-argon (grader) | 72% (66–77%) 180/250 | 1% (0–5%) 2/141 |
+| grounded + google-gemini:gemini-4-argon (parent) | 76% (71–81%) 191/250 | 1% (0–4%) 1/141 |
+
+### Failures caught, by kind of failure
+
+| failure | grounded | bang:qwen/qwen3.5-9b (grader) | bang:qwen/qwen3.5-9b (parent) | google-gemini:gemini-3.8-flash (grader) | google-gemini:gemini-3.8-flash (parent) | google-gemini:gemini-4-argon (grader) | google-gemini:gemini-4-argon (parent) |
+|---|---|---|---|---|---|---|---|
+| digits | 24/78 | 27/30 | 22/23 | 68/75 | 58/63 | 68/75 | 68/73 |
+| drop-half | 0/33 | 9/16 | 3/14 | 14/32 | 10/16 | 15/32 | 25/32 |
+| real | 0/7 | 4/7 | 1/6 | 2/4 | 1/3 | 2/4 | 2/4 |
+| stray-edit | 0/47 | 2/22 | 0/21 | 0/45 | 0/39 | 0/45 | 0/43 |
+| undo-all | 38/38 | 10/15 | 5/5 | 30/37 | 37/37 | 28/37 | 37/37 |
+| undo-half | 15/15 | 4/5 | – | 12/14 | 14/14 | 11/14 | 14/14 |
+| vanish | 9/9 | 4/6 | 1/1 | 5/8 | 8/8 | 5/8 | 8/8 |
+| wrong-file | 9/35 | 12/12 | 7/10 | 35/35 | 24/24 | 35/35 | 35/35 |
+
+### Judging its own model's runs, and others'
+
+| judge (path) | own runs: agreement | own runs: failures caught | others' runs: agreement | others' runs: failures caught |
+|---|---|---|---|---|
+| bang:qwen/qwen3.5-9b (grader) | 41/57 | 61% (42–76%) 17/28 | 161/203 | 65% (54–74%) 55/85 |
+| bang:qwen/qwen3.5-9b (parent) | 30/46 | 30% (15–52%) 6/20 | 139/168 | 55% (42–67%) 33/60 |
+| google-gemini:gemini-3.8-flash (grader) | 76/93 | 73% (60–83%) 43/59 | 228/298 | 64% (57–71%) 123/191 |
+| google-gemini:gemini-3.8-flash (parent) | 63/76 | 73% (59–83%) 35/48 | 204/243 | 75% (68–81%) 117/156 |
+| google-gemini:gemini-4-argon (grader) | 73/92 | 67% (54–78%) 39/58 | 231/299 | 65% (58–71%) 125/192 |
+| google-gemini:gemini-4-argon (parent) | 75/90 | 74% (61–83%) 42/57 | 254/296 | 78% (71–83%) 147/189 |
+

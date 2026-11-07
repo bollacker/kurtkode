@@ -1,0 +1,37 @@
+{
+  "triggers": {
+    "should": [
+      "I have to stop for today. Leave notes so a fresh session can pick this up tomorrow.",
+      "We're nearly out of context. Write down where things stand before we restart.",
+      "Hand this branch over to Priya: write up what's done, what's left and how to check it.",
+      "Before you finish, save your progress somewhere the next agent will find it.",
+      "This is going to take several sessions; at the end of each one, leave a resume point.",
+      "Pause the migration work here and write a HANDOFF.md.",
+      "I'm switching you to another task. Capture the state of this one first so we can come back to it."
+    ],
+    "should_not": [
+      "Plan the steps for adding SSO before we start coding.",
+      "Write a README for the numstat command-line tool.",
+      "Commit what we have and write the pull request description.",
+      "Give me an overview of how this repository is organized.",
+      "Update the CHANGELOG for the 1.4 release.",
+      "What time zone are the timestamps in the logs?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "half-done-median",
+      "fixture": "fixtures/half-done-median",
+      "prompt": "I have to stop for today. Don't try to finish the median work and leave the code as it is; just write HANDOFF.md so a fresh session tomorrow can pick it up without me.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Gathered state by running commands (git status/diff, the project's check script) rather than guessing",
+        "Ran the verify command CI uses (tools/check.py), not only the unit tests",
+        "Read NOTES.md and recorded the later decision, noting it replaced the earlier one",
+        "HANDOFF.md has state, verify command with its current result, decisions and a concrete next step",
+        "Left the code, tests and notes unchanged"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Nobody on the team can figure out how to run this tool. Write a README for it.",
+      "Add docstrings to the public functions in parser.py.",
+      "The install instructions in our README are out of date; fix them.",
+      "Document the REST endpoints in server.js so the frontend team can use them.",
+      "The comments in scheduler.go just repeat the code. Rewrite them to explain why it does what it does.",
+      "Write a getting-started guide for new contributors: setup, running the tests, project layout.",
+      "Our docs say the config file lives in /etc but I don't think that's true anymore. Can you check and correct the docs?"
+    ],
+    "should_not": [
+      "Write the changelog for v2.3 from the commits since the last tag.",
+      "Write handoff notes so another session can pick this task up tomorrow.",
+      "Write the PR description for this branch.",
+      "Create a skill that teaches the agent our deploy process.",
+      "What's the difference between Markdown and reStructuredText?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "tally-cli",
+      "fixture": "fixtures/tally-cli",
+      "prompt": "tally.py has no documentation. Please write a README.md for it: what it does, how to use each command, configuration and exit codes. Every command you put in a ```sh code block must work as-is when pasted in order into a shell in a fresh copy of this folder (put sample output in ```text blocks). Don't change tally.py.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read the argument parser and the code paths (env var, default path, exit codes) instead of trusting the module docstring",
+        "Ran the documented commands, in order, from a fresh state before finishing",
+        "Noticed the stale ~/.tally path in the docstring and documented the real default (tally.db in the current directory, TALLY_DB to override)",
+        "Documented that check exits 3 when over budget and kept failing examples out of sh blocks or guarded them",
+        "Did not change tally.py"
+      ],
+      "max_steps": 30
+    }
+  ]
+}

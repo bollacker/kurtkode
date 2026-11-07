@@ -1,0 +1,112 @@
+diff --git a/AgentCore/Sources/AgentCore/LLM/ChatClient.swift b/AgentCore/Sources/AgentCore/LLM/ChatClient.swift
+index affe4d9..9b3a770 100644
+--- a/AgentCore/Sources/AgentCore/LLM/ChatClient.swift
++++ b/AgentCore/Sources/AgentCore/LLM/ChatClient.swift
+@@ -122,10 +122,15 @@ public struct ChatClient: Sendable {
+                 var decoder = Self.decoder(api: api, model: model)
+                 do {
+                     var attempt = 0
++                    let host = urlRequest.url?.host() ?? ""
++                    // A used-up rate-limit window (reported on an earlier response): wait for its reset.
++                    let wait = await RateLimits.shared.pause(host: host)
++                    if wait > 0 { try await Task.sleep(for: .seconds(wait)) }
+                     var (bytes, response) = try await session.bytes(for: urlRequest)
+                     while true {
+                         guard let http = response as? HTTPURLResponse else { throw ChatError.badResponse }
+                         tap?.status(http.statusCode)
++                        await RateLimits.shared.record(host: host, headers: http.allHeaderFields)
+                         if http.statusCode == 200 { break }
+                         var data = Data()
+                         for try await b in bytes {
+@@ -136,7 +141,7 @@ public struct ChatClient: Sendable {
+                         guard Self.isTransient(http.statusCode), attempt < retryDelays.count else {
+                             throw ChatError.http(status: http.statusCode, message: WireFormat.errorMessage(fromBody: data))
+                         }
+-                        let wait = Self.retryAfter(http) ?? retryDelays[attempt]
++                        let wait = Self.retryAfter(http) ?? RateLimits.retryDelay(fromBody: data) ?? retryDelays[attempt]
+                         attempt += 1
+                         try await Task.sleep(for: .seconds(wait))
+                         (bytes, response) = try await session.bytes(for: urlRequest)
+diff --git a/AgentCore/Sources/AgentCore/LLM/RateLimits.swift b/AgentCore/Sources/AgentCore/LLM/RateLimits.swift
+new file mode 100644
+index 0000000..67e36fd
+--- /dev/null
++++ b/AgentCore/Sources/AgentCore/LLM/RateLimits.swift
+@@ -0,0 +1,57 @@
++import Foundation
++
++/// What servers say about their rate limits, per host, so requests wait for a reset instead of collecting 429s
++/// (parallel subagents on one Claude model use one budget). Anthropic sends `anthropic-ratelimit-*` headers on every
++/// response; a request goes ahead unless the requests or input tokens left for the current window are used up.
++public actor RateLimits {
++    public static let shared = RateLimits()
++
++    struct Window: Sendable {
++        var remaining: Int
++        var reset: Date
++    }
++
++    private var windows: [String: [String: Window]] = [:]     // host → limit name → window
++
++    /// Records the limits a response reported.
++    public func record(host: String, headers: [AnyHashable: Any], now: Date = Date()) {
++        var found: [String: Window] = [:]
++        for name in ["requests", "input-tokens", "tokens"] {
++            guard let r = Self.header(headers, "anthropic-ratelimit-\(name)-remaining").flatMap({ Int($0) }),
++                  let t = Self.header(headers, "anthropic-ratelimit-\(name)-reset").flatMap(Self.date) else { continue }
++            found[name] = Window(remaining: r, reset: t)
++        }
++        guard !found.isEmpty else { return }
++        windows[host, default: [:]].merge(found) { _, new in new }
++    }
++
++    /// How long to wait before sending to `host`: until the reset of a window that's used up (at most a minute), else 0.
++    public func pause(host: String, now: Date = Date()) -> TimeInterval {
++        let exhausted = (windows[host] ?? [:]).filter { name, w in
++            w.reset > now && (name == "requests" ? w.remaining <= 0 : w.remaining < 1000)
++        }
++        guard let latest = exhausted.values.map(\.reset).max() else { return 0 }
++        return min(60, latest.timeIntervalSince(now))
++    }
++
++    static func header(_ headers: [AnyHashable: Any], _ name: String) -> String? {
++        for (k, v) in headers where (k as? String)?.lowercased() == name { return v as? String }
++        return nil
++    }
++
++    static func date(_ s: String) -> Date? {
++        let f = ISO8601DateFormatter()
++        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
++        if let d = f.date(from: s) { return d }
++        f.formatOptions = [.withInternetDateTime]
++        return f.date(from: s)
++    }
++
++    /// Google's suggested wait in a 429 body (`"retryDelay": "30s"` in the error's details), capped at a minute.
++    static func retryDelay(fromBody data: Data) -> TimeInterval? {
++        let text = String(decoding: data.prefix(65_536), as: UTF8.self)
++        guard let r = text.range(of: #""retryDelay"\s*:\s*"([0-9.]+)s""#, options: .regularExpression) else { return nil }
++        let digits = text[r].split(separator: "\"").first { Double($0.dropLast()) != nil && $0.hasSuffix("s") }
++        return digits.flatMap { Double($0.dropLast()) }.map { min($0, 60) }
++    }
++}
+diff --git a/AgentCore/Sources/AgentCore/LLM/Turn.swift b/AgentCore/Sources/AgentCore/LLM/Turn.swift
+index c702e3c..8150289 100644
+--- a/AgentCore/Sources/AgentCore/LLM/Turn.swift
++++ b/AgentCore/Sources/AgentCore/LLM/Turn.swift
+@@ -183,7 +183,14 @@ public enum TurnRunner {
+             errorText = "No data from the server for \(Int(client.idleTimeout)) seconds."
+         } catch {
+             stop = Task.isCancelled ? .cancelled : .failed
+-            if stop == .failed { errorText = error.localizedDescription }
++            if stop == .failed {
++                errorText = error.localizedDescription
++                // Retired preview models, renamed ones, ones the key can't use: say what to do about it.
++                if case ChatError.http(404, _) = error {
++                    errorText! += " The server doesn't offer \(model) (it may be retired or renamed, or not enabled for this "
++                        + "key), or the endpoint's URL is wrong. Pick another model; Refresh Models lists what the server offers now."
++                }
++            }
+         }
+ 
+         var snap = acc.snapshot

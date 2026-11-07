@@ -1,0 +1,522 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:52:57Z",
+    "id" : "816702DC-A680-42D1-A621-381E318E9E72",
+    "meta" : {
+      "duration" : 3.471820875,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.933337375,
+      "usage" : {
+        "completionTokens" : 44,
+        "cost" : 3.607e-05,
+        "promptTokens" : 953,
+        "reasoningTokens" : 0
+      }
+    },
+    "reasoning" : "We need to explain project organization. We need to explore the repository. Let's list root.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"\"\n}",
+        "id" : "chatcmpl-tool-a476103d283b369e",
+        "name" : "list_dir"
+      }
+    ]
+  },
+  {
+    "content" : ".git\/  (ignored)\ninventory\/\ntests\/\nREADME.md  (36 B)\ncli.py  (867 B)",
+    "createdAt" : "2026-09-27T14:52:57Z",
+    "id" : "58E924EF-FACA-467C-8728-1AFD78C73E01",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-a476103d283b369e",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0005279779434204102,
+      "isError" : false,
+      "toolName" : "list_dir",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:52:58Z",
+    "id" : "6BD68C6A-E29C-4ADA-8C4D-BFC000C7222B",
+    "meta" : {
+      "duration" : 0.580941042,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.267053,
+      "usage" : {
+        "completionTokens" : 31,
+        "cost" : 3.626e-05,
+        "promptTokens" : 1033,
+        "reasoningTokens" : 7
+      }
+    },
+    "reasoning" : "List inventory directory.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\"\n}",
+        "id" : "chatcmpl-tool-a75155c1358cc7b5",
+        "name" : "list_dir"
+      }
+    ]
+  },
+  {
+    "content" : "__init__.py  (0 B)\napi.py  (559 B)\nmodels.py  (175 B)\npricing.py  (432 B)\nstorage.py  (1.9 KB)",
+    "createdAt" : "2026-09-27T14:52:58Z",
+    "id" : "AEB6E38A-FC7F-4591-B80A-FF610A10E3BA",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-a75155c1358cc7b5",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0002619028091430664,
+      "isError" : false,
+      "toolName" : "list_dir",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:52:59Z",
+    "id" : "BA876B9E-25BC-4D51-A479-C9A15BB92C68",
+    "meta" : {
+      "duration" : 0.822095375,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.384697959,
+      "usage" : {
+        "completionTokens" : 28,
+        "cost" : 3.824e-05,
+        "promptTokens" : 1116,
+        "reasoningTokens" : 3
+      }
+    },
+    "reasoning" : "List tests.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"tests\"\n}",
+        "id" : "chatcmpl-tool-accc15bd0b2e2926",
+        "name" : "list_dir"
+      }
+    ]
+  },
+  {
+    "content" : "test_storage.py  (546 B)",
+    "createdAt" : "2026-09-27T14:52:59Z",
+    "id" : "894F2A5A-8257-4155-A78F-DF8488A592CB",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-accc15bd0b2e2926",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00023996829986572266,
+      "isError" : false,
+      "toolName" : "list_dir",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:02Z",
+    "id" : "D41CE29E-AD49-4214-AFDA-39477722FDB8",
+    "meta" : {
+      "duration" : 3.351233625,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.63243425,
+      "usage" : {
+        "completionTokens" : 39,
+        "cost" : 4.164e-05,
+        "promptTokens" : 1167,
+        "reasoningTokens" : 0
+      }
+    },
+    "reasoning" : "Open README.md.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"README.md\",\n  \"limit\": 200\n}",
+        "id" : "chatcmpl-tool-a59fec1384b09e9b",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : "1\t# Inventory service\n2\t\n3\tInternal tool.\n",
+    "createdAt" : "2026-09-27T14:53:02Z",
+    "id" : "EE1FF67E-85EA-4093-81A3-4FD2949C6436",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-a59fec1384b09e9b",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0003859996795654297,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:04Z",
+    "id" : "3E6FB8FC-8DEC-4298-B342-DC45C121D364",
+    "meta" : {
+      "duration" : 1.834848958,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.419232083,
+      "usage" : {
+        "completionTokens" : 37,
+        "cost" : 4.325e-05,
+        "promptTokens" : 1232,
+        "reasoningTokens" : 0
+      }
+    },
+    "reasoning" : "Open cli.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"cli.py\",\n  \"limit\": 400\n}",
+        "id" : "chatcmpl-tool-8e6fd6fda1272787",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"Command line: python cli.py add|list|reserve ...\"\"\"\n 2\timport argparse\n 3\t\n 4\tfrom inventory.models import Item\n 5\tfrom inventory.storage import SqliteStore\n 6\t\n 7\t\n 8\tdef main():\n 9\t    p = argparse.ArgumentParser()\n10\t    sub = p.add_subparsers(dest=\"cmd\")\n11\t    add = sub.add_parser(\"add\")\n12\t    add.add_argument(\"sku\"); add.add_argument(\"name\"); add.add_argument(\"quantity\", type=int)\n13\t    sub.add_parser(\"list\")\n14\t    res = sub.add_parser(\"reserve\")\n15\t    res.add_argument(\"sku\"); res.add_argument(\"units\", type=int)\n16\t    args = p.parse_args()\n17\t    store = SqliteStore(\"inventory.db\")\n18\t    if args.cmd == \"add\":\n19\t        store.add_item(Item(args.sku, args.name, args.quantity))\n20\t    elif args.cmd == \"list\":\n21\t        for item in store.list_items():\n22\t            print(item)\n23\t    elif args.cmd == \"reserve\":\n24\t        print(store.reserve_stock(args.sku, args.units))\n25\t\n26\t\n27\tif __name__ == \"__main__\":\n28\t    main()\n",
+    "createdAt" : "2026-09-27T14:53:04Z",
+    "id" : "EBADCCA8-4459-4582-87C4-71CCB35F7ADE",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-8e6fd6fda1272787",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0011290311813354492,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:05Z",
+    "id" : "7FAFE465-3046-42BD-8885-25647E1ECA41",
+    "meta" : {
+      "duration" : 0.576891333,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.282518958,
+      "usage" : {
+        "completionTokens" : 36,
+        "cost" : 5.214e-05,
+        "promptTokens" : 1534,
+        "reasoningTokens" : 7
+      }
+    },
+    "reasoning" : "Open inventory\/__init__.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\/__init__.py\"\n}",
+        "id" : "chatcmpl-tool-8a4703234c9299bd",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : "(inventory\/__init__.py is empty)",
+    "createdAt" : "2026-09-27T14:53:05Z",
+    "id" : "8B39C2DA-F379-4776-88A7-4D21CFEE55AA",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-8a4703234c9299bd",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00022995471954345703,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:06Z",
+    "id" : "0093BCC4-3E76-4255-BCA9-4D57C06987A4",
+    "meta" : {
+      "duration" : 1.661544708,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.40460775,
+      "usage" : {
+        "completionTokens" : 39,
+        "cost" : 5.445e-05,
+        "promptTokens" : 1594,
+        "reasoningTokens" : 0
+      }
+    },
+    "reasoning" : "Open inventory\/api.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\/api.py\",\n  \"limit\": 400\n}",
+        "id" : "chatcmpl-tool-9861d07859bfb16a",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"HTTP handlers. Each takes a parsed request dict and returns (status, body).\"\"\"\n 2\tfrom .storage import InsufficientStock, SqliteStore\n 3\tfrom .pricing import price_with_tax\n 4\t\n 5\tstore = SqliteStore(\"inventory.db\")\n 6\t\n 7\t\n 8\tdef list_items(request):\n 9\t    return 200, [vars(i) for i in store.list_items()]\n10\t\n11\t\n12\tdef reserve(request):\n13\t    try:\n14\t        r = store.reserve_stock(request[\"sku\"], int(request[\"units\"]))\n15\t    except InsufficientStock as e:\n16\t        return 409, {\"error\": str(e)}\n17\t    return 201, {\"reservation\": r.id, \"total\": price_with_tax(request[\"unit_price\"], r.units)}\n",
+    "createdAt" : "2026-09-27T14:53:06Z",
+    "id" : "197C8593-875C-497D-8BD9-F7E20CBD8CE1",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-9861d07859bfb16a",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0007059574127197266,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:08Z",
+    "id" : "C05E61C6-FCAC-4146-B83A-9938389F8086",
+    "meta" : {
+      "duration" : 1.495650666,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.378804833,
+      "usage" : {
+        "completionTokens" : 39,
+        "cost" : 6.105e-05,
+        "promptTokens" : 1814,
+        "reasoningTokens" : 7
+      }
+    },
+    "reasoning" : "Open inventory\/models.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\/models.py\",\n  \"limit\": 400\n}",
+        "id" : "chatcmpl-tool-86a9c1d5e50c8779",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\tfrom dataclasses import dataclass\n 2\t\n 3\t\n 4\t@dataclass\n 5\tclass Item:\n 6\t    sku: str\n 7\t    name: str\n 8\t    quantity: int\n 9\t\n10\t\n11\t@dataclass\n12\tclass Reservation:\n13\t    id: int\n14\t    sku: str\n15\t    units: int\n",
+    "createdAt" : "2026-09-27T14:53:08Z",
+    "id" : "3A1BD5E3-9521-4A3D-B456-2B3F1B7BE3F0",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-86a9c1d5e50c8779",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.0006150007247924805,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:09Z",
+    "id" : "7CC07E4A-C27A-493F-8EE2-C1FBFB1C212F",
+    "meta" : {
+      "duration" : 0.7135965,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.346425375,
+      "usage" : {
+        "completionTokens" : 41,
+        "cost" : 6.538e-05,
+        "promptTokens" : 1947,
+        "reasoningTokens" : 7
+      }
+    },
+    "reasoning" : "Open inventory\/pricing.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\/pricing.py\",\n  \"limit\": 200\n}",
+        "id" : "chatcmpl-tool-b8b3d821ff0431f4",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"Prices with tax and volume discounts.\"\"\"\n 2\t\n 3\tTAX_RATE = 0.0825\n 4\tDISCOUNT_TABLE = [(100, 0.10), (20, 0.05)]\n 5\t\n 6\t\n 7\tdef unit_discount(units: int) -> float:\n 8\t    for threshold, rate in DISCOUNT_TABLE:\n 9\t        if units >= threshold:\n10\t            return rate\n11\t    return 0.0\n12\t\n13\t\n14\tdef price_with_tax(unit_price: float, units: int) -> float:\n15\t    subtotal = unit_price * units * (1 - unit_discount(units))\n16\t    return round(subtotal * (1 + TAX_RATE), 2)\n",
+    "createdAt" : "2026-09-27T14:53:09Z",
+    "id" : "5BE2AC26-4E7F-4701-A999-EB4D45E3DA74",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-b8b3d821ff0431f4",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00017392635345458984,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:09Z",
+    "id" : "827C48BF-0742-4039-8368-EC2C55DDADFE",
+    "meta" : {
+      "duration" : 0.812441542,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.497454583,
+      "usage" : {
+        "completionTokens" : 39,
+        "cost" : 7.137e-05,
+        "promptTokens" : 2158,
+        "reasoningTokens" : 7
+      }
+    },
+    "reasoning" : "Open inventory\/storage.py.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"inventory\/storage.py\",\n  \"limit\": 400\n}",
+        "id" : "chatcmpl-tool-b4417544d45d9429",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n11\tclass SqliteStore:\n12\t    def __init__(self, path=\":memory:\"):\n13\t        self.db = sqlite3.connect(path)\n14\t        self.db.execute(\"create table if not exists items (sku text primary key, name text, quantity int)\")\n15\t        self.db.execute(\"create table if not exists reservations (id integer primary key, sku text, units int)\")\n16\t\n17\t    def add_item(self, item: Item):\n18\t        self.db.execute(\"insert into items values (?, ?, ?)\", (item.sku, item.name, item.quantity))\n19\t\n20\t    def get_item(self, sku: str) -> Item:\n21\t        row = self.db.execute(\"select sku, name, quantity from items where sku = ?\", (sku,)).fetchone()\n22\t        return Item(*row) if row else None\n23\t\n24\t    def list_items(self):\n25\t        return [Item(*r) for r in self.db.execute(\"select sku, name, quantity from items\")]\n26\t\n27\t    # Reservations hold stock for an order until it ships or is cancelled.\n28\t    # Callers must release() cancelled reservations.\n29\t    # Quantities are whole units.\n30\t\n31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-09-27T14:53:09Z",
+    "id" : "BAF70922-1F7F-40A8-9E92-43561C8C2AD2",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-b4417544d45d9429",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00028502941131591797,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-09-27T14:53:10Z",
+    "id" : "D7152F6E-1301-492E-A454-64ABC0F3F69D",
+    "meta" : {
+      "duration" : 0.81231325,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.434260958,
+      "usage" : {
+        "completionTokens" : 39,
+        "cost" : 8.781e-05,
+        "promptTokens" : 2706,
+        "reasoningTokens" : 0
+      }
+    },
+    "reasoning" : "Open tests file.",
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\n  \"path\": \"tests\/test_storage.py\",\n  \"limit\": 400\n}",
+        "id" : "chatcmpl-tool-8e8fb4be26f00d81",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\timport unittest\n 2\t\n 3\tfrom inventory.models import Item\n 4\tfrom inventory.storage import InsufficientStock, SqliteStore\n 5\t\n 6\t\n 7\tclass StorageTests(unittest.TestCase):\n 8\t    def test_reserve_reduces_stock(self):\n 9\t        s = SqliteStore()\n10\t        s.add_item(Item(\"A1\", \"Anvil\", 5))\n11\t        s.reserve_stock(\"A1\", 2)\n12\t        self.assertEqual(s.get_item(\"A1\").quantity, 3)\n13\t\n14\t    def test_reserve_too_many(self):\n15\t        s = SqliteStore()\n16\t        s.add_item(Item(\"A1\", \"Anvil\", 1))\n17\t        with self.assertRaises(InsufficientStock):\n18\t            s.reserve_stock(\"A1\", 2)\n",
+    "createdAt" : "2026-09-27T14:53:10Z",
+    "id" : "7E07AE00-88AB-4DAC-AA3E-02E82277B000",
+    "role" : "tool",
+    "toolCallID" : "chatcmpl-tool-8e8fb4be26f00d81",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "duration" : 0.00045502185821533203,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "**Project layout**\n\n```\n\/                     ← project root\n│\n├─ README.md          ← short description of the tool\n├─ cli.py             ← command‑line interface\n│\n├─ inventory\/         ← core library (the “service”)\n│   ├─ __init__.py    ← makes the directory a package\n│   ├─ api.py         ← HTTP‑style handlers (stateless functions)\n│   ├─ models.py      ← dataclasses that represent domain objects\n│   ├─ pricing.py     ← business logic for pricing & tax\n│   └─ storage.py     ← SQLite‑backed persistence layer\n│\n└─ tests\/\n    └─ test_storage.py← unit‑tests for the storage layer\n```\n\n---\n\n## 1. `inventory\/models.py`\n\n* **Purpose** – defines the *domain entities* used throughout the service.\n* **Key classes**\n  * `Item` – `sku`, `name`, `quantity`.\n  * `Reservation` – `id`, `sku`, `units`.\n\nBoth are plain `@dataclass` objects, so they carry no behaviour; they are simply containers that other modules pass around.\n\n---\n\n## 2. `inventory\/storage.py`\n\n* **Purpose** – persistence + stock‑management logic, backed by SQLite.\n* **Key symbols**\n  * `InsufficientStock` – custom exception raised when a reservation cannot be fulfilled.\n  * `SqliteStore` – the main repository \/ data‑access object.\n    * `__init__(path=\":memory:\")` – creates an in‑memory or file‑based DB, creates `items` and `reservations` tables.\n    * `add_item(item)` – inserts a new `Item`.\n    * `get_item(sku)` – fetches an `Item` (or `None`).\n    * `list_items()` – returns all `Item`s.\n    * `reserve_stock(sku, units)` – checks availability, decrements the `quantity`, creates a `Reservation` row, and returns a `Reservation` instance; raises `InsufficientStock` on failure.\n    * `release(reservation)` – restores the stock and deletes the reservation row.\n\nAll higher‑level code (CLI, API, tests) interacts with the inventory only through this class.\n\n---\n\n## 3. `inventory\/pricing.py`\n\n* **Purpose** – pure business‑logic for price calculation.\n* **Key data**\n  * `TAX_RATE = 0.0825`\n  * `DISCOUNT_TABLE = [(100, 0.10), (20, 0.05)]` – thresholds → discount rate.\n* **Key functions**\n  * `unit_discount(units)` – returns the discount rate for a quantity.\n  * `price_with_tax(unit_price, units)` – applies discount, adds tax, rounds to 2 dp.\n\nOnly the API layer needs pricing; the storage layer is deliberately agnostic of money rules.\n\n---\n\n## 4. `inventory\/api.py`\n\n* **Purpose** – thin HTTP‑style request handlers (stateless functions) that could be wired into a web framework.\n* **Key symbols**\n  * `store = SqliteStore(\"inventory.db\")` – a module‑level singleton that all handlers share.\n  * `list_items(request)` – returns a `(200, payload)` tuple where `payload` is a list of dictionaries (`vars(i)`) for each `Item`.\n  * `reserve(request)` – expects a dictionary with keys `\"sku\"`, `\"units\"` and `\"unit_price\"`. It:\n    1. Calls `store.reserve_stock`.\n    2. On `InsufficientStock` returns `409` with an error message.\n    3. On success returns `201` with the reservation id and the total price calculated by `price_with_tax`.\n\nThe API layer **depends on** `storage.SqliteStore` (for data) and `pricing.price_with_tax` (for the total).\n\n---\n\n## 5. `cli.py`\n\n* **Purpose** – a small command‑line front‑end for manual testing or ad‑hoc use.\n* **Flow**\n  1. Parses sub‑commands: `add`, `list`, `reserve`.\n  2. Instantiates a `SqliteStore(\"inventory.db\")`.\n  3. For each command:\n     * `add` → constructs an `Item` and calls `store.add_item`.\n     * `list` → iterates `store.list_items()` and prints each.\n     * `reserve` → calls `store.reserve_stock` and prints the returned `Reservation`.\n\nThus the CLI **uses the same storage class** as the API, demonstrating that the storage layer is the single source of truth.\n\n---\n\n## 6. `tests\/test_storage.py`\n\n* **Purpose** – unit tests that verify the correctness of `SqliteStore`.\n* **What it covers**\n  * Adding an item and reserving part of its stock reduces the quantity (`test_reserve_reduces_stock`).\n  * Reserving more units than are available raises `InsufficientStock` (`test_reserve_too_many`).\n\nThe tests import `Item`, `SqliteStore`, and `InsufficientStock` directly from the library, confirming that the public API of `inventory.storage` works as expected.\n\n---\n\n## 7. How the pieces connect\n\n1. **Domain objects (`Item`, `Reservation`)** live in `models.py`. They are passed around but contain no logic.\n2. **Persistence (`SqliteStore`)** in `storage.py` knows how to store\/retrieve those objects and enforce stock rules.  \n   *All other code* (CLI, API, tests) talks to the inventory solely through this class.\n3. **Pricing (`pricing.py`)** is pure functions; only the API (`reserve`) uses them to compute a total price for a reservation. The storage layer does not care about money.\n4. **CLI (`cli.py`)** and **API (`api.py`)** are two different entry points that both instantiate or reuse a `SqliteStore`.  \n   - CLI is a simple script for human interaction.  \n   - API exposes the same operations as HTTP‑style functions, ready to be wrapped by a web framework.\n5. **Tests** validate the storage logic, which is the core of the system.\n\nOverall, the project follows a **clean‑layered architecture**:\n\n```\nCLI \/ API  →  Storage (SqliteStore)  →  SQLite DB\n                     ↑\n                 Models (Item, Reservation)\n                     ↑\n                 Pricing (price_with_tax)   ← used only by API\n```\n\nEach module has a single responsibility, making the code easy to extend (e.g., swapping SQLite for another DB, adding a web framework, or enhancing pricing) without touching the other layers.",
+    "createdAt" : "2026-09-27T14:53:26Z",
+    "id" : "4DBE0F84-94BA-446E-A067-EB9F890E2F1C",
+    "meta" : {
+      "duration" : 15.856717542,
+      "endpointID" : "A7E319B8-27CB-41B5-9BD5-97D2C716405C",
+      "finishReason" : "stop",
+      "reportedModel" : "openai\/gpt-oss-120b",
+      "requestedModel" : "openai\/gpt-oss-120b",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.961673334,
+      "usage" : {
+        "completionTokens" : 1533,
+        "cost" : 0.00034863,
+        "promptTokens" : 2934,
+        "reasoningTokens" : 131
+      }
+    },
+    "reasoning" : "Now we can answer. Need to explain organization: main parts like CLI, API, models, storage, pricing. Explain each module\/class, and interconnections. Provide specifics: cli uses SqliteStore, Item. api uses SqliteStore, InsufficientStock, price_with_tax. storage defines SqliteStore, InsufficientStock, Reservations etc. pricing provides functions. tests cover storage. There's README. Provide connections: CLI and API share storage layer; models define dataclasses; pricing used by API for total cost. Provide description.",
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

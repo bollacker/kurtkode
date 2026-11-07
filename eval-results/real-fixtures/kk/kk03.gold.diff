@@ -1,0 +1,142 @@
+diff --git a/AgentCore/Sources/AgentCore/Agent/AgentLoop.swift b/AgentCore/Sources/AgentCore/Agent/AgentLoop.swift
+index 797e24f..9cd0b88 100644
+--- a/AgentCore/Sources/AgentCore/Agent/AgentLoop.swift
++++ b/AgentCore/Sources/AgentCore/Agent/AgentLoop.swift
+@@ -472,8 +472,9 @@ public enum AgentLoop {
+             // A reply that is only a tool-call marker (Gemma 4 wrote `<tool_call|>` and stopped) is a broken call,
+             // not an answer: it gets the same treatment.
+             var nudge: String?
++            let declined = reply.meta?.declined == true     // a refusal: asking again gets the same answer
+             if reply.meta?.stopReason ?? .completed == .completed, !Task.isCancelled, reply.toolCalls.isEmpty,
+-               reply.meta?.finishReason != .length, emptyNudges < 3 {
++               reply.meta?.finishReason != .length, emptyNudges < 3, !declined {
+                 if reply.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                     nudge = emptyReplyNudge(reasoning: reply.reasoning, generatedTokens: reply.meta?.usage?.completionTokens ?? 0)
+                     reply = noted(reply, "The reply was empty; the loop asked again: \"\(nudge!)\"")
+@@ -486,7 +487,7 @@ public enum AgentLoop {
+             // step is to continue documenting the remaining files" with 5 of 14 left, and the run ended there). The reply
+             // stays: it's an answer, just maybe an early one.
+             var todoNudge: String?
+-            if nudge == nil, !todoNudged, reply.meta?.stopReason ?? .completed == .completed, !Task.isCancelled,
++            if nudge == nil, !todoNudged, !declined, reply.meta?.stopReason ?? .completed == .completed, !Task.isCancelled,
+                reply.toolCalls.isEmpty, reply.meta?.finishReason != .length {
+                 todoNudge = Self.openTodosNudge(runMessages)
+                 if let todoNudge { reply = noted(reply, "The run's todo list still had open items; the loop asked once: \"\(todoNudge)\"") }
+@@ -879,10 +880,13 @@ public enum AgentLoop {
+     /// doing, and the nudge handles it.
+     public static func droppedCall(_ m: ChatMessage) -> Bool {
+         guard m.role == .assistant, m.toolCalls.isEmpty, m.meta?.stopReason == .completed, m.meta?.finishReason != .length,
++              m.meta?.declined != true,
+               m.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return false }
+         let tail = (m.reasoning ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+         if tail.hasSuffix("}"), tail.contains("{") { return false }
+-        return (m.meta?.usage?.completionTokens ?? 0) - (m.reasoning ?? "").utf8.count / 4 > 10
++        // Thinking the server billed but showed only as a summary (Claude, Gemini) isn't a lost reply's output.
++        let thinking = max(m.meta?.usage?.reasoningTokens ?? 0, (m.reasoning ?? "").utf8.count / 4)
++        return (m.meta?.usage?.completionTokens ?? 0) - thinking > 10
+     }
+ 
+     static func isContinuation(_ m: ChatMessage) -> Bool {
+diff --git a/AgentCore/Sources/AgentCore/LLM/AnthropicWire.swift b/AgentCore/Sources/AgentCore/LLM/AnthropicWire.swift
+index 9049a23..ccec7a2 100644
+--- a/AgentCore/Sources/AgentCore/LLM/AnthropicWire.swift
++++ b/AgentCore/Sources/AgentCore/LLM/AnthropicWire.swift
+@@ -324,6 +324,7 @@ struct AnthropicStreamDecoder: StreamDecoder {
+                     if let e = NativeWire.string(s["explanation"]), !e.isEmpty { why += ": \(e)" }
+                 }
+                 out.append(.note(why.hasSuffix(".") ? why : why + "."))
++                out.append(.declined)
+                 out.append(.finish(.other))
+             default:
+                 out.append(.note("The server stopped the reply: \(reason)."))
+diff --git a/AgentCore/Sources/AgentCore/LLM/ChatTypes.swift b/AgentCore/Sources/AgentCore/LLM/ChatTypes.swift
+index 7fbf8eb..88dec90 100644
+--- a/AgentCore/Sources/AgentCore/LLM/ChatTypes.swift
++++ b/AgentCore/Sources/AgentCore/LLM/ChatTypes.swift
+@@ -154,6 +154,9 @@ public struct TurnMeta: Codable, Sendable, Hashable {
+     public var usage: Usage?
+     public var finishReason: FinishReason?
+     public var stopReason: StopReason
++    /// The server or the model declined (a Claude refusal, a Gemini safety stop or blocked prompt, OpenAI's
++    /// `content_filter`). Such a reply isn't lost and isn't nudged: asking again gets the same answer.
++    public var declined: Bool?
+     public var error: String?
+     public var timeToFirstToken: Double?    // seconds, first content or reasoning token
+     public var duration: Double             // seconds
+@@ -293,6 +296,8 @@ public enum StreamEvent: Sendable, Equatable {
+     case note(String)
+     /// Tool calls received so far are void (the model that wrote them declined and another took over).
+     case discardToolCalls
++    /// The reply was declined (refusal, safety stop, blocked prompt).
++    case declined
+     /// The reply's native content, at the end of the stream.
+     case native(NativeContent)
+ }
+diff --git a/AgentCore/Sources/AgentCore/LLM/GeminiWire.swift b/AgentCore/Sources/AgentCore/LLM/GeminiWire.swift
+index 5941d1a..c6fde7f 100644
+--- a/AgentCore/Sources/AgentCore/LLM/GeminiWire.swift
++++ b/AgentCore/Sources/AgentCore/LLM/GeminiWire.swift
+@@ -150,6 +150,9 @@ struct GeminiStreamDecoder: StreamDecoder {
+     private var usage: Usage?
+     private var notes: [String] = []
+     private var thoughtRuns = 0
++    /// Finish reasons that mean the reply was refused, not lost or cut.
++    static let declinedReasons: Set<String> = ["BLOCKED", "SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII",
++                                               "IMAGE_SAFETY", "IMAGE_PROHIBITED_CONTENT"]
+ 
+     init(requestedModel: String) { self.requestedModel = requestedModel }
+ 
+@@ -223,6 +226,7 @@ struct GeminiStreamDecoder: StreamDecoder {
+         case "MAX_TOKENS"?: out.append(.finish(.length))
+         case let r?:
+             if r != "BLOCKED" { out.append(.note("Gemini stopped the reply: \(r).")) }
++            if Self.declinedReasons.contains(r) { out.append(.declined) }
+             out.append(.finish(.other))
+         case nil: break
+         }
+diff --git a/AgentCore/Sources/AgentCore/LLM/Turn.swift b/AgentCore/Sources/AgentCore/LLM/Turn.swift
+index 068dbef..c702e3c 100644
+--- a/AgentCore/Sources/AgentCore/LLM/Turn.swift
++++ b/AgentCore/Sources/AgentCore/LLM/Turn.swift
+@@ -39,6 +39,7 @@ public struct TurnAccumulator: Sendable {
+     public private(set) var provider: String?
+     public private(set) var notes: [String] = []
+     public private(set) var native: NativeContent?
++    public private(set) var declined = false
+     private var calls: [Int: ToolCall] = [:]
+ 
+     public init() {}
+@@ -83,6 +84,9 @@ public struct TurnAccumulator: Sendable {
+         case .native(let n):
+             native = n
+             return false
++        case .declined:
++            declined = true
++            return false
+         }
+     }
+ 
+@@ -197,6 +201,7 @@ public enum TurnRunner {
+                             duration: elapsed())
+         meta.provider = acc.provider
+         if !acc.notes.isEmpty { meta.notes = acc.notes }
++        if acc.declined { meta.declined = true }
+         return acc.message(meta: meta)
+     }
+ }
+diff --git a/AgentCore/Sources/AgentCore/LLM/WireFormat.swift b/AgentCore/Sources/AgentCore/LLM/WireFormat.swift
+index a21fc99..2d2ac6b 100644
+--- a/AgentCore/Sources/AgentCore/LLM/WireFormat.swift
++++ b/AgentCore/Sources/AgentCore/LLM/WireFormat.swift
+@@ -122,7 +122,10 @@ enum WireFormat {
+                                               name: tc.function?.name, arguments: tc.function?.arguments))
+                 }
+             }
+-            if let f = choice.finish_reason { out.append(.finish(FinishReason(wire: f))) }
++            if let f = choice.finish_reason {
++                if f == "content_filter" { out.append(.note("The server's content filter stopped the reply.")); out.append(.declined) }
++                out.append(.finish(FinishReason(wire: f)))
++            }
+         }
+         if let u = chunk.usage {
+             out.append(.usage(Usage(promptTokens: u.prompt_tokens ?? 0,

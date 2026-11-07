@@ -1,0 +1,90 @@
+{
+ "name": "pkg",
+ "python": "/Users/me/.pyenv/versions/pubtasks/bin/python",
+ "testCommand": "PYTHONPATH=src {python} -m pytest -q -p no:cacheprovider -W ignore::pytest.PytestRemovedIn10Warning --hypothesis-seed=0 tests",
+ "gitignore": [
+  ".hypothesis/"
+ ],
+ "mayChange": [
+  "src/",
+  "tests/",
+  "docs/",
+  "CHANGELOG.rst",
+  "README.rst"
+ ],
+ "tasks": [
+  {
+   "id": "pkg01",
+   "sha": "78d8673",
+   "kind": "edit",
+   "title": "VersionRange.relation answers subset and disjointness together",
+   "prompt": "`packaging.ranges.VersionRange` answers `is_subset(other)` and `is_disjoint(other)` separately, so a caller that needs both walks the ranges twice. Add `VersionRange.relation(other)`, returning a member of a new enum `packaging.ranges.RangeRelation` (exported in the module's `__all__`) that answers both at once.\n\n`RangeRelation` has four members: `EMPTY` (self has no members), `SUBSET` (self has members and every one is in other), `DISJOINT` (self has members and none is in other) and `OVERLAPPING` (they share a member and self has one that other lacks). Each member has two read-only properties: `is_subset` (true for EMPTY and SUBSET) and `is_disjoint` (true for EMPTY and DISJOINT); assigning to either raises AttributeError. `repr(RangeRelation.SUBSET)` is `RangeRelation.SUBSET`.\n\n`relation(other)`'s flags always agree with `is_subset` and `is_disjoint`, that is with `(self & ~other).is_empty` and `(self & other).is_empty`, for any ranges: with `===` specifiers, and with prereleases None, True or False. As for the other set operations, both ranges must share the same configured pre-release policy, else ValueError. A range related to itself or to an equal range is SUBSET, or EMPTY if it is empty. Examples, writing a range by its specifiers: `>=1.5,<1.8` against `>=1.0,<2.0` is SUBSET and the reverse OVERLAPPING; `>=1.0,<2.0` against `>=3.0,<4.0` is DISJOINT; `>=1.0,<2.0` against `>=2.0,<3.0` is DISJOINT but `>=1.0,<=2.0` against it is OVERLAPPING; `>=1.0,<2.0,!=1.5` against `>=1.0,<2.0` is SUBSET and the reverse OVERLAPPING; an empty range (`>=2.0,<1.0`) is EMPTY against anything, and a non-empty range against an empty one is DISJOINT. For ranges decided by their bounds alone, get both answers from one pass over the bounds. Document the method and the enum in docs/ranges.rst. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg01-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg02",
+   "sha": "ffced26",
+   "kind": "edit",
+   "title": "__replace__ for Specifier and SpecifierSet",
+   "prompt": "Make `packaging.specifiers.Specifier` and `SpecifierSet` work with `copy.replace()` (Python 3.13) by giving them a `__replace__` method.\n\n`Specifier.__replace__(*, operator=..., version=..., prereleases=...)`: keyword-only; an omitted argument keeps the current part; `prereleases=None` clears the explicit override, so pre-release handling is detected automatically again. It returns a new specifier, built as `f\"{operator}{version}\"` with that prereleases override and of the same class as self (subclasses are preserved), so a bad operator or version raises InvalidSpecifier. When nothing changes it returns self itself. The version of a `===` specifier can be replaced too: `Specifier(\"===anything\").__replace__(version=\"else\")` is `===else`.\n\n`SpecifierSet.__replace__(*, specifiers=..., prereleases=...)`: `specifiers` is a string or an iterable of `Specifier` (an iterator is fine); omitted keeps the current ones; `prereleases` as above; same class as self; a bad specifier raises InvalidSpecifier. It returns self when `specifiers` is omitted and the prereleases override doesn't change. For both, an unknown keyword raises TypeError (`copy.replace(s, unexpected=\"1\")`).\n\nExample: `s = Specifier(\">=1.0a1\", prereleases=False)`; `s.__replace__(operator=\"<\", version=\"2.0\")` is `<2.0` with prereleases False, `s` is unchanged, and `s.__replace__(prereleases=None).prereleases` is True (detected from 1.0a1). `SpecifierSet(\">=1.0a1,<2.0\", prereleases=False).__replace__(specifiers=iter([Specifier(\"==2.0\")]))` is `==2.0` with prereleases False. Document both in docs/specifiers.rst. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg02-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg03",
+   "sha": "ba0188d",
+   "kind": "edit",
+   "title": "SpecifierSet.is_subset, is_superset and is_disjoint",
+   "prompt": "`SpecifierSet.to_range()` gives a `VersionRange`, which has `is_subset`, `is_superset` and `is_disjoint`. Add the same three relations to `packaging.specifiers.SpecifierSet` itself: `a.is_subset(b)` (every version matching a also matches b), `a.is_superset(b)` and `a.is_disjoint(b)` (no version matches both), each giving the same answer as on the sets' ranges.\n\n`other` must be a SpecifierSet: anything else, a string say, raises TypeError with a message that mentions SpecifierSet. If either set has a `===` specifier, raise ValueError with a message containing `===`. Two sets given different `prereleases` arguments (unset on one side counts as different) raise ValueError mentioning pre-release, as VersionRange already does. Examples: `>=3.12,<3.13` is a subset of `>=3.12` and of `>=3.11,<3.13` but not of `>=3.12,<3.12.5`; an unsatisfiable set such as `>=2.0,<1.0` is a subset of anything and disjoint from anything; the empty SpecifierSet `\"\"` (every version) is not a subset of `>=3.12`; `<3.12` is disjoint from `>=3.12` but not from `>=3.11`. Document them in docs/specifiers.rst. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg03-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg04",
+   "sha": "959bb79",
+   "kind": "fix",
+   "title": "Dependency-group errors: later siblings collected, each group once",
+   "prompt": "`packaging.dependency_groups.resolve_dependency_groups` (and `DependencyGroupResolver.resolve`) collect every problem in the groups they resolve and raise them together as an ExceptionGroup. Two cases are wrong.\n\nFirst, once one included group has failed to parse, problems in a later sibling include are no longer collected. With `root = [{\"include-group\": \"bad\"}, {\"include-group\": \"wrapper\"}]`, `bad = [\"!!! bad invalid\"]`, `wrapper = [{\"include-group\": \"also-bad\"}]` and `also-bad = [\"!!! also invalid\"]`, resolving root should raise two errors, the one for `!!! bad invalid` first and then the one for `!!! also invalid`.\n\nSecond, a failing group is reported once for every path that reaches it. With `root` including `group1` and `group2`, both of which include `err = [\"invalid requirement\"]`, resolving root should raise one error, not two. Within one resolve call, report each failing group once. A group that failed must still not be cached as resolved, so a later call reports it again. Update the existing tests that this change breaks. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg04-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg05",
+   "sha": "23669b1",
+   "kind": "edit",
+   "title": "Pylock.select rejects undeclared extras and dependency groups",
+   "prompt": "`Pylock.select(extras=..., dependency_groups=...)` in `packaging.pylock` silently accepts extras and dependency groups that the lock file doesn't declare. Make it raise `PylockSelectError` instead: `Undeclared extras: x3, x4` for requested extras missing from the lock's `extras`, and `Undeclared dependency groups: g3, g4` for requested groups found in neither `dependency_groups` nor `default_groups` (the names sorted and joined with \", \"). Names are compared normalized (`canonicalize_name`), so a requested `X1` matches a declared `x1` and `DG1` a default group `dg1`, and the normalized names are the ones used for the selection. The error may surface when the result is iterated, as in `list(pylock.select(...))`. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg05-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg06",
+   "sha": "2068340",
+   "kind": "fix",
+   "title": "Metadata.from_email reports all its errors at once",
+   "prompt": "`Metadata.from_email(data, validate=True)` in `packaging.metadata` reports problems in two rounds. If any header couldn't be parsed (an unknown field, or a single-value field such as Name given twice), it raises an ExceptionGroup with only those; the validation errors that `from_raw` would report (missing required fields, an invalid version) appear only after they are fixed.\n\nCollect both into one ExceptionGroup whose message is `invalid or unparsed metadata`: one InvalidMetadata per unparsed header (with today's messages) plus every error `from_raw` reports. A required field already reported as unparsed (Name given twice, so absent from the raw data) must not be reported a second time as missing. The raised group's `__context__` must be None, so don't raise it from inside an except block. Valid metadata is still returned as before.\n\nExamples: `Metadata-Version: 2.6\\nName: packaging\\nName: packaging-copy\\nVersion: invalid version\\n` gives exactly two errors, for the fields name and version; an empty string gives errors for metadata-version, name and version, under the message above; valid metadata with an extra `Unknown-Field: value` gives a single error for unknown-field. Update the existing tests that expect the old two-round behavior. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg06-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg07",
+   "sha": "4c362e3",
+   "kind": "edit",
+   "title": "parse_tag limit for compressed tag sets",
+   "prompt": "Add a `limit` keyword to `packaging.tags.parse_tag`: `parse_tag(tag, *, validate_order=False, limit=None)`. A compressed tag such as `py2.py3-none-any` expands to the product of its dot-separated parts. When `limit` is given and that count exceeds it, raise a new `packaging.tags.TooManyTagsError` (a ValueError subclass, exported in the module's `__all__`) with the message `Compressed tag set would generate N tags, exceeding limit L`, before generating them. The count is taken before duplicates collapse: `py3.py3-none-any` counts 2. A count equal to the limit is allowed. A negative limit raises ValueError(\"limit must be non-negative\"). `limit=None` keeps today's behavior, and `validate_order` works as before alongside it. Document the parameter and the exception in docs/tags.rst and add a CHANGELOG.rst entry. When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg07-hidden.tgz",
+   "maxSteps": 60
+  },
+  {
+   "id": "pkg08",
+   "sha": "e7f0351",
+   "kind": "fix",
+   "title": "Post-release boundaries in SpecifierSet ranges",
+   "prompt": "PEP 440 says `>V` excludes every post-release of V (unless V is itself a post-release). A single `Specifier(\">1.0\")` gets this right, but a SpecifierSet gets it wrong when another of its specifiers puts a boundary at a post-release of the same V: `SpecifierSet(\">1.0,!=1.0.post1\").contains(\"1.0.post2\", prereleases=True)` is True, although `>1.0` rejects 1.0.post2, and `SpecifierSet(\">1.0,<=1.0.post1\").is_unsatisfiable()` is False, although no version can match.\n\nFix the range logic SpecifierSet uses (src/packaging/_ranges.py) so that a set's membership always equals the conjunction of its specifiers' memberships, `filter` agrees (`SpecifierSet(\">1.0,!=1.0.post1\")` keeps only 1.1 of 1.0.post2, 1.0.post3 and 1.1), and `>V,<=V.postN` is unsatisfiable. This must also hold with epochs (`>1!1.0,!=1!1.0.post1` rejects 1!1.0.post2) and for development releases of post-releases (`1.0.post2.dev3`). When you're done, run the test suite and report what you changed and why.",
+   "hiddenTests": "pkg08-hidden.tgz",
+   "maxSteps": 60
+  }
+ ],
+ "gradeInSandbox": true
+}

@@ -1,0 +1,37 @@
+{
+  "triggers": {
+    "should": [
+      "Our agent keeps forgetting the release checklist. Turn docs/RELEASING.md into a skill it will actually follow.",
+      "Write a SKILL.md for how we add API endpoints in this repo.",
+      "The review skill never gets loaded when I ask for a review. Fix its description.",
+      "Add tests for our deploy skill: prompts that should load it and ones that shouldn't.",
+      "Make a Codex/Claude Code skill that runs our localization check before UI changes.",
+      "This skill is 600 lines and the small model ignores half of it. Rewrite it properly.",
+      "Agents here keep calling requests directly instead of our http_client wrapper; package that rule as a skill with a test."
+    ],
+    "should_not": [
+      "Write a README for the ledger tools.",
+      "Add a line to AGENTS.md saying we use tabs.",
+      "Plan the work for moving the ledger to Postgres.",
+      "Write unit tests for tools/migrate_check.py.",
+      "Leave notes for the next session about where this refactor stands.",
+      "Which skills are installed right now?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "migration-skill",
+      "fixture": "fixtures/migration-skill",
+      "prompt": "Coding agents keep getting our migration procedure wrong here: they edit old migrations and forget schema.sql. Write a skill for adding a database migration, based on docs/CONTRIBUTING.md, next to our existing skill in agent/skills/. Also write trigger tests for it (requests that should load it and near misses that shouldn't) so we can check it fires at the right time.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read docs/CONTRIBUTING.md and the existing skill before writing, and did not copy the existing skill's extra fields or summary-style description",
+        "Description says when to use it in the user's words and names what it is not for, without summarizing the steps",
+        "Body has numbered steps with the exact commands, rules with reasons for the two known failures, and a done contract",
+        "Trigger tests include near misses (queries, data fixes, running tests) not just unrelated requests",
+        "Ran a validator or otherwise checked the front matter, length and referenced files"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+$ kurtkode --help
+kurtkode: a coding agent for the terminal, sharing the app's endpoints, models, settings, and sessions.
+
+Usage:
+  kurtkode                        interactive session in the current folder
+  kurtkode inspect|replay|export  a recorded session's turns, a replay of one, or the whole session
+                                  (kurtkode inspect --help)
+  kurtkode runs                   every recorded agent run with its cost, for analysis (--csv, --json)
+  kurtkode "prompt"               interactive, starting with this prompt
+  kurtkode -p "prompt"            run once, print the answer, exit (stdin is added to the prompt)
+
+Options:
+  -p, --print                     run once and exit
+  -m, --model SPEC                model, or endpoint:model (endpoints by name; "lmstudio" is this Mac)
+      --mode MODE                 ask | edits | plan | auto   (default: the app's setting; -p can't approve,
+                                  so actions that need approval are refused unless the mode allows them)
+  -C, --cwd DIR                   project folder (default: current folder)
+      --add-dir DIR               another folder the agent may read and write (repeatable; kept with the session)
+      --read-dir DIR              another folder the agent may only read (repeatable)
+  -c, --continue                  continue the latest session in this project
+  -r, --resume ID                 resume a session (an id prefix is enough; see --list-sessions)
+      --list-sessions             list this project's sessions
+      --output FORMAT             text | json | stream-json   (with -p)
+      --max-steps N               model turns before pausing (default: the app's setting)
+      --sandbox WHEN              fullAuto | always | never   (default: the app's setting)
+      --no-mcp                    don't start MCP servers
+      --no-subagents              don't offer the task tool
+      --no-builtin-skills         offer only the project's and your own skills, not kurtkode's
+      --skill-router WHEN         auto | on | off: ask the model which skill fits each request and have the
+                                  agent load it (default: the app's setting; auto = on for OpenAI-compatible
+                                  servers such as LM Studio)
+      --show-thinking             print reasoning as it streams
+      --reasoning LEVEL           none (off) | low | medium | high | … | default: how much the model reasons,
+                                  over its profile's setting (the app's model settings)
+      --endpoint NAME=URL         an OpenAI-compatible server for this run only (no key, not saved);
+                                  use it with -m NAME:model
+  -h, --help, --version
+
+In a session: /help for commands, @path to attach a file, !command to run one yourself, Ctrl-C to stop.
+Line editing and history (↑/↓, Ctrl-R) in a terminal; Tab completes /commands and @paths; end a line
+with \ to continue it on the next.
+API keys: KURTKODE_API_KEY_<ENDPOINT> in the environment (for Anthropic and Gemini endpoints also
+ANTHROPIC_API_KEY, GEMINI_API_KEY or GOOGLE_API_KEY), else the key the app stored in the Keychain.
+--endpoint with api.anthropic.com or generativelanguage.googleapis.com speaks their native APIs.
+exit=0
+
+$ kurtkode cost --help
+kurtkode inspect [SESSION] [--run N] [--turn N] [--json]
+    A session's turns: model, tokens, times, tool calls, problems. --turn N: one turn in full (its reply,
+    reasoning, calls and results, notes, HTTP); --run N: the session's Nth subagent run instead.
+kurtkode replay [SESSION] --turn N [--run N] [-m ENDPOINT:MODEL] [--temperature T]
+                [--reasoning LEVEL[,LEVEL…]|default] [--system-file FILE] [--json]
+    Sends turn N's recorded request again (on its own model unless -m says otherwise) and compares the
+    reply with the original. Tools aren't run. The replay is saved with the session (the Debug window
+    lists it).
+kurtkode export [SESSION] [--run N] [--format markdown|json] [-o FILE]
+    The session as Markdown (default) or JSON, its subagent runs included.
+kurtkode runs [--since DATE|Nd] [--agent NAME] [--json|--csv] [-o FILE]
+    Every recorded agent run (main runs and subagent runs, all projects): task, model setup, cost at list
+    price by component, tokens, times, and how it ended. --json: one record per line, in full; --csv: one
+    row per run, for analysis.
+
+kurtkode judge RUN --verdict 0-3 [--issues TAG,TAG] [--note TEXT]
+    Your judgment of a run, a main run or a subagent run (RUN: its id or a prefix; see `kurtkode runs --json` or
+    the app's Agents tab; in a session /good and /bad rate the last reply):
+    3 done and right, 2 minor gaps, 1 partial, 0 failed or wrong. It's kept beside the agent's own rating and
+    the automatic checks, and counts most.
+kurtkode judgments [--json] [-o FILE]
+    Every subagent run with its judgments (automatic checks, the parent's rating, the grader's, yours). --json:
+    one run per line with its task, card, report, model and every judgment in full, for analysis and tuning.
+
+kurtkode cost check --day YYYY-MM-DD [--tz UTC|local|ZONE] [--endpoint NAME] [--json]
+    A day's recorded requests summed by endpoint and model (tokens by kind, list price, what was charged),
+    to compare with the provider's console for the same key and day. --tz: the day's time zone (UTC by
+    default; use the console's).
+kurtkode cost report [--by model|kind|project|day] [--since DATE|Nd] [--eval STORE]… [--no-sessions] [--json]
+    What runs cost, grouped: runs, spent (the charge where the server said, else list price), per run and per
+    passing run, how many of the labeled runs passed (eval gold checks; your thumbs, retries and rewinds; the
+    judges), the share of prompt tokens read from cache, tokens. Sessions' runs (main and subagent) by default;
+    --eval adds an eval run store (eval-results/runs/NAME), --no-sessions leaves the sessions out.
+kurtkode cost whatif -m ENDPOINT:MODEL [the report's options]
+    The same runs' recorded tokens repriced at another model's list price, beside what they cost. A first
+    approximation: another model would use more or fewer tokens, and pass more or less often.
+kurtkode cost reconcile [--since DATE|Nd]
+    Looks up the provider's record of requests not checked yet (OpenRouter's generation records, which can
+    lag the reply) and records what it says; says why when a record can't be had.
+kurtkode cost calibrate -m ENDPOINT:MODEL [--max-output N] [--yes]
+    A fixed set of three requests (a short one, then a ~9k-token prompt twice, the second reading the cache)
+    to check the price list against the provider's console the next day. Without --yes it only shows what it
+    would send and its estimated list price; with --yes it sends them (this spends money) and records them
+    in a session of their own.
+
+kurtkode pool [--json] | pool init
+    The model pool: the configurations kurtkode picks on its own for subagents, retries, judging and summaries
+    (tier, roles, retry rung), where each runs here, and its list price and the cost of a typical small task.
+    `pool init` writes the shipped pool to pool.json in kurtkode's data folder, to edit by hand.
+
+kurtkode prompts [list]
+    The system prompt's templates (SYSTEM_PROMPT.md) and where each one comes from: the project's
+    .kurtkode/prompts/, your ~/.kurtkode/prompts/, or kurtkode's defaults.
+kurtkode prompts show NAME | reset NAME | reset --all
+    Prints a template as used here; removes your override of one (or of all kurtkode's own) so the
+    default is used again. A style of your own is removed by name.
+kurtkode prompts render [--style NAME] [--mode ask|acceptEdits|plan|fullAuto]
+    The system prompt a session in this folder would start with (with every tool offered).
+
+SESSION is an id or id prefix (any project; see --list-sessions), or "last" (default): the latest
+session in the current folder (-C DIR for another).
+exit=0
+
+$ kurtkode-eval --help
+unknown option --help
+exit=2
+
+=== kurtkode-eval has no --help (prints 'unknown option --help', exit 2). Its usage is the header comment of AgentCore/Sources/kurtkode-eval/main.swift (lines 5-60), reproduced verbatim:
+// kurtkode-eval: run agent scenarios against models and report how they do.
+//
+//   swift run -c release kurtkode-eval --models lmstudio:qwen/qwen3-coder-30b,openrouter:qwen/qwen3-coder \
+//       [--scenarios all|delegation|phase1|fix-tests,long-doc] [--trials 2] [--context 32768] [--out results.json] [--no-load]
+//   swift run kurtkode-eval --switch 'lmstudio:A>lmstudio:B' --scenarios fix-tests [--switch-after 3]
+//   swift run kurtkode-eval --list
+//   ... [--max-cost 2]   stop starting trials once the run has spent this many USD
+//   ... [--skills builtin|none]   bank runs: general agents get kurtkode's built-in skills, as in sessions (default none)
+//   ... [--own-cost]   the cap counts only this process's runs, not the key's usage (other processes share the key)
+//   ... [--key-limit 1234.5]   stop starting runs once a key's total usage, as its server reports it, reaches this
+//   ... [--sandbox fullAuto|always|never]   when commands run in the sandbox (default: fullAuto, as the app)
+//   ... [--endpoint proxy=http://127.0.0.1:18080/v1]   an extra OpenAI-compatible endpoint for this run (no key)
+//   ... [--fallback endpoint:model]   where a turn goes when the server loses the model's tool call
+//   ... [--providers-ignore A,B]   OpenRouter providers never to use (the profile's provider preferences otherwise)
+//   ... [--key-from openrouter]   --endpoint servers use that saved endpoint's key (a proxy in front of it)
+//   ... [--prompt-style NAME]   the system prompt's working rules: detailed, lean, or a style-NAME.md template
+//       (default: lean for Claude and Gemini)
+//   ... [--subagent-pool [both]] subagents on the shipped model pool with its retry ladder (a hosted parent only); both:
+//       each target also runs with subagents on its own model, in the same process;
+//   ... [--subagent-model E:M] subagents run on that model; [--force-delegation] the request tells the parent to delegate
+//   ... [--kk-delegation on|off|both] A7: at the delegation threshold kurtkode makes the next step a task call (default off)
+//   ... [--subagents on|off|both]   the task tool on the same model (default off); both runs each scenario twice
+//   ... [--prompt-dir DIR]   prompt templates that override the defaults (personal and project ones are never read)
+//
+//
+//   swift run kurtkode-eval --bank all|ID,ID --models E:M[,E:M] [--judges E:M[,E:M]] [--judge-paths parent,grader] [--degrade]
+//       The task bank (SUBAGENT_ROUTING_DESIGN.md): small delegations run directly on each model as a subagent, each
+//       checked against gold; each judge then rates every run the way a parent does at the end of a run (parent) or
+//       as the grader does (grader), and a calibration table compares their verdicts with gold. --degrade also judges
+//       a copy of each passing run made wrong on purpose (its digits changed, a change task's work undone): known
+//       failures, so the table can say how many failures each judge catches.
+//
+//   Record once, judge many (EVAL_PLAN.md E1), in eval-results/runs/SET/ (or SET as a path):
+//   swift run kurtkode-eval --bank all --models E:M,… --trials 3 --record SET [--degrade] [--parallel N] [--parallel-remote N]
+//   swift run kurtkode-eval --judge SET --judges E:M,… [--judge-paths parent,grader] [--judge-trials 1|all] [--parallel N]
+//       --sample N judges a fixed, balanced subset: every real failure, then degraded copies and passing runs half
+//       and half, chosen by a hash of the run id (the same subset for every judge). --rejudge-missing judges again
+//       where a judge gave no verdict (the new judgment is added; the latest counts).
+//   ... [--models-file F] one E:M per line (a "#off" suffix: reasoning off); [--no-train] OpenRouter providers that
+//       don't train on prompts and take every parameter; [--models-at-once K] models run K at a time in the given
+//       order; [--stop-after-failures N] a model stops after N gold failures (or N infrastructure failures);
+//       [--max-cost USD] no run starts once this process's list price or the key's usage reaches it.
+//   swift run kurtkode-eval --report SET [--out FILE.md]
+//   swift run kurtkode-eval --regold SET [--degrade]   score stored runs again with the current gold (no model runs)
+//   swift run kurtkode-eval --retry-sim SET [--out FILE.jsonl]   the D3 retry trigger on stored runs, with citations
+//   swift run kurtkode-eval --review-sim SET --reviewers E:M,… [--per-group 12] [--out ROWS.jsonl] [--max-cost USD]
+//       A6: each reviewer reviews a sample of stored runs (every real failure that touches code, up to N of each
+//       file-touching degradation, 2N passing code runs); the diff is rebuilt from the saved fixture. Resumes from --out.
+//       resolved again in each run's fixture: one line per run (task, trial, model, gold, the hard failures, whether
+//       the retry would fire, what it was charged), for simulating the retry ladder (no model runs)
+//       Recording skips runs already recorded and judging skips verdicts already given, so both resume. --degrade
+//       records the degraded copies of trial 1's passing runs. Models (and judges) run at the same time; --parallel
+//       is how many runs of one local model at once, --parallel-remote of one remote model.
+//
+// --switch runs each scenario starting on model A, which stops after --switch-after steps, then model B
+// continues the same conversation (the multi-model session case). --no-profiles sends history as-is.
+
+=== Options struct doc comments for the replay modes (main.swift lines 100-115):
+    var judgeSet: String?
+    var reportSet: String?
+    var regoldSet: String?
+    var retrySimSet: String?
+    /// --trigger-sim SET[,SET]: A4's escalation triggers on stored runs (precision, recall), per model; --ladder
+    /// "SET|E:M>SET|E:M[>…]" replays the cascade up those models (repeatable); --only-model S: --judge only runs of models
+    /// whose label contains S.
+    var triggerSimSets: [String] = []
+    var ladders: [String] = []
+    var onlyModel: String?
+    /// --kk-delegation on|off|both: A7, kurtkode makes the next step a task call at the delegation threshold.
+    var kkDelegation: [Bool] = [false]
+    /// --review-sim SET --reviewers E:M,… [--per-group N]: A6's reviewers on stored bank runs.
+    var reviewSimSet: String?
+    var reviewers: [String] = []
+    var perGroup = 12
+
+=== Every flag parse() accepts (main.swift lines 130-218):
+"--models" "--scenarios" "--trials" "--context" "--out" "--no-load" "--no-profiles" "--transcripts" "--max-cost" "--own-cost" "--key-limit" "--sandbox" "--endpoint" "--switch-after" "--switch" "--list" "--fallback" "--prompt-style" "--prompt-dir" "--skills" "--providers-ignore" "--key-from" "--subagents" "--bank" "--judges" "--degrade" "--record" "--judge" "--report" "--regold" "--retry-sim" "--review-sim" "--trigger-sim" "--ladder" "--only-model" "--kk-delegation" "--reviewers" "--per-group" "--subagent-pool" "--sample" "--rejudge-missing" "--no-train" "--subagent-model" "--force-delegation" "--models-at-once" "--stop-after-failures" "--models-file" "--judge-trials" "--parallel" "--parallel-remote" "--judge-paths" 
+
+=== Replay/sim modes and what they need (from reading main.swift 285-400):
+--retry-sim SET [--out F.jsonl]        offline. Recomputes each real run's checks in its restored fixture; prints "N runs, F gold failures; the retry fires on X, Y of them gold failures". Reads eval-results/runs/SET relative to the CWD (run from the repo root).
+--trigger-sim SET[,SET] [--ladder "SET|E:M>SET|E:M[>...]"]... [--only-model S] [--out F.md]   offline. Precision/recall per trigger per SET|model and SET|*; --ladder replays the cascade on paired task|trial runs, adding judges'/reviewers' stored list price. Also reads eval-results/review-sim/SET-rows.jsonl if present.
+--ladder                               not a mode by itself: only used with --trigger-sim.
+--review-sim SET [--reviewers E:M,...] [--per-group 12] [--out ROWS.jsonl] [--max-cost USD]   PAID when --reviewers names remote models and rows are missing; with no --reviewers it only lists the sample and rebuilt diff sizes (offline). Resumes from --out (default review-sim-SET.jsonl in the CWD). Resolving reviewers (target()) reads API keys: env KURTKODE_API_KEY_<ENDPOINT>, else the Keychain (kurtkode-eval ignores KURTKODE_NO_KEYCHAIN).
+--report SET [--out F.md]              offline markdown report of a store (not run in this audit).
+--regold SET [--degrade]               REWRITES stored runs' gold (not run: it modifies eval-results).
+--judge SET --judges ...               PAID / loads models (not run).
+--kk-delegation on|off|both            not a replay: a flag for live scenario runs (A7), needs a model (not run).

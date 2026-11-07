@@ -1,0 +1,355 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:08:08Z",
+    "id" : "41011B70-2201-4D56-BF7A-C627AEAFAA95",
+    "meta" : {
+      "duration" : 2.50532675,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "VTrdarGNMf7Qz7IP7vzsmAo"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 2.355632333,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 35,
+        "cost" : 0.005621999999999999,
+        "costIsEstimate" : true,
+        "promptTokens" : 2636,
+        "reasoningTokens" : 11
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 24,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 24
+          }
+        ],
+        "promptTokenCount" : 2636,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 2636
+          }
+        ],
+        "thoughtsTokenCount" : 11,
+        "totalTokenCount" : 2671
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "path" : "calc.py"
+            },
+            "id" : "call_790723",
+            "name" : "read_file"
+          },
+          "thoughtSignature" : "EocBCoQBAWkUfRNo+OJ9+cTt8q0JgLsoBpyzp\/kWYb6S7AH9RKOkD3w6m2s3J0RZXXGLZ++I83fRCDJTT6nt2E92MVusrU7toENBSi6m9zs3bgmkTQi731vqr\/gwHWDn49GWo89QlCVjrx7a2L7LQtCJe6IKAEYvqTyYFARLrnK5KsvWoZbiXl+f"
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\":\"calc.py\"}",
+        "id" : "call_790723",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"A tiny calculator library.\"\"\"\n 2\t\n 3\t\n 4\tdef add(a, b):\n 5\t    return a + b\n 6\t\n 7\t\n 8\tdef sub(a, b):\n 9\t    return a + b\n10\t\n11\t\n12\tdef mean(values):\n13\t    \"\"\"Average of a non-empty list.\"\"\"\n14\t    return sum(values) \/ (len(values) - 1)\n",
+    "createdAt" : "2026-10-24T23:08:08Z",
+    "id" : "9B7C93C3-1B47-49BE-890A-A17F64768F97",
+    "role" : "tool",
+    "toolCallID" : "call_790723",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.00020694732666015625,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:08:11Z",
+    "id" : "0D5297FA-0667-49AE-A42F-74EE1CB1975A",
+    "meta" : {
+      "duration" : 3.803526958,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "WDrdaqmoEv_rz7IPz6uIqAk"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 3.207513667,
+      "usage" : {
+        "cacheReadTokens" : 582,
+        "completionTokens" : 110,
+        "cost" : 0.0056042,
+        "costIsEstimate" : true,
+        "promptTokens" : 2805,
+        "reasoningTokens" : 46
+      },
+      "usageRaw" : {
+        "cacheTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 582
+          }
+        ],
+        "cachedContentTokenCount" : 582,
+        "candidatesTokenCount" : 64,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 64
+          }
+        ],
+        "promptTokenCount" : 2805,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 2805
+          }
+        ],
+        "thoughtsTokenCount" : 46,
+        "totalTokenCount" : 2915
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "new_string" : "def sub(a, b):\n    return a - b",
+              "old_string" : "def sub(a, b):\n    return a + b",
+              "path" : "calc.py"
+            },
+            "id" : "call_843090",
+            "name" : "edit_file"
+          },
+          "thoughtSignature" : "EvMBCvABAWkUfRNmyeBen6clNtp7YACp8lEUnCIrJ8BrthpXs2bbK9sD+EAsm4MnXa34mR5yiY3YqzSvJE8EHYrZZT2ShJcsLyqVMyQv2NXs9A3jO8MILBLv2+x20tpGjufV2QmRViw0ywuZTdVFIr36LgqW3\/qFLhIpTM\/zKiegDIGA\/tVPMWvvF26S\/Yq\/mHTPnLQtQvNm6VVpXl5l79SlVJPKSaHC8TEIi0nUneeoO5olM5Dtmqu6Kwx5Wlxm1gTPkreFBfkbuG\/Gn331BiyNIC0Wua4hOS2jz0lzTc8r+Jt+0cadqcn7jOAluD36Wm7RFR4Z"
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"new_string\":\"def sub(a, b):\\n    return a - b\",\"old_string\":\"def sub(a, b):\\n    return a + b\",\"path\":\"calc.py\"}",
+        "id" : "call_843090",
+        "name" : "edit_file"
+      }
+    ]
+  },
+  {
+    "content" : "Edited calc.py: 1 replacement, +1 −1 lines. Lines 5–12 now read:\n5\t    return a + b\n6\t\n7\t\n8\tdef sub(a, b):\n9\t    return a - b\n10\t\n11\t\n12\tdef mean(values):\n",
+    "createdAt" : "2026-10-24T23:08:11Z",
+    "id" : "1A11A806-8DB7-4ECB-B523-63E85902A763",
+    "role" : "tool",
+    "toolCallID" : "call_843090",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "display" : "--- a\/calc.py\n+++ b\/calc.py\n@@ -6,7 +6,7 @@\n \n \n def sub(a, b):\n-    return a + b\n+    return a - b\n \n \n def mean(values):\n",
+      "duration" : 0.0012929439544677734,
+      "isError" : false,
+      "toolName" : "edit_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:08:34Z",
+    "id" : "77E22505-62F0-403C-9852-E230EE521F1A",
+    "meta" : {
+      "duration" : 22.635030958,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "XDrdapK4B7Sgz7IPopqnwAg"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 22.11960225,
+      "usage" : {
+        "cacheReadTokens" : 756,
+        "completionTokens" : 41,
+        "cost" : 0.0049856,
+        "costIsEstimate" : true,
+        "promptTokens" : 3006,
+        "reasoningTokens" : 7
+      },
+      "usageRaw" : {
+        "cacheTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 756
+          }
+        ],
+        "cachedContentTokenCount" : 756,
+        "candidatesTokenCount" : 34,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 34
+          }
+        ],
+        "promptTokenCount" : 3006,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 3006
+          }
+        ],
+        "thoughtsTokenCount" : 7,
+        "totalTokenCount" : 3047
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "command" : "python3 -m unittest test_calc.CalcTests.test_sub"
+            },
+            "id" : "call_791443",
+            "name" : "bash"
+          },
+          "thoughtSignature" : "EoABCn4BaRR9E7IrJ8s6WIflo9TvUFwXVL9jlGyCONpLFle3yY9NdqYozllm98qg1HcUcJyoaQ3wAw5so4oqi2iTSaDAmXsuIEcBJMJfJ2eXrtuh2SlRPaGrD1sFOsGmxYctWrQixdZXjMtR1eRwzzhfw64Nuv++YujRXSD3S+sk3FE="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"command\":\"python3 -m unittest test_calc.CalcTests.test_sub\"}",
+        "id" : "call_791443",
+        "name" : "bash"
+      }
+    ]
+  },
+  {
+    "content" : ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n\n[Exit code 0.]",
+    "createdAt" : "2026-10-24T23:08:34Z",
+    "id" : "9396D290-7CB6-4F9D-8252-5145C367BB22",
+    "role" : "tool",
+    "toolCallID" : "call_791443",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "display" : ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK",
+      "duration" : 0.06715095043182373,
+      "exitCode" : 0,
+      "isError" : false,
+      "toolName" : "bash",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "Updated `sub()` in `calc.py:9` to return `a - b` instead of `a + b`.\n\n`python3 -m unittest test_calc.CalcTests.test_sub` passed (`OK`).",
+    "createdAt" : "2026-10-24T23:08:39Z",
+    "id" : "F801E938-20DF-43D7-AD29-D9F7529916C9",
+    "meta" : {
+      "duration" : 4.477540833,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "cjrdaqbEOPrrz7IPr9zS0Ag"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 4.321782125,
+      "usage" : {
+        "cacheReadTokens" : 957,
+        "completionTokens" : 61,
+        "cost" : 0.0049697000000000005,
+        "costIsEstimate" : true,
+        "promptTokens" : 3089,
+        "reasoningTokens" : 9
+      },
+      "usageRaw" : {
+        "cacheTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 957
+          }
+        ],
+        "cachedContentTokenCount" : 957,
+        "candidatesTokenCount" : 52,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 52
+          }
+        ],
+        "promptTokenCount" : 3089,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 3089
+          }
+        ],
+        "thoughtsTokenCount" : 9,
+        "totalTokenCount" : 3150
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "Updated `sub()` in `calc.py:9` to return `a - b` instead of `a + b`.\n\n`python3 -m unittest test_calc.CalcTests.test_sub` passed (`OK`).",
+          "thoughtSignature" : "EnkKdwFpFH0T+u+pbhlTuGchKgrFCpcGcx7vbRmrb6aO\/eFH9GtQr1O8775tNgQpoom5RQJmlUyG4FLV67Gb1tJtm8ES1F84AfQEysALBFVhLHCsHFAEG2s9pKNisMxEmRRMznAWQSBecSjXL4MIHAXfbPNPl88ynzb\/"
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

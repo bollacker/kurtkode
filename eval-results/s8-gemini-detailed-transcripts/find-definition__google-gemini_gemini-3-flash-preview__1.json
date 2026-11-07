@@ -1,0 +1,176 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "FB5318FA-1111-4FA1-B70B-316553CB2A55",
+    "meta" : {
+      "duration" : 1.083848583,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.027583,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 59,
+        "cost" : 0.0007385,
+        "costIsEstimate" : true,
+        "promptTokens" : 1123,
+        "reasoningTokens" : 43
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "pattern" : "reserve_stock"
+            },
+            "id" : "call_618948",
+            "name" : "grep"
+          },
+          "thoughtSignature" : "ErUCCrICAWkUfROtVy5MNeDWYX+ZC6MXAinYi6amzfDpEczBnx0AGtwEu16lcluoanvRQPWvWYF4laXFasNgpDwvtDGJx3bG9Vrye2Ivg0N4RtBssprNzQ10F0pexJVyrBvrmPRtgawPsermihw+XHtJVy2MdFwGPVpv\/OwvZ194A2LkK4ekqMO5xwVKn\/Fon24b\/i\/+eyRoVMZTNikUBkuTFRH\/GocOQjcOORovnpVCB0FSOOwnUhHer9Qo+f9TwIwrYKv4AFajonthiUTNvK5uTi7khTt5iSb\/CUCubeK5fPg6\/DtoU084udd0zt+feBBSXd\/P1dZVKBf8od6dHZuxasWUGzLrIki3i2+RvSUQlVoWjZeuFkkKZT3pEaQ\/V3odZFoWzP\/PoN3cokvGSGvwunoItczE"
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"reserve_stock\"}",
+        "id" : "call_618948",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "cli.py:24:         print(store.reserve_stock(args.sku, args.units))\ninventory\/api.py:14:         r = store.reserve_stock(request[\"sku\"], int(request[\"units\"]))\ninventory\/storage.py:31:     def reserve_stock(self, sku: str, units: int) -> Reservation:\ntests\/test_storage.py:11:         s.reserve_stock(\"A1\", 2)\ntests\/test_storage.py:18:             s.reserve_stock(\"A1\", 2)",
+    "createdAt" : "2026-10-15T09:56:18Z",
+    "id" : "5917B167-65B0-465E-B7C7-C5726BEE9396",
+    "role" : "tool",
+    "toolCallID" : "call_618948",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.01971888542175293,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "",
+    "createdAt" : "2026-10-15T09:56:19Z",
+    "id" : "58732EDE-E3C3-4092-98ED-C02D85B92052",
+    "meta" : {
+      "duration" : 1.012132333,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 0.955117167,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 71,
+        "cost" : 0.0008755,
+        "costIsEstimate" : true,
+        "promptTokens" : 1325,
+        "reasoningTokens" : 51
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "path" : "inventory\/storage.py"
+            },
+            "id" : "call_477832",
+            "name" : "read_file"
+          },
+          "thoughtSignature" : "EtICCs8CAWkUfRMdPMog5lDoSUtjEG2uURXiYhG8Q2MVTpLnJEqUhxR7anX0h1B73ZFvmD\/Mii+RRlOvFJlhqJvs7id3ffbb8cnfAUZC6Ei1f+7z\/QmP0Llk5CGXaUaz0fqT7\/mqm5kI1OK8dOCWYwMEqN1LpYaqvoZUmQlKSh7ypc406d1Oovsbq6e7MwhJ7KMjsYRgHQiaGApLU4CmXS0pWAQJVUl4uwWh+Y5izLpo6qRtdH9qveIxr6zWq\/jzgI6VHL4XgXKhWc06TmxM8jlwcYlu\/kdmvCWqIC1nTeDqJQP1KLzoK8A8c0P6VZx5q5t6VTgUDeKJhIHQtjqmdoFOhOK3GQaNlBHjKLHmbJ6fGzW4tSRdAKEYyv2oBFKw9AAUSnmggc\/xz2s0A3UhW\/ZtcnsSf0VVpKZHJnHVB5HxnGrBuqCyEqYjD+CDbDAlqG7ukJU="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"path\":\"inventory\/storage.py\"}",
+        "id" : "call_477832",
+        "name" : "read_file"
+      }
+    ]
+  },
+  {
+    "content" : " 1\t\"\"\"SQLite-backed storage for items and reservations.\"\"\"\n 2\timport sqlite3\n 3\t\n 4\tfrom .models import Item, Reservation\n 5\t\n 6\t\n 7\tclass InsufficientStock(Exception):\n 8\t    \"\"\"Raised when a reservation asks for more units than are on hand.\"\"\"\n 9\t\n10\t\n11\tclass SqliteStore:\n12\t    def __init__(self, path=\":memory:\"):\n13\t        self.db = sqlite3.connect(path)\n14\t        self.db.execute(\"create table if not exists items (sku text primary key, name text, quantity int)\")\n15\t        self.db.execute(\"create table if not exists reservations (id integer primary key, sku text, units int)\")\n16\t\n17\t    def add_item(self, item: Item):\n18\t        self.db.execute(\"insert into items values (?, ?, ?)\", (item.sku, item.name, item.quantity))\n19\t\n20\t    def get_item(self, sku: str) -> Item:\n21\t        row = self.db.execute(\"select sku, name, quantity from items where sku = ?\", (sku,)).fetchone()\n22\t        return Item(*row) if row else None\n23\t\n24\t    def list_items(self):\n25\t        return [Item(*r) for r in self.db.execute(\"select sku, name, quantity from items\")]\n26\t\n27\t    # Reservations hold stock for an order until it ships or is cancelled.\n28\t    # Callers must release() cancelled reservations.\n29\t    # Quantities are whole units.\n30\t\n31\t    def reserve_stock(self, sku: str, units: int) -> Reservation:\n32\t        item = self.get_item(sku)\n33\t        if item is None or item.quantity < units:\n34\t            raise InsufficientStock(f\"{sku}: wanted {units}, have {item.quantity if item else 0}\")\n35\t        self.db.execute(\"update items set quantity = quantity - ? where sku = ?\", (units, sku))\n36\t        cur = self.db.execute(\"insert into reservations (sku, units) values (?, ?)\", (sku, units))\n37\t        return Reservation(cur.lastrowid, sku, units)\n38\t\n39\t    def release(self, reservation: Reservation):\n40\t        self.db.execute(\"update items set quantity = quantity + ? where sku = ?\",\n41\t                        (reservation.units, reservation.sku))\n42\t        self.db.execute(\"delete from reservations where id = ?\", (reservation.id,))\n",
+    "createdAt" : "2026-10-15T09:56:19Z",
+    "id" : "6278C645-E532-4337-9684-2FD5AB647AE0",
+    "role" : "tool",
+    "toolCallID" : "call_477832",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.0002390146255493164,
+      "isError" : false,
+      "toolName" : "read_file",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "`reserve_stock` is defined in `inventory\/storage.py:31`.\n\nWhen there isn't enough stock, it raises an `InsufficientStock` exception with a message indicating the requested and available quantities (`inventory\/storage.py:34`).",
+    "createdAt" : "2026-10-15T09:56:20Z",
+    "id" : "CED98B82-C59F-4CE1-AB21-5447D9145E9B",
+    "meta" : {
+      "duration" : 1.368377333,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-3-flash-preview",
+      "requestedModel" : "gemini-3-flash-preview",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 1.186875833,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 113,
+        "cost" : 0.0013615,
+        "costIsEstimate" : true,
+        "promptTokens" : 2045,
+        "reasoningTokens" : 59
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "`reserve_stock` is defined in `inventory\/storage.py:31`.\n\nWhen there isn't enough stock, it raises an `InsufficientStock` exception with a message indicating the requested and available quantities (`inventory\/storage.py:34`).",
+          "thoughtSignature" : "EuUCCuICAWkUfRPNtj0AeiSRmF\/Q+xaIu7YwFF9lLqXweHqhMF32EGAp5rMMfsUEZSeeFTDh+lRVThr33\/5unrGKF+5cbLS9jm27NdrVTSVj3fLMq9kahIItR+3N5Y0wWI7YHY4xC\/tlvD9g9itsSm8zcr771T32N1id7PxgXbpc7kEK7OpgMZmyMCdrsHgMUTaynVxhZ5idaqQugkxMCoPWDGe7XcYg6QtKWLwR2G+C0YsOVx8oA7YBTyEqtdPsE+6LL1vabHwt5YIkaue3vrchR38Qk4qjcRNursTUVpGcvv7AS\/sqj4TixGfmgoTs1RNr4MdxUDkPYY0mLFBminBH901YhBqosG6UbjjYh4yansZ2\/a6ZZ3Pbwf9kESeCyvrXSUqsm9xzagbvuW2KHdoJxW68XSvyQ\/hR2aFmt0lg4PW6NLg\/RujZeG7GMhnU61x9GWhYky1HnKa0B45rp0LtoPQCB2bc"
+        }
+      ],
+      "model" : "gemini-3-flash-preview"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Implement docs/ISSUE-42.md, and please do it test-first: failing test, then code.",
+      "Let's TDD the new discount rules. Start with a red test.",
+      "There's a bug where the parser drops the last field. Write a test that reproduces it first, then fix it.",
+      "Add a retry_with_backoff helper. I want each behavior driven by a test before the code exists.",
+      "Can we build the CSV export red-green-refactor style? Small steps please.",
+      "Before you touch the code, write a failing test for the off-by-one in pagination, then make it pass.",
+      "Write the spec tests for the new Go rate limiter package first, then implement it."
+    ],
+    "should_not": [
+      "The invoice module has no tests at all. Add a test suite for it.",
+      "Untangle compute_totals into smaller functions; behavior must stay exactly the same.",
+      "Rename get_conn to open_connection in every file of the repo.",
+      "test_sync fails maybe once in ten runs on CI. Fix it so it's reliable.",
+      "How do I run a single test with pytest?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "split-bill",
+      "fixture": "fixtures/split-bill",
+      "prompt": "Please implement docs/ISSUE-42.md (split_bill in ledger/split.py). Work test-first. Put the tests in tests/test_split.py and only call the public split_bill function from them.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Wrote a test before the code it covers and ran it to see it fail for the expected reason (missing function or wrong value, not a typo)",
+        "Added tests one rule at a time, each followed by the smallest code that makes it pass",
+        "Covered the leftover-cent rule with a case where the largest remainder is neither the first position nor the heaviest weight, and covered zero weights and every listed error",
+        "Ran the whole suite (including tests/test_money.py) at the end and showed the result",
+        "Did not weaken or delete a test to make it pass"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

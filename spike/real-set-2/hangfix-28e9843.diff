@@ -1,0 +1,35 @@
+diff --git a/AgentCore/Sources/AgentCore/Tools/Grep.swift b/AgentCore/Sources/AgentCore/Tools/Grep.swift
+index 25139c4..d844ab9 100644
+--- a/AgentCore/Sources/AgentCore/Tools/Grep.swift
++++ b/AgentCore/Sources/AgentCore/Tools/Grep.swift
+@@ -216,3 +216,4 @@ enum GrepEngine {
+         p.standardError = err
+-        do { try p.run() } catch { return nil }
++        let exited: DispatchSemaphore
++        do { exited = try p.startWithExitSignal() } catch { return nil }
+         return await withTaskCancellationHandler {
+@@ -229,5 +230,5 @@ enum GrepEngine {
+                     group.wait()
+-                    p.waitUntilExit()
++                    let status = p.waitForExit(exited, timeout: 120)
+                     cont.resume(returning: Captured(stdout: data, stderr: String(decoding: errData, as: UTF8.self),
+-                                                    status: p.terminationStatus))
++                                                    status: status))
+                 }
+diff --git a/AgentCore/Sources/AgentCore/Tools/Workspace.swift b/AgentCore/Sources/AgentCore/Tools/Workspace.swift
+index 85f6ea0..fda8d59 100644
+--- a/AgentCore/Sources/AgentCore/Tools/Workspace.swift
++++ b/AgentCore/Sources/AgentCore/Tools/Workspace.swift
+@@ -212,7 +212,8 @@ func runProcess(_ executable: String, _ arguments: [String]) async throws -> Str
+             p.standardError = FileHandle.nullDevice
+-            do { try p.run() } catch { cont.resume(throwing: error); return }
++            let exited: DispatchSemaphore
++            do { exited = try p.startWithExitSignal() } catch { cont.resume(throwing: error); return }
+             let data = out.fileHandleForReading.readDataToEndOfFile()
+-            p.waitUntilExit()
+-            if p.terminationStatus == 0 { cont.resume(returning: String(decoding: data, as: UTF8.self)) }
+-            else { cont.resume(throwing: ToolFailure("\(executable) exited with \(p.terminationStatus)")) }
++            let status = p.waitForExit(exited, timeout: 120)
++            if status == 0 { cont.resume(returning: String(decoding: data, as: UTF8.self)) }
++            else { cont.resume(throwing: ToolFailure("\(executable) exited with \(status)")) }
+         }

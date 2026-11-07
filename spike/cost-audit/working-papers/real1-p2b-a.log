@@ -1,0 +1,72 @@
+key usage at start: Openrouter $2630.5179
+kurtkode-eval record: 2 models × 5 tasks × 3 trials into /Users/me/git/kurtkode/eval-results/runs/real1
+  openrouter:inclusionai/ling-3.0-flash: 5 runs to record
+  openrouter:anthropic/claude-haiku-5.5: 5 runs to record
+  [openrouter:inclusionai/ling-3.0-flash 1/5, 0 passed] rd05 #1: FAIL 189s 7 steps $0.0036
+  [openrouter:inclusionai/ling-3.0-flash 2/5, 0 passed] rd02 #2: FAIL 315s 60 steps $0.0088
+  [openrouter:anthropic/claude-haiku-5.5 1/5, 1 passed] rd03 #1: PASS 384s 43 steps $0.1083
+  [openrouter:anthropic/claude-haiku-5.5 2/5, 1 passed] rd04 #3: FAIL 507s 60 steps $0.1257
+  [openrouter:anthropic/claude-haiku-5.5 3/5, 1 passed] rd04 #1: FAIL 526s 60 steps $0.1184
+  [openrouter:inclusionai/ling-3.0-flash 3/5, 0 passed] rd05 #2: FAIL 535s 60 steps $0.0206
+  [openrouter:anthropic/claude-haiku-5.5 4/5, 1 passed] rd05 #2: FAIL 328s 42 steps $0.0772
+  [openrouter:inclusionai/ling-3.0-flash 4/5, 0 passed] rd08 #3: FAIL 393s 60 steps $0.0233
+  [openrouter:anthropic/claude-haiku-5.5 5/5, 2 passed] rd08 #2: PASS 257s 34 steps $0.0435
+  [openrouter:inclusionai/ling-3.0-flash 5/5, 0 passed] rd05 #3: FAIL 583s 60 steps $0.0170
+
+Runs: 70 recorded, 0 degraded copies; 0 judgments.
+
+### Cheapest above the floor
+
+Configurations whose 95% Wilson lower bound on success clears the floor, cheapest per run first (list price; local models are timed, not priced, and are listed after).
+
+**80%**: none priced
+
+**90%**: none priced
+
+**95%**: none priced
+
+### Subagent models (real runs, all trials)
+
+| model | pass rate (95% CI) | mean s | mean steps | mean tokens in/out | list $ per run | $ per success |
+|---|---|---|---|---|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 83% (63–93%) 19/23 | 279 | 29.3 | 404157/19401 | 0.0470 | 0.0569 |
+| openrouter:anthropic/claude-sonnet-5.5 | 100% (72–100%) 10/10 | 394 | 25.9 | 380209/12339 | 0.7797 | 0.7797 |
+| openrouter:deepseek/deepseek-v4-flash-0731#off | 75% (51–90%) 12/16 | 329 | 43.2 | 606240/11177 | 0.1384 | 0.1846 |
+| openrouter:inclusionai/ling-3.0-flash | 10% (3–29%) 2/21 | 284 | 54.3 | 735117/19817 | 0.0121 | 0.1275 |
+
+Passes by kind:
+
+| model | edit |
+|---|---|
+| openrouter:anthropic/claude-haiku-5.5 | 19/23 |
+| openrouter:anthropic/claude-sonnet-5.5 | 10/10 |
+| openrouter:deepseek/deepseek-v4-flash-0731#off | 12/16 |
+| openrouter:inclusionai/ling-3.0-flash | 2/21 |
+
+### Judges against gold
+
+A verdict of 0–1 is "fail", 2–3 "pass". Failures are real failed runs and degraded copies.
+
+All runs each judge rated:
+
+| judge (path) | runs | no verdict | agreement | kappa | failures caught (95% CI) | passes failed (95% CI) | claimed unchecked | list $ |
+|---|---|---|---|---|---|---|---|---|
+
+### Grounded checks, and judges combined with them
+
+|  | failures caught (95% CI) | passes failed (95% CI) |
+|---|---|---|
+| checks at the run's end | – | – |
+| checks and the re-run check | – | – |
+
+### Failures caught, by kind of failure
+
+| failure | grounded |
+|---|---|
+
+### Judging its own model's runs, and others'
+
+| judge (path) | own runs: agreement | own runs: failures caught | others' runs: agreement | others' runs: failures caught |
+|---|---|---|---|---|
+
+exit 0

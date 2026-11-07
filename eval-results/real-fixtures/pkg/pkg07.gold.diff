@@ -1,0 +1,115 @@
+diff --git a/CHANGELOG.rst b/CHANGELOG.rst
+index 841d954..dc7774d 100644
+--- a/CHANGELOG.rst
++++ b/CHANGELOG.rst
+@@ -11,6 +11,8 @@ Features:
+   representing the versions a specifier set accepts as an interval set that
+   supports intersection, union, complement, membership tests, and filtering.
+   (:pull:`1267`)
++* Add a ``limit`` argument to ``parse_tag()`` for compressed tag sets.
++  (:issue:`1220`)
+ 
+ Behavior adaptations:
+ 
+diff --git a/docs/tags.rst b/docs/tags.rst
+index b8d2c5d..fc9e736 100644
+--- a/docs/tags.rst
++++ b/docs/tags.rst
+@@ -48,6 +48,8 @@ items that applications should need to reference, in order to parse and check ta
+ 
+ .. autofunction:: create_compatible_tags_selector
+ 
++.. autoexception:: TooManyTagsError
++
+ .. autoexception:: UnsortedTagsError
+ 
+ .. autoexception:: InvalidTag
+diff --git a/src/packaging/tags.py b/src/packaging/tags.py
+index 36e5146..741d5eb 100644
+--- a/src/packaging/tags.py
++++ b/src/packaging/tags.py
+@@ -33,6 +33,7 @@ __all__ = [
+     "InvalidTag",
+     "PythonVersion",
+     "Tag",
++    "TooManyTagsError",
+     "UnsortedTagsError",
+     "android_platforms",
+     "compatible_tags",
+@@ -100,6 +101,14 @@ class InvalidTag(ValueError):
+     """
+ 
+ 
++class TooManyTagsError(ValueError):
++    """
++    Raised when a compressed tag set exceeds the configured limit.
++
++    .. versionadded:: 26.3
++    """
++
++
+ class Tag:
+     """
+     A representation of the tag triple for a wheel.
+@@ -215,7 +224,9 @@ class Tag:
+         raise TypeError(f"Cannot restore Tag from {state!r}")
+ 
+ 
+-def parse_tag(tag: str, *, validate_order: bool = False) -> frozenset[Tag]:
++def parse_tag(
++    tag: str, *, validate_order: bool = False, limit: int | None = None
++) -> frozenset[Tag]:
+     """
+     Parses the provided tag (e.g. `py3-none-any`) into a frozenset of
+     :class:`Tag` instances.
+@@ -227,20 +238,33 @@ def parse_tag(tag: str, *, validate_order: bool = False) -> frozenset[Tag]:
+     If **validate_order** is true, compressed tag set components are checked
+     to be in sorted order as required by PEP 425.
+ 
++    If **limit** is not ``None``, the compressed tag set can generate at most
++    that many tags.
++
+     :param str tag: The tag to parse, e.g. ``"py3-none-any"``.
+     :param bool validate_order: Check whether compressed tag set components
+         are in sorted order.
++    :param int | None limit: The maximum number of tags to parse.
+     :raises UnsortedTagsError: If **validate_order** is true and any compressed tag
+         set component is not in sorted order.
+     :raises InvalidTag: If the interpreter, ABI, or platform field (or any member
+         of a compressed tag set) is empty.
++    :raises TooManyTagsError: If **limit** is not ``None`` and the compressed tag
++        set would generate more than **limit** tags.
++    :raises ValueError: If **limit** is negative.
+ 
+     .. versionadded:: 26.1
+        The *validate_order* parameter.
+ 
+     .. versionadded:: 26.3
+        Raises :class:`InvalidTag` on empty tag components.
++       Added the *limit* parameter. Raises :class:`TooManyTagsError` if the compressed
++       tag set would generate more than *limit* tags.
+     """
++
++    if limit is not None and limit < 0:
++        raise ValueError("limit must be non-negative")
++
+     component_parts = [component.split(".") for component in tag.split("-")]
+     for parts in component_parts:
+         if "" in parts:
+@@ -252,6 +276,16 @@ def parse_tag(tag: str, *, validate_order: bool = False) -> frozenset[Tag]:
+                 f"Tag component {component!r} is not in sorted order per PEP 425"
+             )
+ 
++    tag_count = 1
++    for parts in component_parts:
++        tag_count *= len(parts)
++
++    if limit is not None and tag_count > limit:
++        raise TooManyTagsError(
++            f"Compressed tag set would generate {tag_count} tags, exceeding "
++            f"limit {limit}"
++        )
++
+     interpreters, abis, platforms = component_parts
+     return frozenset(
+         Tag(interpreter, abi, platform_)

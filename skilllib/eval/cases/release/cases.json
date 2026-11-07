@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "Cut a release please: bump the version and tag it.",
+      "Prepare 2.3.0. We need the changelog written from what's been merged since the last tag.",
+      "Can you publish a new patch version of the npm package with yesterday's fix?",
+      "The version in package.json says 1.8.0 but the app's About box says 1.7.2. Get everything consistent and ship 1.8.1.",
+      "Write the release notes for everything since v0.9.0 and tag v0.10.0.",
+      "We're ready to ship. Do whatever a release needs here: version, changelog, tag.",
+      "Bump our crate to the next minor version and get it ready for cargo publish."
+    ],
+    "should_not": [
+      "Bump lodash to the latest version; there's a security advisory.",
+      "Split my working changes into sensible commits and open a PR.",
+      "The release workflow fails at the 'build wheels' step. Fix CI.",
+      "Update the README so the install and usage sections are accurate.",
+      "What is semantic versioning?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "next-release",
+      "fixture": "fixtures/next-release",
+      "prompt": "Time to cut the next tally release. Bump the version (we follow semver), add the changelog entry, commit it and tag it the way we always do. Don't push.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Listed the commits since the last tag (git log v1.3.0..HEAD) and classified them as user-facing or not, reading the unlabeled commit",
+        "Chose 1.4.0 with a semver reason (a new feature since 1.3.0)",
+        "Searched the whole repository for the version string and changed only the places that are this project's version, leaving the dependency bound and SCHEMA_VERSION alone",
+        "Wrote a changelog entry with user-facing changes only, in the file's existing format",
+        "Committed before tagging, tagged v1.4.0 on the release commit, and verified (tests, --version or a version check) without pushing"
+      ],
+      "max_steps": 35
+    }
+  ]
+}

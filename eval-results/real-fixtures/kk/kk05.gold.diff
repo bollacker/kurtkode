@@ -1,0 +1,155 @@
+diff --git a/AgentCore/Sources/AgentCore/LLM/CostEntry.swift b/AgentCore/Sources/AgentCore/LLM/CostEntry.swift
+index 8269624..3200e2e 100644
+--- a/AgentCore/Sources/AgentCore/LLM/CostEntry.swift
++++ b/AgentCore/Sources/AgentCore/LLM/CostEntry.swift
+@@ -234,21 +234,105 @@ public enum PriceLookup: Sendable {
+ 
+ /// List prices from servers that publish them with their models (OpenRouter's `/models`: dollars per token, as text),
+ /// read once per server and kept for six hours.
++///
++/// A listed price that moved more than `jump`× from the one last adopted for that model is held (the old one is used)
++/// until a read at least `confirmAfter` later lists the new one again. On 2026-10-26 OpenRouter listed
++/// deepseek-v4-flash-0731 at 10× its price for a few hours; 340 eval runs were recorded at it (COST_AUDIT.md F5).
++/// Adopted prices are remembered between launches in `memory` (a JSON file), for remote servers only.
+ public actor RemotePrices {
+-    public static let shared = RemotePrices()
+-    private var lists: [String: (read: Date, prices: [String: PriceList.Price])] = [:]
++    public static let shared = RemotePrices(memory: defaultMemory)
++    public static let jump = 3.0
++    public static let confirmAfter: TimeInterval = 6 * 3600
++
++    private var lists: [String: (read: Date, prices: [String: PriceList.Price], held: [String: String])] = [:]
++    private let memoryURL: URL?
++    private var remembered: [String: Remembered]?
++
++    /// The last adopted price of a model on a server, and a different one waiting to be confirmed.
++    struct Remembered: Codable, Sendable, Hashable {
++        var rates: PriceList.Rates
++        var perSearch: Double?
++        var perRequest: Double?
++        var adopted: Date
++        var pending: PriceList.Rates?
++        var pendingSince: Date?
++    }
++
++    /// `~/Library/Caches/kurtkode/remote-prices.json`.
++    public static var defaultMemory: URL? {
++        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?
++            .appending(path: "kurtkode/remote-prices.json")
++    }
++
++    public init(memory: URL? = nil) { memoryURL = memory }
+ 
+-    /// The price and the time the list was read.
++    /// The price and the time the list was read (with a note when the listed price is being held).
+     public func price(client: ChatClient, model: String) async -> (PriceList.Price, String)? {
+         let key = client.baseURL.absoluteString
+-        if let l = lists[key], Date().timeIntervalSince(l.read) < 6 * 3600 {
+-            return l.prices[model].map { ($0, ISO8601DateFormatter().string(from: l.read)) }
++        func answer(_ l: (read: Date, prices: [String: PriceList.Price], held: [String: String])) -> (PriceList.Price, String)? {
++            l.prices[model].map { ($0, ISO8601DateFormatter().string(from: l.read) + (l.held[model].map { "; " + $0 } ?? "")) }
+         }
++        if let l = lists[key], Date().timeIntervalSince(l.read) < 6 * 3600 { return answer(l) }
+         guard let data = await client.modelsList() else { return nil }
+-        let prices = Self.parse(data)
+         let now = Date()
+-        lists[key] = (now, prices)
+-        return prices[model].map { ($0, ISO8601DateFormatter().string(from: now)) }
++        var prices = Self.parse(data), held: [String: String] = [:]
++        if client.isThirdParty {
++            var memory = loadMemory()
++            (prices, held) = Self.steady(prices, remembered: &memory, server: key, now: now)
++            saveMemory(memory)
++        }
++        lists[key] = (now, prices, held)
++        return answer(lists[key]!)
++    }
++
++    /// `fresh` with every price that jumped more than `jump`× from the remembered one replaced by the remembered one,
++    /// unless the same new price was first seen at least `confirmAfter` ago; updates `remembered`. `held`: a note per
++    /// model whose listed price was not used.
++    static func steady(_ fresh: [String: PriceList.Price], remembered: inout [String: Remembered], server: String,
++                       now: Date) -> (prices: [String: PriceList.Price], held: [String: String]) {
++        func jumped(_ a: PriceList.Rates, _ b: PriceList.Rates) -> Bool {
++            func far(_ x: Double, _ y: Double) -> Bool { x > 0 && y > 0 && (y / x > jump || x / y > jump) }
++            return far(a.input, b.input) || far(a.output, b.output)
++        }
++        func same(_ a: PriceList.Rates, _ b: PriceList.Rates) -> Bool {
++            func near(_ x: Double, _ y: Double) -> Bool { abs(x - y) <= 0.01 * max(abs(x), abs(y)) }
++            return near(a.input, b.input) && near(a.output, b.output)
++        }
++        var out = fresh, held: [String: String] = [:]
++        for (model, p) in fresh {
++            let key = server + "|" + model
++            let adopt = Remembered(rates: p.standard, perSearch: p.perSearch, perRequest: p.perRequest, adopted: now)
++            guard var r = remembered[key], jumped(r.rates, p.standard) else { remembered[key] = adopt; continue }
++            if let pending = r.pending, same(pending, p.standard), let since = r.pendingSince, now.timeIntervalSince(since) >= confirmAfter {
++                remembered[key] = adopt
++                continue
++            }
++            if r.pending.map({ !same($0, p.standard) }) ?? true { r.pending = p.standard; r.pendingSince = now }
++            remembered[key] = r
++            out[model] = PriceList.Price(standard: r.rates, longAbove: nil, long: nil, perSearch: r.perSearch, perRequest: r.perRequest)
++            held[model] = String(format: "held: listed at $%.4g/$%.4g per M, more than %.0f× the last price; used until a "
++                                 + "read %.0f h after the first one confirms it", p.input, p.output, jump, confirmAfter / 3600)
++        }
++        return (out, held)
++    }
++
++    private func loadMemory() -> [String: Remembered] {
++        if let remembered { return remembered }
++        let dec = JSONDecoder()
++        dec.dateDecodingStrategy = .iso8601
++        let loaded = memoryURL.flatMap { try? Data(contentsOf: $0) }.flatMap { try? dec.decode([String: Remembered].self, from: $0) } ?? [:]
++        remembered = loaded
++        return loaded
++    }
++
++    private func saveMemory(_ memory: [String: Remembered]) {
++        remembered = memory
++        guard let url = memoryURL else { return }
++        let enc = JSONEncoder()
++        enc.dateEncodingStrategy = .iso8601
++        enc.outputFormatting = [.sortedKeys]
++        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
++        try? enc.encode(memory).write(to: url, options: .atomic)
+     }
+ 
+     /// `{"data": [{"id": …, "pricing": {"prompt": "0.000003", "completion": …, "input_cache_read": …,
+diff --git a/AgentCore/Sources/AgentCore/LLM/PriceList.swift b/AgentCore/Sources/AgentCore/LLM/PriceList.swift
+index 617c3a1..5d54ffd 100644
+--- a/AgentCore/Sources/AgentCore/LLM/PriceList.swift
++++ b/AgentCore/Sources/AgentCore/LLM/PriceList.swift
+@@ -114,8 +114,10 @@ public enum PriceList {
+         }
+         let today = DayFormat.formatter().string(from: day)
+         let m = model.lowercased()
+-        // The longest matching name wins ("claude-opus-5-5" before "claude-opus-5").
+-        for e in list.sorted(by: { $0.model.count > $1.model.count }) where names(m, e.model) {
++        // The longest matching name wins ("claude-opus-5-5" before "claude-opus-5"); for one name, the introductory
++        // price (with an end date) before the regular one, explicitly: `sorted` doesn't promise to keep the order.
++        for e in list.sorted(by: { ($0.model.count, $0.until != nil ? 1 : 0) > ($1.model.count, $1.until != nil ? 1 : 0) })
++        where names(m, e.model) {
+             if let until = e.until, today > until { continue }
+             return e.price
+         }
+diff --git a/AgentCore/Sources/AgentCore/Models/ModelPool.swift b/AgentCore/Sources/AgentCore/Models/ModelPool.swift
+index 44eafdb..9a8e62c 100644
+--- a/AgentCore/Sources/AgentCore/Models/ModelPool.swift
++++ b/AgentCore/Sources/AgentCore/Models/ModelPool.swift
+@@ -87,12 +87,12 @@ public struct ModelPool: Codable, Sendable, Hashable {
+     public static let shipped = ModelPool(entries: [
+         PoolEntry(endpoint: "openrouter", model: "inclusionai/ling-3.0-flash", providers: ProviderRouting(dataCollection: "deny"),
+                   tier: .cheap, roles: [.subagent, .main], ladder: 0,
+-                  note: "cost-floor finalist: 98% (96–99%) of 479 runs, $0.00025 a run"),
++                  note: "cost-floor finalist: 98% (96–99%) of 479 runs, $0.00025 a run; real-sized edits: 10% (cost audit P2), so code-changing tasks go to the standard tier"),
+         PoolEntry(endpoint: "openrouter", model: "deepseek/deepseek-v4-flash-0731", reasoning: "none",
+                   providers: ProviderRouting(dataCollection: "deny"), tier: .cheap, roles: [.subagent, .reviewer], ladder: 1,
+-                  note: "cost-floor finalist: 100% (99–100%) of 480 runs, $0.0018 a run; reviewer: caught 51 of 55 bad changes, no false alarms in 24, $0.0001 a review"),
++                  note: "cost-floor finalist: 100% (99–100%) of 480 runs, $0.0007 a run at list, $0.0010 charged (cf6 at the corrected listing); real-sized edits: 72%; reviewer: caught 51 of 55 bad changes, no false alarms in 24, $0.0001 a review"),
+         PoolEntry(endpoint: "claude", model: "haiku", tier: .standard, roles: [.subagent, .judge, .reviewer, .summarizer, .main], ladder: 2,
+-                  note: "cost-floor finalist: 99% (98–100%) of 480 runs, $0.0014 a run; judge kappa 0.67; reviewer: caught 56 of 56 bad changes, 2 cautions in 24 good ones"),
++                  note: "cost-floor finalist: 99% (98–100%) of 480 runs, $0.0014 a run; real-sized edits: 83%, $0.057 a success (cost audit P2); judge kappa 0.67; reviewer: caught 56 of 56 bad changes, 2 cautions in 24 good ones"),
+         PoolEntry(endpoint: "claude", model: "opus", tier: .frontier, roles: [.main, .reviewer]),
+     ])
+ 

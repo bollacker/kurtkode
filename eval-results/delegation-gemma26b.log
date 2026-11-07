@@ -1,0 +1,282 @@
+kurtkode-eval: 2 models × 5 scenarios × 3 trials
+
+=== lmstudio:google/gemma-4-26b-a4b-qat  [history: asIs, merge]
+  [survey #1]
+  → list_dir {"path":"notes/"}
+  → grep {"glob":"notes/*.md","pattern":"postpone|push|defer|delay|move"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-17.md"}
+  FAIL score 0.50 · 27s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 5961 tok · stop completed · min free 29% · 25720+444 tok
+    - 3/5 right
+    - wrong: ["2026-03-17.md"]
+    - subagent runs: 0
+    - peak prompt 5961 tokens
+    final: - notes/2026-01-10.md: billing migration was pushed back to the second half of the year. ⏎ - notes/2026-02-10.md: vendor review moves to next month. ⏎ - notes/2026-03-03.md: launch of the partner portal is deferred until Q3. ⏎ - notes/2026-03-17.md: standup was moved to 9:45.
+  [survey #2]
+  → list_dir {"path":"notes/"}
+  → grep {"path":"notes/","pattern":"postponed|pushed"}
+  → grep {"path":"notes/","pattern":"later|next|move|reschedule|delay"}
+  → read_file {"limit":10,"offset":40,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":40,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":10,"offset":40,"path":"notes/2026-03-17.md"}
+  FAIL score 0.20 · 54s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 2132 tok · stop completed · min free 32% · 11854+2251 tok
+    - 1/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 2132 tokens
+    final: - notes/2026-02-10.md: vendor review (moves to next month)
+  [survey #3]
+  → list_dir {"path":"notes/"}
+  → grep {"path":"notes/","pattern":"postponed|pushed|delayed|moved to"}
+  → grep {"glob":"notes/*.md","pattern":"next"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → grep {"glob":"notes/*.md","pattern":"not|won't|later|delay|delaying|postpone|push|reschedule|de
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  FAIL score 0.60 · 43s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 5229 tok · stop completed · min free 30% · 24090+1306 tok
+    - 3/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 5229 tokens
+    final: - notes/2026-01-10.md: billing migration (pushed to the second half of the year) ⏎ - notes/2026-02-10.md: vendor review (moves to next month) ⏎ - notes/2026-03-03.md: launch of the partner portal (deferred until Q3)
+  [log-sweep #1]
+  → list_dir {"path":"logs/"}
+  → grep {"path":"logs/","pattern":"ERROR"}
+  FAIL score 0.67 · 55s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1645 tok · stop completed · min free 32% · 4339+2423 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 1645 tokens
+    final: request timeout after 30 s: 7 ⏎ disk quota exceeded on /data: 4 ⏎ connection refused by db-3: 1 ⏎ connection refused by db-0: 3 ⏎ connection refused by db-1: 1
+  [log-sweep #2]
+  → list_dir {"path":"logs/"}
+  → grep {"glob":"*.log","path":"logs/","pattern":"ERROR"}
+  FAIL score 0.67 · 52s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1647 tok · stop completed · min free 31% · 4340+2308 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 1647 tokens
+    final: - request timeout after 30 s: 7 ⏎ - disk quota exceeded on /data: 4 ⏎ - connection refused by db-3: 1 ⏎ - connection refused by db-0: 3 ⏎ - connection refused by db-1: 1
+  [log-sweep #3]
+  → list_dir {"path":"logs/"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  FAIL score 0.67 · 88s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1641 tok · stop completed · min free 33% · 4329+4005 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 1641 tokens
+    final: - request timeout after 30 s: 7 ⏎ - disk quota exceeded on /data: 4 ⏎ - connection refused by db-0: 3 ⏎ - connection refused by db-1: 1 ⏎ - connection refused by db-3: 1
+  [two-questions #1]
+  → grep {"pattern":"reserve_stock"}
+  → grep {"glob":"parts/src/part04.py","pattern":"class"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 16s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 1798 tok · stop completed · min free 33% · 5945+514 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 10s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1640 tok · stop completed · min free 32% · 4343+265 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 9s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1637 tok · stop completed · min free 33% · 4337+226 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 4s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1257 tok · stop completed · min free 33% · 2297+85 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 5s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1257 tok · stop completed · min free 33% · 2295+117 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 4s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1257 tok · stop completed · min free 33% · 2295+83 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 28s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 2621 tok · stop completed · min free 31% · 15343+805 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub() in calc.py","status":"in_progress"},{"content":"Run unitte
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → todo_write {"todos":[{"content":"Fix sub() in calc.py","status":"completed"},{"content":"Run unittest
+  PASS score 1.00 · 28s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 2548 tok · stop completed · min free 31% · 17328+786 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → todo_write {"todos":[{"content":"Fix sub() in calc.py","status":"in_progress"},{"content":"Verify the
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Fix sub() in calc.py","status":"completed"},{"content":"Verify the f
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → todo_write {"todos":[{"content":"Fix sub() in calc.py","status":"completed"},{"content":"Verify the f
+  PASS score 1.00 · 39s · 10 steps · 8 calls · 0 errors · 0 compactions · peak 2763 tok · stop completed · min free 32% · 22962+1244 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== lmstudio:google/gemma-4-26b-a4b-qat +subagents  [history: asIs, merge]
+  [survey #1]
+  → list_dir {"path":"notes/"}
+  → grep {"glob":"notes/*.md","pattern":"postponed|pushed|later|delay|deferred"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  FAIL score 0.20 · 32s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 4335 tok · stop completed · min free 30% · 15429+999 tok
+    - 1/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 4335 tokens
+    final: notes/2026-03-03.md: Launch of the partner portal
+  [survey #2]
+  → list_dir {"path":"notes/"}
+  → task {"agent":"explore","description":"Search meeting notes for postponed items","importance":"
+  ⤷ explore subagent: Search meeting notes for postponed items
+  → grep {"case_insensitive":true,"pattern":"postponed|pushed|moved|delayed|deferred|carry|next mee
+  ✎ parent 0/3 (read-the-files): incomplete
+  FAIL score 0.20 · 66s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 3081 tok · stop completed · min free 32% · 10833+387 tok
+    - 1/5 right
+    - none wrong
+    - subagent runs: 1
+    - peak prompt 3081 tokens
+    final: The grep search found one instance of an item being postponed: ⏎  ⏎ * `notes/2026-03-03.md`: Launch of the partner portal is deferred until Q3.
+  [survey #3]
+  → list_dir {"path":"notes/"}
+  → grep {"glob":"notes/*.md","pattern":"postpone|pushed|later|move to|delayed|rescheduled"}
+  → task {"agent":"explore","description":"Find meeting notes with postponed items","importance":"n
+  ⤷ explore subagent: Find meeting notes with postponed items
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  ✎ parent 3/3 (read-the-files)
+  FAIL score 0.40 · 105s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 5464 tok · stop completed · min free 32% · 24360+1211 tok
+    - 2/5 right
+    - none wrong
+    - subagent runs: 1
+    - peak prompt 5464 tokens
+    final: - `notes/2026-01-10.md`: billing migration was pushed back to the second half of the year. ⏎ - `notes/2026-03-03.md`: launch of the partner portal was deferred until Q3.
+  [log-sweep #1]
+  → list_dir {"path":"logs/"}
+  → grep {"glob":"logs/*.log","pattern":"ERROR"}
+  FAIL score 0.67 · 49s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2726 tok · stop completed · min free 32% · 7589+2057 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 2726 tokens
+    final: request timeout after 30 s: 7 ⏎ disk quota exceeded on /data: 4 ⏎ connection refused by db-3: 1 ⏎ connection refused by db-0: 4
+  [log-sweep #2]
+  → list_dir {"path":"logs/"}
+  → grep {"glob":"logs/*.log","pattern":"ERROR"}
+  FAIL score 0.67 · 49s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2726 tok · stop completed · min free 33% · 7589+2052 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 2726 tokens
+    final: request timeout after 30 s: 7 ⏎ disk quota exceeded on /data: 4 ⏎ connection refused by db-3: 1 ⏎ connection refused by db-0: 4
+  [log-sweep #3]
+  → list_dir {"path":"logs/"}
+  → grep {"glob":"logs/*.log","pattern":"ERROR"}
+  FAIL score 0.67 · 70s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2726 tok · stop completed · min free 33% · 7589+3031 tok
+    - 2/3 counts right
+    - subagent runs: 0
+    - peak prompt 2726 tokens
+    final: request timeout after 30 s: 7 ⏎ disk quota exceeded on /data: 4 ⏎ connection refused by db-0: 4 ⏎ connection refused by db-3: 1
+  [two-questions #1]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 16s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2723 tok · stop completed · min free 33% · 7592+428 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 15s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2721 tok · stop completed · min free 32% · 7586+371 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 16s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2721 tok · stop completed · min free 33% · 7586+444 tok
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"path":"inventory/pricing.py"}
+  PASS score 1.00 · 10s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2471 tok · stop completed · min free 32% · 6960+221 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"path":"inventory/pricing.py"}
+  PASS score 1.00 · 11s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2471 tok · stop completed · min free 32% · 6966+230 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 8s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 2471 tok · stop completed · min free 32% · 4463+154 tok
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 34s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 3705 tok · stop completed · min free 32% · 22926+999 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 22s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3490 tok · stop completed · min free 32% · 19076+553 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → list_dir {"path":"."}
+  → read_file {"path":"calc.py"}
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 25s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3492 tok · stop completed · min free 33% · 19018+655 tok
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+lmstudio:google/gemma-4-26b-a4b-qat         0/3 0.43 41s          0/3 0.67 65s          3/3 1.00 12s          3/3 1.00 4s           3/3 1.00 32s          
+lmstudio:google/gemma-4-26b-a4b-qat +subagen0/3 0.27 68s          0/3 0.67 56s          3/3 1.00 16s          3/3 1.00 9s           3/3 1.00 27s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+lmstudio:google/gemma-4-26b-a4b-qat         0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+lmstudio:google/gemma-4-26b-a4b-qat +subagen2/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+wrote transcripts to eval-results/delegation-gemma26b-tx
+
+wrote eval-results/delegation-gemma26b.json

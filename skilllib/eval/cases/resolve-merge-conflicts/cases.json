@@ -1,0 +1,36 @@
+{
+  "triggers": {
+    "should": [
+      "I merged develop into my branch and now three files are full of <<<<<<< markers. Please sort it out.",
+      "git rebase main stopped with CONFLICT (content) in src/api.ts. Finish the rebase.",
+      "Cherry-picking the hotfix onto release-2.3 conflicts, can you resolve it?",
+      "git stash pop says 'CONFLICT (content): Merge conflict in settings.py', help.",
+      "The PR can't be merged because of conflicts with main. Bring it up to date with main and fix whatever clashes.",
+      "Both Ana's refactor and my feature touched the parser and git refuses to merge them. Combine them.",
+      "Finish this merge, git status shows 'both modified' on four files."
+    ],
+    "should_not": [
+      "Commit my changes as a few clean commits and write the PR text.",
+      "After merging the payments branch the totals test fails every time. Which commit broke it?",
+      "Rename get_user to fetch_user in every file of the project.",
+      "Review the diff of this merge request before I approve it.",
+      "What's the difference between git merge and git rebase?"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "grams-vs-express",
+      "fixture": "fixtures/grams-vs-express",
+      "prompt": "I'm merging the express branch into main and git stopped with conflicts. Please finish the merge so we keep both main's changes and express shipping.",
+      "check": "python3 \"$CASE_DIR/hidden/check.py\"",
+      "rubric": [
+        "Read both sides' commits (messages or diffs) before editing, and stated each side's intent",
+        "Combined the hunks instead of taking one side wholesale, and converted express's 1 kg minimum to grams",
+        "Checked files that merged without conflicts (quote.py and its test) for the renamed parameter and unit",
+        "Ran the full test suite after resolving and kept every test from both sides",
+        "Committed the merge and reported how each conflict was resolved"
+      ],
+      "max_steps": 40
+    }
+  ]
+}

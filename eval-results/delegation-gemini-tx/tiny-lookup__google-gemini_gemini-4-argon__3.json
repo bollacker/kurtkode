@@ -1,0 +1,147 @@
+[
+  {
+    "content" : "",
+    "createdAt" : "2026-10-24T23:02:28Z",
+    "id" : "932CB1C0-08F2-4E86-AD57-0DFB6C84A5A2",
+    "meta" : {
+      "duration" : 2.162257666,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "tool_calls",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "Ajndapy_Fv_rz7IP0KuIqAk"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 2.139254416,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 22,
+        "cost" : 0.002196,
+        "costIsEstimate" : true,
+        "promptTokens" : 988,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 22,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 22
+          }
+        ],
+        "promptTokenCount" : 988,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 988
+          }
+        ],
+        "totalTokenCount" : 1010
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "functionCall" : {
+            "args" : {
+              "pattern" : "TAX_RATE"
+            },
+            "id" : "call_743728",
+            "name" : "grep"
+          },
+          "thoughtSignature" : "ElkKVwFpFH0TLZuYeWE7vMzjIT1cFdxE2oKUqRDBixmrFwiBMXgwA2q8DGvgbEa77qYdsAqYxEDEQx+T9VxHU91mjirQ3jbri7nhcAUqTvJ3UlhdkWXFyJFHdQ=="
+        },
+        {
+          "text" : ""
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+      {
+        "arguments" : "{\"pattern\":\"TAX_RATE\"}",
+        "id" : "call_743728",
+        "name" : "grep"
+      }
+    ]
+  },
+  {
+    "content" : "inventory\/pricing.py:3: TAX_RATE = 0.0825\ninventory\/pricing.py:16:     return round(subtotal * (1 + TAX_RATE), 2)",
+    "createdAt" : "2026-10-24T23:02:28Z",
+    "id" : "0D5A93EA-8EA4-4A24-A97C-D249F61F87E4",
+    "role" : "tool",
+    "toolCallID" : "call_743728",
+    "toolCalls" : [
+
+    ],
+    "toolResult" : {
+      "approval" : {
+        "allowed" : true,
+        "decider" : "mode"
+      },
+      "duration" : 0.019932985305786133,
+      "isError" : false,
+      "toolName" : "grep",
+      "truncated" : false
+    }
+  },
+  {
+    "content" : "`TAX_RATE` is `0.0825`, defined in `inventory\/pricing.py:3`.",
+    "createdAt" : "2026-10-24T23:02:31Z",
+    "id" : "367A8635-37E0-4B83-8ECB-BF3B0E2D1784",
+    "meta" : {
+      "duration" : 3.358386167,
+      "endpointID" : "C9E9924C-536F-404B-B04F-32A75A45D383",
+      "finishReason" : "stop",
+      "reportedModel" : "gemini-4-argon",
+      "requestIDs" : [
+        "BDndavqqIt2Fz7IPqsWM-AI"
+      ],
+      "requestedModel" : "gemini-4-argon",
+      "stopReason" : "completed",
+      "timeToFirstToken" : 3.055161792,
+      "usage" : {
+        "cacheReadTokens" : 0,
+        "completionTokens" : 29,
+        "cost" : 0.00243,
+        "costIsEstimate" : true,
+        "promptTokens" : 1070,
+        "reasoningTokens" : 0
+      },
+      "usageRaw" : {
+        "candidatesTokenCount" : 29,
+        "candidatesTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 29
+          }
+        ],
+        "promptTokenCount" : 1070,
+        "promptTokensDetails" : [
+          {
+            "modality" : "TEXT",
+            "tokenCount" : 1070
+          }
+        ],
+        "totalTokenCount" : 1099
+      }
+    },
+    "native" : {
+      "api" : "gemini",
+      "blocks" : [
+        {
+          "text" : "`TAX_RATE` is `0.0825`, defined in `inventory\/pricing.py:3`.",
+          "thoughtSignature" : "ElkKVwFpFH0TiIutAhYOZ1cKMtQ9D5yS7IEUxUkQSSs5rTuiWRtm7xPmZ2pHi7EtEC8A4Vbxh98KnrGKnDFemSU6m7NJb4iGKm4AXtNCrssIScPYfvCDVPvpcQ=="
+        }
+      ],
+      "model" : "gemini-4-argon"
+    },
+    "role" : "assistant",
+    "toolCalls" : [
+
+    ]
+  }
+]

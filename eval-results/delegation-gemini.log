@@ -1,0 +1,813 @@
+kurtkode-eval: 4 models × 5 scenarios × 3 trials
+
+=== google-gemini:gemini-3.8-flash  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"(postpon|push|defer|delay|later date|mo
+  → read_file {"limit":20,"offset":40,"path":"notes/2026-01-10.md"}
+  → grep {"case_insensitive":false,"path":"notes","pattern":"^## Decisions"}
+  → read_file {"limit":60,"offset":1,"path":"notes/2026-01-03.md"}
+  → grep {"path":"notes","pattern":"^- Decision|^- We agreed|^- Someone|^- The |^- Launch|^- Next"}
+  ⊜ compacted 9000 → 3885 tokens (summary 5 s, 2284 bytes)
+  → list_dir {"path":"notes"}
+  → grep {"path":"notes","pattern":"^## Decisions"}
+  → grep {"path":"notes","pattern":"^ - (?!The |Someone |Next ).*"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":43,"offset":1,"path":"notes/2026-03-17.md"}
+  ⊜ compacted 7522 → 4995 tokens (summary 5 s, 2264 bytes)
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-24.md"}
+  → list_dir {"path":"notes"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-03.md"}
+  → grep {"path":"notes","pattern":"postpon|defer|delay|push|hold off|later|revisit"}
+  → grep {"path":"notes","pattern":"moves|moved"}
+  PASS score 1.00 · 72s · 31 steps · 30 calls · 0 errors · 2 compactions · peak 6677 tok · stop completed · min free 28% · 141634+3948 tok · $0.1210
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 6677 tokens
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|push|later|defer|resched|delay|
+  → read_file {"limit":100,"offset":1,"path":"notes/2026-01-10.md"}
+  → grep {"path":"notes","pattern":"## Decisions"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-24.md"}
+  → grep {"path":"notes","pattern":"\\(item [0-9]+\\)"}
+  ⊜ compacted 10749 → 5118 tokens (summary 5 s, 2452 bytes)
+  → grep {"path":"notes","pattern":"^## Decisions"}
+  → grep {"path":"notes","pattern":"^- .*"}
+  ⊜ compacted 10487 → 4548 tokens (summary 6 s, 2595 bytes)
+  → grep {"path":"notes","pattern":"Decision:"}
+  → grep {"path":"notes","pattern":"^## Decisions\\n\\n- (.*)"}
+  → grep {"path":"notes","pattern":"^- (?!.*\\(item).*"}
+  → grep {"path":"notes","pattern":"^48:"}
+  → read_file {"limit":10,"offset":45,"path":"notes/2026-01-03.md"}
+  PASS score 1.00 · 70s · 25 steps · 24 calls · 0 errors · 2 compactions · peak 5750 tok · stop completed · min free 28% · 99799+3425 tok · $0.0877
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 5750 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|push|later|delay|defer|resched|
+  → read_file {"limit":100,"offset":1,"path":"notes/2026-01-10.md"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"## Decisions"}
+  → grep {"path":"notes","pattern":"(?s)## Decisions.*"}
+  → read_file {"limit":50,"offset":1,"path":"notes/2026-01-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-24.md"}
+  → grep {"path":"notes","pattern":"\\(item \\d+\\)"}
+  ⊜ compacted 12900 → 5268 tokens (summary 7 s, 2700 bytes)
+  → grep {"path":"notes","pattern":"^ - (?!Status went|The flaky test|Support volume|Two customers|
+  → grep {"path":"notes","pattern":"## Decision"}
+  → grep {"path":"notes","pattern":"(?<=## Decisions\\n\\n).*"}
+  → grep {"path":"notes","pattern":"^[A-Z].*"}
+  → grep {"path":"notes","pattern":"^ [A-Za-z]"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-10.md"}
+  → grep {"path":"notes","pattern":"^- (?!Status|The flaky|Support|Two customers|The infra|Action|S
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-24.md"}
+  → grep {"path":"notes","pattern":"^-[^\\n]+"}
+  ⊜ compacted 12459 → 4744 tokens (summary 7 s, 2977 bytes)
+  → grep {"path":"notes","pattern":"^[^-\\s#\\n]"}
+  → grep {"path":"notes","pattern":"\\n.*\\n.*\\n.*"}
+  → grep {"path":"notes","pattern":"^"}
+  ⊜ compacted 11403 → 5117 tokens (summary 7 s, 3106 bytes)
+  → grep {"path":"notes","pattern":"^## Decisions.*"}
+  → grep {"path":"notes","pattern":"^- Decision:"}
+  → grep {"path":"notes","pattern":"^- (?!Next meeting).*"}
+  ⊜ compacted 10673 → 4803 tokens (summary 6 s, 2963 bytes)
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-04-17.md"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"(postpon|delay|defer|hold off|pushed|re
+  → grep {"case_insensitive":true,"path":"notes","pattern":"(push|move)"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"(revisit|frozen|freeze)"}
+  PASS score 1.00 · 129s · 47 steps · 46 calls · 0 errors · 4 compactions · peak 7041 tok · stop completed · min free 28% · 238352+5472 tok · $0.1993
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 7041 tokens
+  [log-sweep #1]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":20,"offset":45,"path":"logs/service-1.log"}
+  → read_file {"limit":10,"offset":295,"path":"logs/service-1.log"}
+  → grep {"path":"logs","pattern":"FATAL|CRITICAL|WARN"}
+  → glob {"pattern":"*"}
+  → glob {"pattern":".*"}
+  → list_dir {"path":"."}
+  → read_file {"limit":50,"offset":1,"path":".git/logs/HEAD"}
+  PASS score 1.00 · 39s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 5540 tok · stop completed · min free 28% · 40166+4305 tok · $0.0463
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 5540 tokens
+  [log-sweep #2]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":20,"offset":45,"path":"logs/service-1.log"}
+  → list_dir {"path":"."}
+  → grep {"path":".git","pattern":"eval"}
+  → read_file {"limit":100,"offset":1,"path":".git/logs/HEAD"}
+  → glob {"pattern":".*"}
+  PASS score 1.00 · 34s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 5858 tok · stop completed · min free 28% · 32913+4043 tok · $0.0398
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 5858 tokens
+  [log-sweep #3]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":20,"offset":45,"path":"logs/service-1.log"}
+  → glob {"pattern":"**/*"}
+  → grep {"path":"logs","pattern":"\\b(WARN|WARNING|FATAL|CRITICAL)\\b"}
+  PASS score 1.00 · 28s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 4884 tok · stop completed · min free 28% · 19754+2909 tok · $0.0257
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 4884 tokens
+  [two-questions #1]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"limit":50,"offset":1,"path":"parts/src/part04.py"}
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"limit":20,"offset":51,"path":"parts/src/part04.py"}
+  → read_file {"limit":10,"offset":28,"path":"inventory/storage.py"}
+  PASS score 1.00 · 8s · 4 steps · 5 calls · 0 errors · 0 compactions · peak 2431 tok · stop completed · min free 30% · 7365+357 tok · $0.0069
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  → grep {"pattern":"reserve_stock"}
+  PASS score 1.00 · 5s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 2046 tok · stop completed · min free 31% · 4918+258 tok · $0.0047
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock|reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  → read_file {"limit":15,"offset":25,"path":"inventory/storage.py"}
+  PASS score 1.00 · 6s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 2354 tok · stop completed · min free 31% · 5308+281 tok · $0.0050
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 5s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1213 tok · stop completed · min free 31% · 3284+153 tok · $0.0030
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 4s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1213 tok · stop completed · min free 30% · 3280+145 tok · $0.0030
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 4s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1192 tok · stop completed · min free 29% · 3242+121 tok · $0.0029
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 11s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 2516 tok · stop completed · min free 31% · 12770+512 tok · $0.0115
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 11s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 2465 tok · stop completed · min free 27% · 12597+453 tok · $0.0111
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 11s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 2409 tok · stop completed · min free 30% · 12444+408 tok · $0.0109
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== google-gemini:gemini-3.8-flash +subagents  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|push|delay|defer|reschedul|tabl
+  → read_file {"limit":60,"offset":35,"path":"notes/2026-01-10.md"}
+  → grep {"path":"notes","pattern":"^## Decisions"}
+  → read_file {"limit":45,"offset":1,"path":"notes/2026-01-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-24.md"}
+  → grep {"path":"notes","pattern":"^4[8-9]|^[5-9][0-9]"}
+  → grep {"path":"notes","pattern":"Next meeting"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|push|delay|defer|hold off|put o
+  → grep {"case_insensitive":true,"path":"notes","pattern":"later|revisit|next month|next quarter|n
+  → grep {"case_insensitive":true,"path":"notes","pattern":"\\b(moved?|tabled?|pushed?)\\b"}
+  ⊜ compacted 10879 → 6600 tokens (summary 5 s, 1915 bytes)
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-02-24.md"}
+  PASS score 1.00 · 81s · 35 steps · 34 calls · 0 errors · 1 compactions · peak 7611 tok · stop completed · min free 26% · 192262+4079 tok · $0.1595
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 7611 tokens
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|defer|push|later|delay|reschedu
+  → read_file {"limit":60,"offset":30,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":35,"offset":1,"path":"notes/2026-01-10.md"}
+  → grep {"path":"notes","pattern":"## Decisions"}
+  → grep {"path":"notes","pattern":"\\(item \\d+\\)"}
+  ⊜ compacted 9803 → 4934 tokens (summary 6 s, 2153 bytes)
+  → grep {"path":"notes","pattern":"^- (?!.*\\(item \\d+\\)).*"}
+  → grep {"path":"notes","pattern":"^## "}
+  → grep {"path":"notes","pattern":"^.{1,}$"}
+  ⊜ compacted 12738 → 5457 tokens (summary 6 s, 2655 bytes)
+  → grep {"path":"notes","pattern":"^- Decision:"}
+  → grep {"path":"notes","pattern":"^## Decisions\\n\\n- (.*)"}
+  → grep {"path":"notes","pattern":"^## Decisions"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-01-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":10,"offset":44,"path":"notes/2026-04-17.md"}
+  → list_dir {"path":"notes"}
+  PASS score 1.00 · 62s · 21 steps · 20 calls · 0 errors · 2 compactions · peak 6770 tok · stop completed · min free 27% · 106757+3032 tok · $0.0914
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 6770 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"postpon|push|defer|delay|later|reschedu
+  → read_file {"limit":100,"offset":1,"path":"notes/2026-01-03.md"}
+  → grep {"path":"notes","pattern":"## Decisions"}
+  → grep {"path":"notes","pattern":"^ - Decision|^ - We|^ - Launch|^ - Someone|^ - The question"}
+  → grep {"path":"notes","pattern":"^-[ ]*(?!Status|The flaky|Support volume|Two customers|The infr
+  ⊜ compacted 10529 → 4999 tokens (summary 8 s, 1776 bytes)
+  → list_dir {"path":"notes"}
+  → grep {"path":"notes","pattern":"^ - .*[^(item \\d+)]\\s*$"}
+  → grep {"path":"notes","pattern":"^ - .*[^)]\\s*$"}
+  → read_file {"limit":15,"offset":43,"path":"notes/2026-01-03.md"}
+  → grep {"path":"notes","pattern":"^-(?!.*\\(item \\d+\\))"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"hold off|put off|shelv|postpon|defer|de
+  ⊜ compacted 7391 → 5759 tokens (summary 6 s, 2749 bytes)
+  → grep {"case_insensitive":true,"path":"notes","pattern":"\\b(later|wait|pause|bump|suspend)\\b"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"\\b(future|snooze|stay(s|ed)?)\\b"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"\\b(revisit|extend)\\b"}
+  → grep {"case_insensitive":true,"path":"notes","pattern":"\\bmov(e|es|ed|ing)\\b"}
+  → read_file {"limit":10,"offset":43,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":60,"offset":1,"path":"notes/2026-01-10.md"}
+  ⊜ compacted 7487 → 5607 tokens (summary 5 s, 2298 bytes)
+  PASS score 1.00 · 72s · 19 steps · 18 calls · 0 errors · 3 compactions · peak 6871 tok · stop completed · min free 29% · 94480+3593 tok · $0.0843
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 6871 tokens
+  [log-sweep #1]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":30,"offset":40,"path":"logs/service-1.log"}
+  → glob {"pattern":"**/*"}
+  → grep {"path":".git","pattern":"commit"}
+  → read_file {"limit":20,"offset":1,"path":".git/logs/HEAD"}
+  → grep {"path":"logs","pattern":"FATAL|CRITICAL|WARN"}
+  → grep {"path":"logs","pattern":"\\b[A-Z]{4,5}\\b"}
+  ⊜ compacted 13648 → 7665 tokens (summary 4 s, 1473 bytes)
+  → grep {"path":"logs","pattern":"\\bERROR\\b.*"}
+  → list_dir {"path":"logs"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":50,"offset":1,"path":".git/logs/HEAD"}
+  → glob {"pattern":"**"}
+  ⊜ compacted 7576 → 5108 tokens (summary 4 s, 1703 bytes)
+  → list_dir {"path":"."}
+  PASS score 1.00 · 56s · 16 steps · 15 calls · 0 errors · 2 compactions · peak 7665 tok · stop completed · min free 28% · 82012+3737 tok · $0.0755
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 7665 tokens
+  [log-sweep #2]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":30,"offset":40,"path":"logs/service-1.log"}
+  → glob {"pattern":"**/*"}
+  → glob {"pattern":".*"}
+  PASS score 1.00 · 39s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 6416 tok · stop completed · min free 27% · 28200+4444 tok · $0.0378
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 6416 tokens
+  [log-sweep #3]
+  → list_dir {"path":"logs"}
+  → grep {"path":"logs","pattern":"ERROR"}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  → read_file {"limit":10,"offset":45,"path":"logs/service-1.log"}
+  → grep {"path":"logs","pattern":"FATAL"}
+  → grep {"path":"logs","pattern":"WARN"}
+  → grep {"path":"logs","pattern":"(INFO|DEBUG|WARN|ERROR|CRITICAL)"}
+  ⊜ compacted 11243 → 6171 tokens (summary 6 s, 1560 bytes)
+  → grep {"path":"logs","pattern":"ERROR"}
+  → list_dir {"path":"logs"}
+  → list_dir {"path":"."}
+  → grep {"case_insensitive":true,"path":"logs","pattern":"error"}
+  PASS score 1.00 · 48s · 12 steps · 11 calls · 0 errors · 1 compactions · peak 6356 tok · stop completed · min free 27% · 56634+3843 tok · $0.0569
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 6356 tokens
+  [two-questions #1]
+  → grep {"pattern":"def reserve_stock"}
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  → read_file {"limit":20,"offset":25,"path":"inventory/storage.py"}
+  PASS score 1.00 · 10s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 3438 tok · stop completed · min free 26% · 12745+306 tok · $0.0107
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"limit":100,"offset":1,"path":"parts/src/part04.py"}
+  → read_file {"limit":15,"offset":25,"path":"inventory/storage.py"}
+  → grep {"path":"parts/src/part04.py","pattern":"class "}
+  PASS score 1.00 · 9s · 4 steps · 4 calls · 0 errors · 0 compactions · peak 3433 tok · stop completed · min free 25% · 11829+411 tok · $0.0104
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"limit":100,"offset":1,"path":"parts/src/part04.py"}
+  → read_file {"limit":100,"offset":61,"path":"parts/src/part04.py"}
+  → read_file {"limit":20,"offset":25,"path":"inventory/storage.py"}
+  PASS score 1.00 · 8s · 4 steps · 4 calls · 1 errors · 0 compactions · peak 3357 tok · stop completed · min free 30% · 11132+324 tok · $0.0096
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":10,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 5s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2157 tok · stop completed · min free 30% · 6173+157 tok · $0.0052
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 5s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2199 tok · stop completed · min free 30% · 6240+162 tok · $0.0053
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  PASS score 1.00 · 5s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2192 tok · stop completed · min free 31% · 6223+160 tok · $0.0053
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 12s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3469 tok · stop completed · min free 28% · 18565+502 tok · $0.0158
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 11s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3444 tok · stop completed · min free 29% · 18479+460 tok · $0.0156
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path":"calc.py"}
+  → read_file {"path":"test_calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  → bash {"command":"git diff"}
+  PASS score 1.00 · 11s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3451 tok · stop completed · min free 29% · 18519+451 tok · $0.0156
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== google-gemini:gemini-4-argon  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"offset":30,"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-10.md"}
+  → read_file {"path":"notes/2026-03-17.md"}
+  ⊜ compacted 11196 → 5931 tokens (summary 13 s, 2310 bytes)
+  → read_file {"path":"notes/2026-03-24.md"}
+  → read_file {"path":"notes/2026-04-03.md"}
+  → read_file {"path":"notes/2026-04-10.md"}
+  → read_file {"path":"notes/2026-04-17.md"}
+  → read_file {"path":"notes/2026-04-24.md"}
+  ⊜ compacted 10295 → 6729 tokens (summary 10 s, 2976 bytes)
+  PASS score 1.00 · 53s · 5 steps · 19 calls · 1 errors · 2 compactions · peak 7558 tok · stop completed · min free 27% · 22391+1130 tok · $0.0561
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 7558 tokens
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-10.md"}
+  → read_file {"path":"notes/2026-03-17.md"}
+  → read_file {"path":"notes/2026-03-24.md"}
+  → read_file {"path":"notes/2026-04-03.md"}
+  → read_file {"path":"notes/2026-04-10.md"}
+  → read_file {"path":"notes/2026-04-17.md"}
+  → read_file {"path":"notes/2026-04-24.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":20,"offset":35,"path":"notes/2026-04-24.md"}
+  ⊜ compacted 10717 → 4881 tokens (summary 54 s, 3010 bytes)
+  PASS score 1.00 · 82s · 4 steps · 27 calls · 9 errors · 1 compactions · peak 8399 tok · stop completed · min free 26% · 15753+1646 tok · $0.0480
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 8399 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-10.md"}
+  → read_file {"path":"notes/2026-03-17.md"}
+  → read_file {"path":"notes/2026-03-24.md"}
+  → read_file {"path":"notes/2026-04-03.md"}
+  → read_file {"path":"notes/2026-04-10.md"}
+  → read_file {"path":"notes/2026-04-17.md"}
+  → read_file {"path":"notes/2026-04-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-02-17.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-24.md"}
+  → grep {"path":"notes","pattern":"^(?!# |Attendees:|## |- Status went|- The flaky test|- Support 
+  ⊜ compacted 10180 → 4449 tokens (summary 13 s, 3267 bytes)
+  PASS score 1.00 · 70s · 4 steps · 28 calls · 9 errors · 1 compactions · peak 8387 tok · stop completed · min free 26% · 15302+1520 tok · $0.0341
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 8387 tokens
+  [log-sweep #1]
+  → grep {"path":"logs","pattern":"ERROR"}
+  PASS score 1.00 · 9s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1435 tok · stop completed · min free 27% · 2779+430 tok · $0.0099
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 1435 tokens
+  [log-sweep #2]
+  → grep {"path":"logs","pattern":"ERROR"}
+  PASS score 1.00 · 4s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1435 tok · stop completed · min free 27% · 2767+102 tok · $0.0066
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 1435 tokens
+  [log-sweep #3]
+  → grep {"path":"logs","pattern":"ERROR"}
+  PASS score 1.00 · 6s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1436 tok · stop completed · min free 27% · 2769+111 tok · $0.0066
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 1436 tokens
+  [two-questions #1]
+  → grep {"pattern":"def reserve_stock\\b|reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 7s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 1624 tok · stop completed · min free 28% · 3042+149 tok · $0.0076
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 6s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 1618 tok · stop completed · min free 29% · 3035+150 tok · $0.0076
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 7s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 1539 tok · stop completed · min free 31% · 2901+108 tok · $0.0069
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 5s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1046 tok · stop completed · min free 29% · 2066+69 tok · $0.0048
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 4s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1047 tok · stop completed · min free 28% · 2060+54 tok · $0.0047
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 6s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 1046 tok · stop completed · min free 30% · 2058+51 tok · $0.0046
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 16s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2060 tok · stop completed · min free 28% · 7527+221 tok · $0.0173
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 14s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2105 tok · stop completed · min free 28% · 7613+268 tok · $0.0179
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 15s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2134 tok · stop completed · min free 26% · 7669+290 tok · $0.0182
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== google-gemini:gemini-4-argon +subagents  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → task {"agent":"explore","description":"Check March and April notes","importance":"high","kind":
+  ⤷ explore subagent: Check March and April notes
+  ⊜ compacted 10328 → 4489 tokens (summary 17 s, 2811 bytes)
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":5,"offset":44,"path":"notes/2026-04-17.md"}
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Accurately reported the exact Decisions line
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 76s · 6 steps · 14 calls · 0 errors · 1 compactions · peak 8948 tok · stop completed · min free 26% · 28041+1143 tok · $0.0528
+    - 5/5 right
+    - none wrong
+    - subagent runs: 1
+    - peak prompt 8948 tokens
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → grep {"path":"notes","pattern":"^- [^\\n]*$"}
+  ⊜ compacted 14391 → 4644 tokens (summary 12 s, 2751 bytes)
+  → grep {"path":"notes","pattern":"^- (?!Next meeting as usual\\.)[^\\n]*[^)]$"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-17.md"}
+  PASS score 1.00 · 49s · 6 steps · 14 calls · 0 errors · 1 compactions · peak 8907 tok · stop completed · min free 26% · 30497+1869 tok · $0.0631
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 8907 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → read_file {"path":"notes/2026-01-03.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-17.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-03.md"}
+  → read_file {"path":"notes/2026-02-10.md"}
+  → read_file {"path":"notes/2026-02-17.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → read_file {"path":"notes/2026-03-03.md"}
+  → read_file {"path":"notes/2026-03-10.md"}
+  → read_file {"path":"notes/2026-03-17.md"}
+  → read_file {"path":"notes/2026-03-24.md"}
+  → read_file {"path":"notes/2026-04-03.md"}
+  → read_file {"path":"notes/2026-04-10.md"}
+  → read_file {"path":"notes/2026-04-17.md"}
+  → read_file {"path":"notes/2026-04-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-02-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-10.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-03.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-10.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":15,"offset":40,"path":"notes/2026-04-24.md"}
+  ⊜ compacted 11234 → 4738 tokens (summary 12 s, 3085 bytes)
+  PASS score 1.00 · 73s · 4 steps · 26 calls · 8 errors · 1 compactions · peak 9692 tok · stop completed · min free 28% · 19298+1352 tok · $0.0476
+    - 5/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 9692 tokens
+  [log-sweep #1]
+  → grep {"path":"logs","pattern":"ERROR"}
+  → list_dir {"path":"logs"}
+  PASS score 1.00 · 10s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2828 tok · stop completed · min free 30% · 7659+502 tok · $0.0190
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2828 tokens
+  [log-sweep #2]
+  → grep {"path":"logs","pattern":"ERROR"}
+  → list_dir {"path":"logs"}
+  PASS score 1.00 · 11s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2824 tok · stop completed · min free 31% · 7649+442 tok · $0.0184
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2824 tokens
+  [log-sweep #3]
+  → grep {"path":"logs","pattern":"ERROR"}
+  → list_dir {"path":"logs"}
+  PASS score 1.00 · 13s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2836 tok · stop completed · min free 30% · 7668+538 tok · $0.0193
+    - 3/3 counts right
+    - subagent runs: 0
+    - peak prompt 2836 tokens
+  [two-questions #1]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  → read_file {"path":"inventory/storage.py"}
+  PASS score 1.00 · 14s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 3616 tok · stop completed · min free 29% · 8521+218 tok · $0.0176
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #2]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  → read_file {"path":"inventory/storage.py"}
+  PASS score 1.00 · 9s · 3 steps · 3 calls · 0 errors · 0 compactions · peak 3602 tok · stop completed · min free 29% · 8503+222 tok · $0.0176
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [two-questions #3]
+  → grep {"pattern":"def reserve_stock"}
+  → read_file {"path":"parts/src/part04.py"}
+  PASS score 1.00 · 6s · 2 steps · 2 calls · 0 errors · 0 compactions · peak 2529 tok · stop completed · min free 28% · 4877+108 tok · $0.0108
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 0
+  [tiny-lookup #1]
+  → grep {"pattern":"TAX_RATE"}
+  PASS score 1.00 · 6s · 2 steps · 1 calls · 0 errors · 0 compactions · peak 2087 tok · stop completed · min free 28% · 4046+76 tok · $0.0089
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #2]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"path":"inventory/pricing.py"}
+  PASS score 1.00 · 9s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2239 tok · stop completed · min free 30% · 6375+116 tok · $0.0139
+    - ✓ 0.0825
+    - subagent runs: 0
+  [tiny-lookup #3]
+  → grep {"pattern":"TAX_RATE"}
+  → read_file {"path":"inventory/pricing.py"}
+  PASS score 1.00 · 11s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2239 tok · stop completed · min free 28% · 6375+107 tok · $0.0138
+    - ✓ 0.0825
+    - subagent runs: 0
+  [small-fix #1]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 34s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 3077 tok · stop completed · min free 29% · 11536+247 tok · $0.0212
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #2]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 14s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 3048 tok · stop completed · min free 29% · 11479+221 tok · $0.0209
+    - ✓ test_sub passes
+    - subagent runs: 0
+  [small-fix #3]
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub"}
+  PASS score 1.00 · 16s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 3068 tok · stop completed · min free 28% · 11528+255 tok · $0.0213
+    - ✓ test_sub passes
+    - subagent runs: 0
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+google-gemini:gemini-3.8-flash              3/3 1.00 90s          3/3 1.00 33s          3/3 1.00 7s           3/3 1.00 4s           3/3 1.00 11s          
+google-gemini:gemini-3.8-flash +subagents   3/3 1.00 71s          3/3 1.00 48s          3/3 1.00 9s           3/3 1.00 5s           3/3 1.00 11s          
+google-gemini:gemini-4-argon                3/3 1.00 68s          3/3 1.00 6s           3/3 1.00 7s           3/3 1.00 5s           3/3 1.00 15s          
+google-gemini:gemini-4-argon +subagents     3/3 1.00 66s          3/3 1.00 11s          3/3 1.00 9s           3/3 1.00 9s           3/3 1.00 21s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+google-gemini:gemini-3.8-flash              0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+google-gemini:gemini-3.8-flash +subagents   0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+google-gemini:gemini-4-argon                0/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+google-gemini:gemini-4-argon +subagents     1/3 [yes]             0/3 [yes]             0/3 [yes]             0/3 [no]              0/3 [no]              
+
+=== Spend
+  reported with replies: $1.7947 (excludes compaction summaries)
+wrote transcripts to eval-results/delegation-gemini-tx
+
+wrote eval-results/delegation-gemini.json

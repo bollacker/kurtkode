@@ -1,0 +1,348 @@
+key usage at start: Openrouter $2612.4813
+kurtkode-eval: 1 models × 5 scenarios × 3 trials
+
+=== openrouter:openai/gpt-5.6-sol +subagents >openrouter:anthropic/claude-haiku-5.5 forced  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → todo_write {"todos":[{"content":"Delegate meeting-note batches for broad reading","status":"in_progre
+  → task {"agent":"explore","background":false,"description":"Scan January meeting notes","importan
+  → task {"agent":"explore","background":false,"description":"Scan February meeting notes","importa
+  → task {"agent":"explore","background":false,"description":"Scan March meeting notes","importance
+  → task {"agent":"explore","background":false,"description":"Scan April meeting notes","importance
+  ⤷ explore subagent: Scan March meeting notes
+  ⤷ explore subagent: Scan February meeting notes
+  ⤷ explore subagent: Scan January meeting notes
+  ⤷ explore subagent: Scan April meeting notes
+  → todo_write {"todos":[{"content":"Delegate meeting-note batches for broad reading","status":"completed
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":8,"offset":43,"path":"notes/2026-04-17.md"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported January postponement matches 
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported February vendor-review postpo
+  → rate_task {"checked":"read-the-files","issues":[],"note":"All three reported March schedule deferral
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported April hiring-plan postponemen
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  → todo_write {"todos":[{"content":"Delegate meeting-note batches for broad reading","status":"completed
+  FAIL score 0.90 · 53s · 8 steps · 18 calls · 0 errors · 0 compactions · peak 5252 tok · stop completed · min free 60% · 29795+1464 tok · $0.0654
+    - 5/5 right
+    - wrong: ["2026-03-17.md"]
+    - subagent runs: 4
+    - peak prompt 5252 tokens
+    final: - `notes/2026-01-10.md:46` — Billing migration postponed to the second half of the year. ⏎ - `notes/2026-02-10.md:46` — Vendor review moved to the next month. ⏎ - `notes/2026-03-03.md:46` — Partner portal launch deferred until Q3. ⏎ - `notes/2026-03-17.md:46` — Standup moved to 9:45. ⏎ - `notes/2026
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → todo_write {"todos":[{"content":"Delegate independent meeting-note batches for postponement review","
+  → task {"agent":"explore","background":true,"description":"Review January meeting notes","importa
+  → task {"agent":"explore","background":true,"description":"Review February meeting notes","import
+  → task {"agent":"explore","background":true,"description":"Review March meeting notes","importanc
+  → task {"agent":"explore","background":true,"description":"Review April meeting notes","importanc
+  ⤷ explore subagent: Review April meeting notes
+  ⤷ explore subagent: Review February meeting notes
+  ⤷ explore subagent: Review January meeting notes
+  ⤷ explore subagent: Review March meeting notes
+  → grep {"case_insensitive":true,"files_only":true,"glob":"*.md","path":"notes","pattern":"postpon
+  → grep {"case_insensitive":true,"files_only":false,"glob":"*.md","path":"notes","pattern":"postpo
+  → grep {"case_insensitive":true,"files_only":false,"glob":"*.md","path":"notes","pattern":"pushed
+  → grep {"case_insensitive":true,"files_only":false,"glob":"*.md","path":"notes","pattern":"move(d
+  → grep {"case_insensitive":true,"files_only":false,"glob":"*.md","path":"notes","pattern":"next w
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-03-17.md"}
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":4,"offset":44,"path":"notes/2026-04-17.md"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported January postponement is confi
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported February postponement is conf
+  → rate_task {"checked":"read-the-files","issues":["wrong-facts"],"note":"The two clear postponements a
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported April postponement is confirm
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 2/3 (read-the-files): wrong-facts
+  ✎ parent 3/3 (read-the-files)
+  → todo_write {"todos":[{"content":"Delegate independent meeting-note batches for postponement review","
+  PASS score 1.00 · 49s · 14 steps · 22 calls · 0 errors · 0 compactions · peak 6468 tok · stop completed · min free 60% · 53001+1827 tok · $0.0876
+    - 5/5 right
+    - none wrong
+    - subagent runs: 4
+    - peak prompt 6468 tokens
+  [survey #3]
+  → list_dir {"path":"notes"}
+  → task {"agent":"explore","background":true,"description":"Review January meeting notes","importa
+  → task {"agent":"explore","background":true,"description":"Review February meeting notes","import
+  → task {"agent":"explore","background":true,"description":"Review March meeting notes","importanc
+  → task {"agent":"explore","background":true,"description":"Review April meeting notes","importanc
+  ⤷ explore subagent: Review April meeting notes
+  ⤷ explore subagent: Review February meeting notes
+  ⤷ explore subagent: Review January meeting notes
+  ⤷ explore subagent: Review March meeting notes
+  → task {"agent":"explore","background":false,"description":"Find postponed items","importance":"n
+  ⤷ explore subagent: Find postponed items
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-01-10.md"}
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-02-10.md"}
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-03-03.md"}
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-03-24.md"}
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-04-17.md"}
+  → read_file {"limit":3,"offset":45,"path":"notes/2026-03-17.md"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"I verified every reported postponement at 
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 80s · 8 steps · 13 calls · 0 errors · 0 compactions · peak 5301 tok · stop completed · min free 60% · 27601+1641 tok · $0.0683
+    - 5/5 right
+    - none wrong
+    - subagent runs: 5
+    - peak prompt 5301 tokens
+  [log-sweep #1]
+  → list_dir {"path":"logs"}
+  → task {"agent":"explore","background":true,"description":"Count service one errors","importance"
+  → task {"agent":"explore","background":true,"description":"Count service two errors","importance"
+  → task {"agent":"explore","background":true,"description":"Count service three errors","importanc
+  → task {"agent":"explore","background":true,"description":"Count service four errors","importance
+  → task {"agent":"explore","background":true,"description":"Count service five errors","importance
+  ⤷ explore subagent: Count service three errors
+  ⤷ explore subagent: Count service five errors
+  ⤷ explore subagent: Count service two errors
+  ⤷ explore subagent: Count service four errors
+  ⤷ explore subagent: Count service one errors
+  → task {"agent":"explore","background":true,"description":"Aggregate all log errors","importance"
+  ⤷ explore subagent: Aggregate all log errors
+  → grep {"case_insensitive":false,"files_only":false,"glob":"*.log","path":"logs","pattern":" ERRO
+  → rate_task {"checked":"spot-checked","issues":[],"note":"All reported ERROR lines match the cross-log
+  → rate_task {"checked":"spot-checked","issues":[],"note":"All reported ERROR lines match the cross-log
+  → rate_task {"checked":"spot-checked","issues":[],"note":"All reported ERROR lines match the cross-log
+  → rate_task {"checked":"spot-checked","issues":[],"note":"All reported ERROR lines match the cross-log
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  → rate_task {"checked":"spot-checked","issues":[],"note":"All three lines match grep.","task":"Count s
+  ✎ parent 3/3 (spot-checked, unconfirmed)
+  → rate_task {"checked":"spot-checked","issues":["incomplete"],"note":"Counts match grep and per-file r
+  ✎ parent 2/3 (spot-checked, unconfirmed): incomplete
+  PASS score 1.00 · 64s · 11 steps · 14 calls · 0 errors · 0 compactions · peak 6391 tok · stop completed · min free 60% · 44263+1566 tok · $0.0786
+    - 3/3 counts right
+    - subagent runs: 6
+    - peak prompt 6391 tokens
+  [log-sweep #2]
+  → task {"agent":"explore","background":false,"description":"Inventory service log files","importa
+  ⤷ explore subagent: Inventory service log files
+  → list_dir {"path":"logs"}
+  → rate_task {"checked":"spot-checked","issues":[],"note":"The logs directory listing confirms exactly 
+  ✎ parent 3/3 (spot-checked)
+  → task {"agent":"explore","background":false,"description":"Count errors service one","importance
+  → task {"agent":"explore","background":false,"description":"Count errors service two","importance
+  → task {"agent":"explore","background":false,"description":"Count errors service three","importan
+  → task {"agent":"explore","background":false,"description":"Count errors service four","importanc
+  → task {"agent":"explore","background":false,"description":"Count errors service five","importanc
+  ⤷ explore subagent: Count errors service four
+  ⤷ explore subagent: Count errors service two
+  ⤷ explore subagent: Count errors service three
+  ⤷ explore subagent: Count errors service five
+  ⤷ explore subagent: Count errors service one
+  → grep {"case_insensitive":false,"files_only":false,"glob":"*.log","path":"logs","pattern":" ERRO
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Project-wide ERROR grep confirms all three r
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Project-wide ERROR grep confirms all four re
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Project-wide ERROR grep confirms all three r
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Project-wide ERROR grep confirms the disk qu
+  → rate_task {"checked":"spot-checked","issues":[],"note":"Project-wide ERROR grep confirms both databa
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  ✎ parent 3/3 (spot-checked)
+  PASS score 1.00 · 68s · 7 steps · 14 calls · 0 errors · 0 compactions · peak 5290 tok · stop completed · min free 60% · 22456+1173 tok · $0.0569
+    - 3/3 counts right
+    - subagent runs: 6
+    - peak prompt 5290 tokens
+  [log-sweep #3]
+  → list_dir {"path":"logs"}
+  → todo_write {"todos":[{"content":"Delegate each service log’s ERROR counting","status":"in_progress"},
+  → task {"agent":"explore","background":false,"description":"Count service one errors","importance
+  → task {"agent":"explore","background":false,"description":"Count service two errors","importance
+  → task {"agent":"explore","background":false,"description":"Count service three errors","importan
+  → task {"agent":"explore","background":false,"description":"Count service four errors","importanc
+  → task {"agent":"explore","background":false,"description":"Count service five errors","importanc
+  ⤷ explore subagent: Count service two errors
+  ⤷ explore subagent: Count service three errors
+  ⤷ explore subagent: Count service five errors
+  ⤷ explore subagent: Count service one errors
+  ⤷ explore subagent: Count service four errors
+  → todo_write {"todos":[{"content":"Delegate each service log’s ERROR counting","status":"completed"},{"
+  → grep {"case_insensitive":false,"files_only":false,"glob":"*.log","path":"logs","pattern":"\\bER
+  → rate_task {"checked":"ran-tests","issues":[],"note":"Verified all reported ERROR lines and the count
+  → rate_task {"checked":"ran-tests","issues":[],"note":"Verified all reported ERROR lines and the count
+  → rate_task {"checked":"ran-tests","issues":[],"note":"Verified all reported ERROR lines and the count
+  → rate_task {"checked":"ran-tests","issues":[],"note":"Verified the four ERROR lines against grep; the
+  → rate_task {"checked":"ran-tests","issues":[],"note":"Verified both ERROR lines against grep and conf
+  ✎ parent 3/3 (ran-tests, unconfirmed)
+  ✎ parent 3/3 (ran-tests, unconfirmed)
+  ✎ parent 3/3 (ran-tests, unconfirmed)
+  ✎ parent 3/3 (ran-tests, unconfirmed)
+  ✎ parent 3/3 (ran-tests, unconfirmed)
+  → todo_write {"todos":[{"content":"Delegate each service log’s ERROR counting","status":"completed"},{"
+  PASS score 1.00 · 56s · 8 steps · 15 calls · 0 errors · 0 compactions · peak 5103 tok · stop completed · min free 60% · 28262+1280 tok · $0.0604
+    - 3/3 counts right
+    - subagent runs: 5
+    - peak prompt 5103 tokens
+  [two-questions #1]
+  → todo_write {"todos":[{"content":"Delegate both repository questions to independent explore agents","s
+  → task {"agent":"explore","background":true,"description":"Locate reserve stock","importance":"no
+  → task {"agent":"explore","background":true,"description":"Identify part04 class","importance":"n
+  ⤷ explore subagent: Locate reserve stock
+  ⤷ explore subagent: Identify part04 class
+  → todo_write {"todos":[{"content":"Delegate both repository questions to independent explore agents","s
+  → grep {"case_insensitive":false,"files_only":false,"glob":"*","path":".","pattern":"reserve_stoc
+  → read_file {"limit":200,"offset":1,"path":"parts/src/part04.py"}
+  → read_file {"limit":45,"offset":1,"path":"inventory/storage.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"Verified the reported method declaration d
+  → rate_task {"checked":"read-the-files","issues":[],"note":"Verified the class declaration directly in
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  → todo_write {"todos":[{"content":"Delegate both repository questions to independent explore agents","s
+  PASS score 1.00 · 38s · 9 steps · 10 calls · 0 errors · 0 compactions · peak 4260 tok · stop completed · min free 60% · 26034+1134 tok · $0.0527
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #2]
+  → task {"agent":"explore","background":false,"description":"Locate reserve stock definition","imp
+  → task {"agent":"explore","background":false,"description":"Identify part04 declared class","impo
+  ⤷ explore subagent: Locate reserve stock definition
+  ⤷ explore subagent: Identify part04 declared class
+  → read_file {"limit":12,"offset":25,"path":"inventory/storage.py"}
+  → read_file {"limit":10,"offset":49,"path":"parts/src/part04.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The cited definition and line number match
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The cited class declaration and line numbe
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 37s · 4 steps · 6 calls · 0 errors · 0 compactions · peak 2920 tok · stop completed · min free 61% · 9919+585 tok · $0.0293
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [two-questions #3]
+  → task {"agent":"explore","background":true,"description":"Locate reserve stock definition","impo
+  → task {"agent":"explore","background":true,"description":"Identify part04 declared class","impor
+  ⤷ explore subagent: Identify part04 declared class
+  ⤷ explore subagent: Locate reserve stock definition
+  → read_file {"limit":12,"offset":26,"path":"inventory/storage.py"}
+  → read_file {"limit":12,"offset":48,"path":"parts/src/part04.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"Verified the reported method definition di
+  → rate_task {"checked":"read-the-files","issues":[],"note":"Verified the class declaration directly at
+  ✎ parent 3/3 (read-the-files)
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 34s · 5 steps · 6 calls · 0 errors · 0 compactions · peak 3023 tok · stop completed · min free 61% · 12319+549 tok · $0.0300
+    - ✓ storage.py:31
+    - ✓ Sedge22
+    - subagent runs: 2
+  [tiny-lookup #1]
+  → task {"agent":"explore","background":false,"description":"Find TAX_RATE value","importance":"no
+  ⤷ explore subagent: Find TAX_RATE value
+  → read_file {"limit":40,"offset":1,"path":"inventory/pricing.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported TAX_RATE definition and usage
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 35s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2543 tok · stop completed · min free 61% · 8574+251 tok · $0.0195
+    - ✓ 0.0825
+    - subagent runs: 1
+  [tiny-lookup #2]
+  → task {"agent":"explore","background":false,"description":"Find TAX_RATE value","importance":"no
+  ⤷ explore subagent: Find TAX_RATE value
+  → read_file {"limit":40,"offset":1,"path":"inventory/pricing.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported definition and usage are conf
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 41s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2543 tok · stop completed · min free 61% · 9048+257 tok · $0.0206
+    - ✓ 0.0825
+    - subagent runs: 1
+  [tiny-lookup #3]
+  → task {"agent":"explore","background":false,"description":"Find TAX_RATE value","importance":"no
+  ⤷ explore subagent: Find TAX_RATE value
+  → read_file {"limit":20,"offset":1,"path":"inventory/pricing.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The reported definition and value are conf
+  ✎ parent 3/3 (read-the-files)
+  PASS score 1.00 · 34s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2543 tok · stop completed · min free 61% · 8449+242 tok · $0.0191
+    - ✓ 0.0825
+    - subagent runs: 1
+  [small-fix #1]
+  → todo_write {"todos":[{"content":"Inspect subtraction implementation and test with an explore subagent
+  → task {"agent":"explore","background":false,"description":"Inspect subtraction failure","importa
+  ⤷ explore subagent: Inspect subtraction failure
+  → read_file {"limit":40,"offset":1,"path":"calc.py"}
+  → read_file {"limit":40,"offset":1,"path":"test_calc.py"}
+  → rate_task {"checked":"read-the-files","issues":["out-of-scope"],"note":"The report correctly identif
+  ✎ parent 2/3 (read-the-files): out-of-scope
+  → todo_write {"todos":[{"content":"Inspect subtraction implementation and test with an explore subagent
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Inspect subtraction implementation and test with an explore subagent
+  → task {"agent":"general","background":false,"description":"Run targeted subtraction test","impor
+  ⤷ general subagent: Run targeted subtraction test
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub","timeout":120}
+  → rate_task {"checked":"ran-tests","issues":[],"note":"The reported targeted test result matches my in
+  ✎ parent 3/3 (ran-tests)
+  → todo_write {"todos":[{"content":"Inspect subtraction implementation and test with an explore subagent
+  ✎ recheck no problems
+  PASS score 1.00 · 67s · 12 steps · 12 calls · 0 errors · 0 compactions · peak 3892 tok · stop completed · min free 61% · 38607+955 tok · $0.0526
+    - ✓ test_sub passes
+    - subagent runs: 2
+  [small-fix #2]
+  → todo_write {"todos":[{"content":"Delegate code and test inspection to subagents","status":"in_progres
+  → task {"agent":"explore","background":true,"description":"Inspect calculator implementation","im
+  → task {"agent":"explore","background":true,"description":"Inspect subtraction test","importance"
+  ⤷ explore subagent: Inspect subtraction test
+  ⤷ explore subagent: Inspect calculator implementation
+  → list_dir {"path":"."}
+  → bash {"command":"git status --short","timeout":120}
+  → task {"agent":"general","background":false,"description":"Fix subtraction operation","importanc
+  ⤷ general subagent: Fix subtraction operation
+  → todo_write {"todos":[{"content":"Delegate code and test inspection to subagents","status":"completed"
+  → read_file {"limit":80,"offset":1,"path":"calc.py"}
+  → read_file {"limit":80,"offset":1,"path":"test_calc.py"}
+  → bash {"command":"git diff -- calc.py && git status --short","timeout":120}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The implementation and test reports correc
+  ✎ parent 3/3 (read-the-files)
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The report accurately identified the fault
+  ✎ parent 3/3 (read-the-files)
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The report accurately described test_sub, 
+  ✎ parent 3/3 (read-the-files)
+  → todo_write {"todos":[{"content":"Delegate code and test inspection to subagents","status":"completed"
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub","timeout":120}
+  → todo_write {"todos":[{"content":"Delegate code and test inspection to subagents","status":"completed"
+  ✎ recheck no problems
+  PASS score 1.00 · 67s · 15 steps · 16 calls · 0 errors · 0 compactions · peak 4793 tok · stop completed · min free 61% · 54800+1566 tok · $0.0754
+    - ✓ test_sub passes
+    - subagent runs: 3
+  [small-fix #3]
+  → todo_write {"todos":[{"content":"Delegate investigation of calc subtraction failure","status":"in_pro
+  → task {"agent":"explore","background":false,"description":"Inspect subtraction failure","importa
+  ⤷ explore subagent: Inspect subtraction failure
+  → read_file {"limit":80,"offset":1,"path":"calc.py"}
+  → read_file {"limit":80,"offset":1,"path":"test_calc.py"}
+  → rate_task {"checked":"read-the-files","issues":[],"note":"The report accurately identified the fault
+  ✎ parent 3/3 (read-the-files)
+  → todo_write {"todos":[{"content":"Delegate investigation of calc subtraction failure","status":"comple
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Delegate investigation of calc subtraction failure","status":"comple
+  → bash {"command":"python3 -m unittest test_calc.CalcTests.test_sub","timeout":120}
+  → todo_write {"todos":[{"content":"Delegate investigation of calc subtraction failure","status":"comple
+  PASS score 1.00 · 48s · 10 steps · 10 calls · 0 errors · 0 compactions · peak 3583 tok · stop completed · min free 61% · 30603+686 tok · $0.0425
+    - ✓ test_sub passes
+    - subagent runs: 1
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:openai/gpt-5.6-sol +subagents >op2/3 0.97 61s          3/3 1.00 63s          3/3 1.00 37s          3/3 1.00 37s          3/3 1.00 61s          
+
+=== Delegation (runs that delegated / trials; expected in brackets)
+model                                       survey                log-sweep             two-questions         tiny-lookup           small-fix             
+openrouter:openai/gpt-5.6-sol +subagents >op3/3 [yes]             3/3 [yes]             3/3 [yes]             3/3 [no]              3/3 [no]              
+
+=== Spend
+  Openrouter: $2.0253 (key usage)
+  reported with replies: $0.7588 (excludes compaction summaries)
+
+wrote eval-results/costfloor/stage4h-openai_gpt-5.6-sol.json

@@ -1,0 +1,427 @@
+kurtkode-eval: 4 models × 4 scenarios × 2 trials
+
+=== openrouter:qwen/qwen3-coder-30b-a3b-instruct  [history: asIs]
+  [explain-repo #1]
+  → list_dir {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → list_dir {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → read_file {}
+  → read_file {"path": "README.md"}
+  → read_file {"path": "cli.py"}
+  → list_dir {"path": "inventory"}
+  → read_file {"path": "inventory/__init__.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → list_dir {"path": "tests"}
+  → read_file {"path": "tests/test_storage.py"}
+  PASS score 1.00 · 30s · 23 steps · 22 calls · 11 errors · 0 compactions · peak 3892 tok · stop completed · min free 37% · 52288+1032 tok · $0.0168
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 8 files
+  [explain-repo #2]
+  → list_dir {}
+  → read_file {"path": "README.md"}
+  → list_dir {"path": "inventory"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "cli.py"}
+  → list_dir {"path": "tests"}
+  → read_file {"path": "tests/test_storage.py"}
+  → todo_write {"todos": 
+[{"content": "Explain project organization including main parts, their function
+  PASS score 1.00 · 25s · 12 steps · 11 calls · 0 errors · 0 compactions · peak 4256 tok · stop completed · min free 37% · 29673+1325 tok · $0.0106
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 7 files
+  [find-definition #1]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "cli.py"}
+  → read_file {"path": "tests/test_storage.py"}
+  → todo_write {"todos": 
+[{"content": "Find where `reserve_stock` is defined", "status": "completed"}, {
+  PASS score 1.00 · 14s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 3465 tok · stop completed · min free 38% · 19680+684 tok · $0.0068
+    - expected storage.py:31, cited [31]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "cli.py"}
+  → todo_write {"todos": 
+[{"content": "Find where reserve_stock is defined", "status": "completed"}, {"c
+  PASS score 1.00 · 11s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 3226 tok · stop completed · min free 37% · 16345+619 tok · $0.0057
+    - expected storage.py:31, cited [31]
+    - names InsufficientStock
+  [fix-tests #1]
+  → list_dir {}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, 
+  → bash {"command": "python3 -m unittest -v"}
+  → todo_write {"todos": [{"content": "Identify and run failing tests", "status": "completed"}, {"content
+  PASS score 1.00 · 15s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 3696 tok · stop completed · min free 37% · 22404+816 tok · $0.0077
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → list_dir {}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, 
+  → bash {"command": "python3 -m unittest -v"}
+  → todo_write {"todos": 
+[]
+
+}
+  PASS score 1.00 · 14s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 3616 tok · stop completed · min free 38% · 22347+745 tok · $0.0076
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → write_file {"path": "NOTES.md", "content": "Bug in sub function: It returns a + b instead of a - b\nB
+  → todo_write {"todos": 
+[{"content": "Identify bugs in calc.py by running tests", "status": "completed"
+  PASS score 1.00 · 13s · 7 steps · 6 calls · 0 errors · 0 compactions · peak 3450 tok · stop completed · min free 38% · 19800+681 tok · $0.0068
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → list_dir {}
+  → read_file {"path": "test_calc.py"}
+  → read_file {"path": "calc.py"}
+  → bash {"command": "python3 -m unittest -v"}
+  → edit_file {"path": "calc.py", "old_string": "\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, 
+  → write_file {"path": "NOTES.md", "content": "Bug in sub function: It was returning a + b instead of a 
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  → write_file {"path": "NOTES.md", "content": "Bug in sub function: It was returning a + b instead of a 
+  → todo_write {"todos": 
+[{"content": "Identify bugs in calc.py that cause test failures", "status": "co
+  PASS score 1.00 · 19s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 4321 tok · stop completed · min free 37% · 34674+1094 tok · $0.0117
+    - calc.py untouched
+    - NOTES.md names both bugs
+
+=== openrouter:google/gemma-4-26b-a4b-it  [history: asIs, merge]
+  [explain-repo #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "inventory/"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "cli.py"}
+  PASS score 1.00 · 12s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 2894 tok · stop completed · min free 38% · 14988+715 tok · $0.0008
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [explain-repo #2]
+  → list_dir {"path": "."}
+  → list_dir {"path": "inventory/"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "cli.py"}
+  PASS score 1.00 · 12s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 2894 tok · stop completed · min free 38% · 14268+795 tok · $0.0008
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [find-definition #1]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  PASS score 1.00 · 3s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1887 tok · stop completed · min free 39% · 4390+104 tok · $0.0002
+    - expected storage.py:31, cited [31, 34]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  PASS score 1.00 · 3s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1885 tok · stop completed · min free 38% · 4387+134 tok · $0.0003
+    - expected storage.py:31, cited [31, 34]
+    - names InsufficientStock
+  [fix-tests #1]
+  → bash {"command": "python3 -m unittest -v"}
+  → list_dir {"path": "\".\""}
+  → bash {"command": "ls -R"}
+  → read_file {"path": "calc.py"}
+  → todo_write {"todos": [{"content": "Analyze calc.py to identify bugs based on failed tests", "status":
+  → edit_file {"new_string": "def sub(a, b):\n    return a - b", "old_string": "def sub(a, b):\n    retu
+  → edit_file {"new_string": "def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    retur
+  → bash {"command": "python3 -m unittest -v"}
+  → todo_write {"todos": [{"content": "Analyze calc.py to identify bugs based on failed tests", "status":
+  PASS score 1.00 · 13s · 10 steps · 9 calls · 1 errors · 0 compactions · peak 3054 tok · stop completed · min free 38% · 24544+695 tok · $0.0012
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → list_dir {"path": "\".\""}
+  → bash {"command": "ls -F"}
+  → bash {"command": "python3 -m unittest -v"}
+  → todo_write {"todos": [{"content": "Run tests and identify failures", "status": "completed"}, {"conten
+  → read_file {"path": "calc.py"}
+  → read_file {"path": "test_calc.py"}
+  → todo_write {"todos": [{"content": "Run tests and identify failures", "status": "completed"}, {"conten
+  → edit_file {"new_string": "def sub(a, b):\n    return a - b", "old_string": "def sub(a, b):\n    retu
+  → edit_file {"new_string": "def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    retur
+  → todo_write {"todos": [{"content": "Run tests and identify failures", "status": "completed"}, {"conten
+  → bash {"command": "python3 -m unittest -v"}
+  PASS score 1.00 · 12s · 12 steps · 11 calls · 1 errors · 0 compactions · peak 3309 tok · stop completed · min free 38% · 30172+720 tok · $0.0015
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → bash {"command": "python3 -m unittest -v"}
+  → list_dir {"path": "\".\""}
+  → bash {"command": "ls -R"}
+  → read_file {"path": "calc.py"}
+  → todo_write {"todos": [{"content": "Fix sub function in calc.py", "status": "in_progress"}, {"content"
+  → edit_file {"new_string": "def sub(a, b):\n    return a - b", "old_string": "def sub(a, b):\n    retu
+  → write_file {"content": "sub: change a + b to a - b\nmean: change len(values) - 1 to len(values)\n", "
+  PASS score 1.00 · 8s · 8 steps · 7 calls · 1 errors · 0 compactions · peak 2636 tok · stop completed · min free 38% · 18360+358 tok · $0.0008
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → bash {"command": "python3 -m unittest -v"}
+  → list_dir {"path": "\".\""}
+  → bash {"command": "ls -R"}
+  → read_file {"path": "calc.py"}
+  → todo_write {"todos": [{"content": "Fix bugs in calc.py to pass tests", "status": "in_progress"}]}
+  → edit_file {"new_string": "def sub(a, b):\n    return a - b", "old_string": "def sub(a, b):\n    retu
+  → write_file {"content": "sub: change return a + b to return a - b\nmean: change return sum(values) / (
+  PASS score 1.00 · 8s · 8 steps · 7 calls · 1 errors · 0 compactions · peak 2636 tok · stop completed · min free 38% · 18328+380 tok · $0.0009
+    - calc.py untouched
+    - NOTES.md names both bugs
+
+=== openrouter:qwen/qwen3-coder  [history: asIs]
+  [explain-repo #1]
+  → list_dir {"path": "."}
+  → list_dir {"path": "inventory/"}
+  → list_dir {"path": "tests/"}
+  → read_file {"path": "cli.py"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "inventory/api.py"}
+  → read_file {"path": "tests/test_storage.py"}
+  → read_file {"path": "README.md"}
+  PASS score 1.00 · 8s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3504 tok · stop completed · min free 38% · 26556+866 tok · $0.0074
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 7 files
+  [explain-repo #2]
+  → list_dir {"path": "."}
+  → read_file {"path": "cli.py"}
+  → list_dir {"path": "inventory"}
+  → read_file {"path": "inventory/models.py"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/pricing.py"}
+  → read_file {"path": "inventory/api.py"}
+  → list_dir {"path": "tests"}
+  → read_file {"path": "tests/test_storage.py"}
+  → read_file {"path": "README.md"}
+  PASS score 1.00 · 8s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3542 tok · stop completed · min free 39% · 28402+906 tok · $0.0079
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 7 files
+  [find-definition #1]
+  → grep {"pattern": "def reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  PASS score 1.00 · 2s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 2377 tok · stop completed · min free 39% · 5238+267 tok · $0.0016
+    - expected storage.py:31, cited [31, 31]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern": "reserve_stock"}
+  → read_file {"path": "inventory/storage.py"}
+  → read_file {"path": "inventory/models.py"}
+  PASS score 1.00 · 3s · 4 steps · 3 calls · 0 errors · 0 compactions · peak 2452 tok · stop completed · min free 39% · 7802+294 tok · $0.0022
+    - expected storage.py:31, cited [31, 31, 34]
+    - names InsufficientStock
+  [fix-tests #1]
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "def mean(values):\n    \"\"\"Average of a non-empty lis
+  → bash {"command": "python3 -m unittest -v"}
+  PASS score 1.00 · 5s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3288 tok · stop completed · min free 39% · 16888+541 tok · $0.0047
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → edit_file {"path": "calc.py", "old_string": "def mean(values):\n    \"\"\"Average of a non-empty lis
+  → bash {"command": "python3 -m unittest -v"}
+  PASS score 1.00 · 4s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3284 tok · stop completed · min free 38% · 16883+540 tok · $0.0047
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → write_file {"path": "NOTES.md", "content": "1. sub function: Should use subtraction (-) instead of ad
+  PASS score 1.00 · 4s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 3086 tok · stop completed · min free 39% · 13571+461 tok · $0.0038
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → bash {"command": "python3 -m unittest -v"}
+  → read_file {"path": "calc.py"}
+  → read_file {"path": "test_calc.py"}
+  → edit_file {"path": "calc.py", "old_string": "def sub(a, b):\n    return a + b", "new_string": "def s
+  → write_file {"path": "NOTES.md", "content": "1. sub function: Should use subtraction (a - b) instead o
+  PASS score 1.00 · 5s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 3372 tok · stop completed · min free 39% · 17206+598 tok · $0.0049
+    - calc.py untouched
+    - NOTES.md names both bugs
+
+=== openrouter:openai/gpt-oss-120b  [history: asIs]
+  [explain-repo #1]
+  → list_dir {
+"path": "."
+}
+  → list_dir {
+"path": "inventory"
+}
+  FAIL score 0.00 · 9s · 4 steps · 2 calls · 0 errors · 0 compactions · peak 1290 tok · stop completed · min free 39% · 4092+184 tok · $0.0002
+    - mentions 0/7: 
+    - read 0 files
+  [explain-repo #2]
+  → list_dir {
+  "path": ""
+}
+  FAIL score 0.00 · 10s · 3 steps · 1 calls · 0 errors · 0 compactions · peak 1290 tok · stop completed · min free 37% · 2970+145 tok · $0.0001
+    - mentions 0/7: 
+    - read 0 files
+  [find-definition #1]
+  → grep {
+  "path": "",
+  "pattern": "reserve_stock"
+}
+  → read_file {
+  "path": "inventory/storage.py",
+  "limit": 200,
+  "offset": 1
+}
+  PASS score 1.00 · 22s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1569 tok · stop completed · min free 38% · 3631+359 tok · $0.0002
+    - expected storage.py:31, cited [31, 34]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {
+  "path": "",
+  "pattern": "def reserve_stock",
+  "glob": "*.py"
+}
+  → read_file {
+  "path": "inventory/storage.py",
+  "offset": 1,
+  "limit": 200
+}
+  PASS score 1.00 · 8s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1520 tok · stop completed · min free 37% · 3519+285 tok · $0.0002
+    - expected storage.py:31, cited [31, 34]
+    - names InsufficientStock
+  [fix-tests #1]
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 200
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def mean(values):\n    \"\"\"Average of a non-empt
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  PASS score 1.00 · 25s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 2206 tok · stop completed · min free 37% · 11166+499 tok · $0.0005
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 400
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def mean(values):\n    \"\"\"Average of a non-empt
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  PASS score 1.00 · 26s · 6 steps · 5 calls · 0 errors · 0 compactions · peak 2224 tok · stop completed · min free 36% · 11231+454 tok · $0.0004
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 200
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  → write_file {
+  "path": "NOTES.md",
+  "content": "- `sub` function: currently returns `a + b` (additio
+  PASS score 1.00 · 23s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 2046 tok · stop completed · min free 38% · 8944+693 tok · $0.0004
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → bash {
+  "command": "python3 -m unittest -v",
+  "timeout": 120
+}
+  → read_file {
+  "path": "calc.py",
+  "limit": 200
+}
+  → edit_file {
+  "path": "calc.py",
+  "old_string": "def sub(a, b):\n    return a + b",
+  "new_string":
+  → write_file {
+  "path": "NOTES.md",
+  "content": "- `sub`: currently returns `a + b`; should return `a
+  PASS score 1.00 · 26s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 2025 tok · stop completed · min free 37% · 8908+632 tok · $0.0004
+    - calc.py untouched
+    - NOTES.md names both bugs
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          find-definition       fix-tests             deny-feedback         
+openrouter:google/gemma-4-26b-a4b-it        2/2 1.00 12s          2/2 1.00 3s           2/2 1.00 13s          2/2 1.00 8s           
+openrouter:openai/gpt-oss-120b              0/2 0.00 9s           2/2 1.00 15s          2/2 1.00 25s          2/2 1.00 25s          
+openrouter:qwen/qwen3-coder                 2/2 1.00 8s           2/2 1.00 3s           2/2 1.00 4s           2/2 1.00 5s           
+openrouter:qwen/qwen3-coder-30b-a3b-instruct2/2 1.00 27s          2/2 1.00 13s          2/2 1.00 15s          2/2 1.00 16s          
+
+=== Spend
+  Openrouter: $0.1254 (key usage)
+  reported with replies: $0.1197 (excludes compaction summaries)
+wrote transcripts to eval-results/remote-transcripts
+
+wrote eval-results/remote-short-2026-09-27.json

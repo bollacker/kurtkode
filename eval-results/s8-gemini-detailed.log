@@ -1,0 +1,188 @@
+kurtkode-eval: 1 models × 5 scenarios × 2 trials
+
+=== google-gemini:gemini-3-flash-preview  [history: asIs]
+  [explain-repo #1]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory/"}
+  → read_file {"path":"inventory/models.py"}
+  → read_file {"path":"inventory/storage.py"}
+  → read_file {"path":"inventory/pricing.py"}
+  → read_file {"path":"inventory/api.py"}
+  → read_file {"path":"cli.py"}
+  → list_dir {"path":"tests/"}
+  PASS score 1.00 · 13s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3296 tok · stop completed · min free 37% · 19515+1384 tok · $0.0139
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [explain-repo #2]
+  → list_dir {"path":"."}
+  → list_dir {"path":"inventory/"}
+  → read_file {"path":"inventory/models.py"}
+  → read_file {"path":"inventory/storage.py"}
+  → read_file {"path":"inventory/pricing.py"}
+  → read_file {"path":"inventory/api.py"}
+  → read_file {"path":"cli.py"}
+  → list_dir {"path":"tests/"}
+  PASS score 1.00 · 17s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3392 tok · stop completed · min free 36% · 20380+1902 tok · $0.0159
+    - mentions 7/7: models / Item, storage / SqliteStore, pricing, api, cli, tests, InsufficientStock
+    - read 5 files
+  [find-definition #1]
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"path":"inventory/storage.py"}
+  PASS score 1.00 · 4s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1933 tok · stop completed · min free 37% · 4493+243 tok · $0.0030
+    - expected storage.py:31, cited [31, 34]
+    - names InsufficientStock
+  [find-definition #2]
+  → grep {"pattern":"reserve_stock"}
+  → read_file {"path":"inventory/storage.py"}
+  PASS score 1.00 · 4s · 3 steps · 2 calls · 0 errors · 0 compactions · peak 1925 tok · stop completed · min free 37% · 4476+276 tok · $0.0031
+    - expected storage.py:31, cited [31, 33, 34]
+    - names InsufficientStock
+  [fix-tests #1]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  PASS score 1.00 · 15s · 11 steps · 10 calls · 0 errors · 0 compactions · peak 3477 tok · stop completed · min free 37% · 30290+999 tok · $0.0181
+    - tests pass
+    - changed: ["calc.py"]
+  [fix-tests #2]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b\n","old_string":"def sub(a, b):\n    retur
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → read_file {"offset":12,"path":"calc.py"}
+  → edit_file {"new_string":"def mean(values):\n    \"\"\"Average of a non-empty list.\"\"\"\n    return
+  → read_file {"path":"calc.py"}
+  → edit_file {"new_string":"    return sum(values) / len(values)\n","old_string":"    return sum(values
+  → write_file {"content":"\"\"\"A tiny calculator library.\"\"\"\n\n\ndef add(a, b):\n    return a + b\n
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  → bash {"command":"python3 -m unittest -v"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"completed"},{"content":"Fix m
+  PASS score 1.00 · 19s · 15 steps · 14 calls · 2 errors · 0 compactions · peak 4424 tok · stop completed · min free 38% · 47816+1663 tok · $0.0262
+    - tests pass
+    - changed: ["calc.py"]
+  [deny-feedback #1]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Create NOTES.md with bugs and fixes description","status":"in_progre
+  → write_file {"content":"sub: return a - b instead of a + b\nmean: divide by len(values) instead of len
+  → todo_write {"todos":[{"content":"Create NOTES.md with bugs and fixes description","status":"completed
+  → todo_write {"todos":[{"content":"Create NOTES.md with bugs and fixes description","status":"completed
+  PASS score 1.00 · 15s · 11 steps · 9 calls · 0 errors · 0 compactions · peak 3331 tok · stop completed · min free 38% · 29057+1198 tok · $0.0181
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [deny-feedback #2]
+  → list_dir {"path":"."}
+  → bash {"command":"python3 -m unittest -v"}
+  → read_file {"path":"calc.py"}
+  → todo_write {"todos":[{"content":"Fix sub function in calc.py","status":"in_progress"},{"content":"Fix
+  → edit_file {"new_string":"def sub(a, b):\n    return a - b","old_string":"def sub(a, b):\n    return 
+  → todo_write {"todos":[{"content":"Create NOTES.md with bug descriptions","status":"in_progress"}]}
+  → write_file {"content":"sub: should return a - b instead of a + b\nmean: should divide by len(values) 
+  → todo_write {"todos":[{"content":"Create NOTES.md with bug descriptions","status":"completed"}]}
+  PASS score 1.00 · 10s · 9 steps · 8 calls · 0 errors · 0 compactions · peak 3071 tok · stop completed · min free 38% · 22701+812 tok · $0.0138
+    - calc.py untouched
+    - NOTES.md names both bugs
+  [long-doc #1]
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"in_progress"},{"content":
+  → glob {"pattern":"src/**/*.py"}
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part01.py"}
+  → read_file {"path":"src/part02.py"}
+  → read_file {"path":"src/part03.py"}
+  → read_file {"path":"src/part04.py"}
+  → read_file {"path":"src/part05.py"}
+  → read_file {"path":"src/part06.py"}
+  → read_file {"path":"src/part07.py"}
+  ⊜ compacted 8192 → 5369 tokens (summary 5 s, 2029 bytes)
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part08.py"}
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part09.py"}
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part10.py"}
+  ⊜ compacted 7780 → 4483 tokens (summary 1 s, 112 bytes)
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part11.py"}
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part12.py"}
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part13.py"}
+  ⊜ compacted 7657 → 4739 tokens (summary 2 s, 554 bytes)
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  → read_file {"path":"src/part14.py"}
+  → glob {"pattern":"src/*.py"}
+  → list_dir {"path":"."}
+  → write_file {"content":"# Project Files\n\nThis document provides a summary of the Python files in the
+  ⊜ compacted 7408 → 4962 tokens (summary 3 s, 1653 bytes)
+  → todo_write {"todos":[{"content":"Find all Python files under src","status":"completed"},{"content":"D
+  FAIL score 0.21 · 63s · 29 steps · 28 calls · 0 errors · 4 compactions · peak 7352 tok · stop completed · min free 35% · 144905+6045 tok · $0.0706
+    - 3/14 correct, 14 listed
+    - compactions: 4
+    - no invented files
+    - read every file
+    final: I have completed the documentation of all Python files in the `src` directory. Each file follows a consistent pattern: it contains several helper functions (prefixed with `helper_`) and a primary class that uses these functions to calculate a weight metric. ⏎  ⏎ ### Summary of Files ⏎  ⏎ *   **src/p
+  [long-doc #2]
+  → list_dir {"path":"src"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"in_progress"},{"content":
+  → read_file {"path":"src/part01.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part02.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part03.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part04.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part05.py"}
+  ⊜ compacted 7780 → 5186 tokens (summary 5 s, 1852 bytes)
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part06.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part07.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part08.py"}
+  ⊜ compacted 7849 → 4322 tokens (summary 1 s, 81 bytes)
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part09.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part10.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part11.py"}
+  ⊜ compacted 7451 → 5110 tokens (summary 4 s, 1825 bytes)
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part12.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → read_file {"path":"src/part13.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  ⊜ compacted 7457 → 4261 tokens (summary 1 s, 100 bytes)
+  → read_file {"path":"src/part14.py"}
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  → write_file {"content":"- src/part01.py: Alfalfa94 - A class that represents Alfalfa with a configurab
+  → todo_write {"todos":[{"content":"Read and document src/part01.py","status":"completed"},{"content":"R
+  FAIL score 0.21 · 66s · 33 steps · 32 calls · 0 errors · 4 compactions · peak 7274 tok · stop completed · min free 37% · 173362+8398 tok · $0.0836
+    - 3/14 correct, 14 listed
+    - compactions: 4
+    - no invented files
+    - read every file
+    final: I've documented all the files in `src/` and written their details to `FILES.md`. ⏎  ⏎ ### Summary of Documented Files ⏎  ⏎ - `src/part01.py`: `Alfalfa94` - A class that represents Alfalfa with a configurable size and weight calculation. ⏎ - `src/part02.py`: `Balsam83` - A class that represents Balsa
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       explain-repo          find-definition       fix-tests             deny-feedback         long-doc              
+google-gemini:gemini-3-flash-preview        2/2 1.00 15s          2/2 1.00 4s           2/2 1.00 17s          2/2 1.00 12s          0/2 0.21 65s          
+
+=== Spend
+  reported with replies: $0.2664 (excludes compaction summaries)
+wrote transcripts to eval-results/s8-gemini-detailed-transcripts
+
+wrote eval-results/s8-gemini-detailed.json

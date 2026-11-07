@@ -1,0 +1,68 @@
+kurtkode-eval: 2 models × 1 scenarios × 2 trials
+
+=== bang:qwen/qwen3.5-9b  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → grep {"pattern":"(postpon|push)","path":"notes","glob":"*.md"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  FAIL score 0.20 · 23s · 5 steps · 4 calls · 0 errors · 0 compactions · peak 3819 tok · stop completed · min free 75% · 12294+909 tok
+    - 1/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 3819 tokens
+    final: **notes/2026-01-10.md**: billing migration was pushed back to the second half of the year
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → grep {"pattern":"(postpon|push.*to.*late)","path":"notes"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-01-24.md","offset":39,"limit":50}
+  → grep {"pattern":"(postpone|push)","path":"notes"}
+  → read_file {"path":"notes/2026-01-10.md","limit":50,"offset":40}
+  → read_file {"path":"notes/2026-01-10.md"}
+  FAIL score 0.10 · 25s · 8 steps · 7 calls · 0 errors · 0 compactions · peak 4152 tok · stop completed · min free 75% · 20840+1064 tok
+    - 1/5 right
+    - wrong: ["2026-01-24.md"]
+    - subagent runs: 0
+    - peak prompt 4152 tokens
+    final: Based on my search, I found two meetings that discuss postponing or pushing items: ⏎  ⏎ **notes/2026-01-10.md:** billing migration was pushed to the second half of the year ⏎  ⏎ **notes/2026-01-24.md:** API freeze was discussed for postponement (though it was kept as planned)
+
+=== bang:qwen/qwen3.5-9b +subagents  [history: asIs]
+  [survey #1]
+  → list_dir {"path":"notes"}
+  → grep {"pattern":"(postpon|push)","path":"notes"}
+  → read_file {"path":"notes/2026-01-10.md","offset":43,"limit":10}
+  → read_file {"path":"notes/2026-01-24.md","offset":43,"limit":15}
+  FAIL score 0.20 · 19s · 6 steps · 4 calls · 0 errors · 0 compactions · peak 3182 tok · stop completed · min free 75% · 17388+817 tok
+    - 1/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 3182 tokens
+    final: **notes/2026-01-10.md**: billing migration (pushed to second half of the year)
+  [survey #2]
+  → list_dir {"path":"notes"}
+  → grep {"pattern":"(postpon|push|delay|reschedule)","path":"notes"}
+  → read_file {"path":"notes/2026-01-10.md"}
+  → read_file {"path":"notes/2026-01-24.md"}
+  → read_file {"path":"notes/2026-02-24.md"}
+  → todo_write {"todos":[{"content": "Verify remaining files for postpone/push references", "status": "in
+  → grep {"pattern":"(postpon|push|delay|reschedule)","path":"notes","files_only":true}
+  → todo_write {"todos":[{"content": "Verify remaining files for postpone/push references", "status": "co
+  → read_file {"path":"notes/2026-03-03.md"}
+  → grep {"pattern":"(defer|postpon|push|delay|reschedule)","path":"notes"}
+  → read_file {"path":"notes/2026-03-10.md"}
+  ⊜ compacted 7760 → 4245 tokens (summary 20 s, 1107 bytes)
+  FAIL score 0.40 · 59s · 12 steps · 11 calls · 0 errors · 1 compactions · peak 6865 tok · stop completed · min free 75% · 56854+1559 tok
+    - 2/5 right
+    - none wrong
+    - subagent runs: 0
+    - peak prompt 6865 tokens
+    final: Based on my analysis, only two files contain actual postponements: ⏎  ⏎ - notes/2026-01-10.md: Billing migration pushed back to the second half of the year ⏎ - notes/2026-03-03.md: Launch of the partner portal deferred until Q3
+
+=== Summary (passes / trials, mean score, mean seconds)
+model                                       survey                
+bang:qwen/qwen3.5-9b                        0/2 0.15 24s          
+bang:qwen/qwen3.5-9b +subagents             0/2 0.30 39s          
+wrote transcripts to /private/tmp/claude-1001/-Users-kurt-git-sugar-kurtagent/1570304f-467f-4130-af23-53896cb70ca4/scratchpad/survey-tx
+
+wrote eval-results/survey-notes-qwen35-9b-2026-10-24.json
